@@ -25,6 +25,7 @@ class PB_AmmoHandler : EventHandler {
 			PushItem(T, "HDUragan5");
 			PushItem(T, "HDStreetSweeper");
 			PushItem(T, "HDTerminatorSG"); // BEST SHOTGUN IN THE WHOLE GAME
+			PushItem(T, "HD_CAWSGUN");
 			break;
 
 		case 'FourMilAmmo':
@@ -36,6 +37,7 @@ class PB_AmmoHandler : EventHandler {
 			PushItem(T, "HD_FNFAL");
 			PushItem(T, "HD_PSG1");
 			PushItem(T, "HDMicrogun");
+			PushItem(T, "HD_M60");
 			break;
 
 		case 'HD50OMGAmmo':
@@ -69,7 +71,7 @@ class PB_AmmoHandler : EventHandler {
 		
 		case 'HD50AM_Ammo':
 			PushItem(T, "HD_AutoMag");
-			PushItem(T, "HD_AutoMag");
+			PushItem(T, "HDLeverGun");
 			break;
 		}
 	}
