@@ -102,6 +102,9 @@ class HDTerminatorSG:HDWeapon{
 		}
 	
 	override string gethelptext(){
+		if(weaponstatus[TRMI_BROKEN]>0)return
+		"oh wow\n"
+		;
 		return
 		WEPHELP_FIRESHOOT
 		..WEPHELP_ALTFIRE.."   Open bolt\n"
@@ -109,6 +112,7 @@ class HDTerminatorSG:HDWeapon{
 		..WEPHELP_UNLOAD.."   Look Upwards while the bolt is open\n"
 		;
 	}
+	
 	override void DrawSightPicture(
 		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
 		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
