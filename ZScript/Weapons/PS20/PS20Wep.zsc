@@ -1,0 +1,236 @@
+const HDLD_PS20="ps2";
+
+class HDPS20:HDHandgun{
+	default{
+		//$Category "Weapons/Hideous Destructor"
+		//$Title "PS-451"
+		//$Sprite "P20PA0"
+
+		+hdweapon.dontnull
+		+hdweapon.dontdisarm
+		+hdweapon.reverseguninertia
+		+hdweapon.fitsinbackpack
+		weapon.selectionorder 1;
+		weapon.slotnumber 200;
+		weapon.kickback 30;
+		weapon.bobrangex 0.21;
+		weapon.bobrangey 0.86;
+		scale 0.6;
+		inventory.pickupmessage "You got the PS-451!";
+		obituary "%o got disposed by %k's really strong piece of metal.";
+		hdweapon.barrelsize 5,1,2;
+		tag "Denton Light Arms and Munitions PS-451";
+		inventory.amount 1;
+		inventory.maxamount 12;
+		+inventory.invbar
+		inventory.icon "P20PA0";
+		hdweapon.refid HDLD_PS20;
+	}
+	override string pickupmessage(){
+		if(weaponstatus[PS20S_CHAMBER]==2)return string.format("%s It has a charge.",super.pickupmessage());
+		else return string.format("%s It's used.",super.pickupmessage());
+		return super.pickupmessage();
+	}
+	
+	override double gunmass(){
+		return 2;
+	}
+	override double weaponbulk(){
+		return 20;
+	}
+	override string,double getpickupsprite(){return "P20PA0",1.0;}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel==1){
+			sb.drawnum(hpl.countinv("HDPS20"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+		}
+		if(hdw.weaponstatus[PS20S_CHAMBER]>1)sb.drawwepdot(-16,-10,(5,3));
+	}
+	
+	override string gethelptext(){
+		return
+		WEPHELP_FIRESHOOT
+		..WEPHELP_UNLOAD.."   Throw\n"
+		;
+	}
+	
+	states{
+	select0:
+		P20G A 0 A_JumpIf(invoker.weaponstatus[PS20S_CHAMBER]<2,"YEET");
+		P20G A 0 A_JumpIfInventory("HDIncapWeapon",1,"Fire");
+		P20G A 0;
+		goto select0small;
+	deselect0:
+		P20G A 0;
+		goto deselect0small;
+	ready:
+		P20G A 1 
+		{A_WeaponReady(WRF_ALL);
+		if(hdplayerpawn(self))hdplayerpawn(self).barehanded==1;}
+		goto readyend;
+	fire:
+		P20G A 1 offset(0,34){
+			if(invoker.weaponstatus[PS20S_CHAMBER]<2){
+				setweaponstate("unload");
+				return;
+			}
+			A_GunFlash();
+			A_StartSound("weapons/ps20fire",CHAN_WEAPON);
+			A_StartSound("weapons/ps20fire2",CHAN_6);
+			A_FireProjectile("PS20_BaleBall",frandom(-3,3),false,0,-2);
+			A_FireProjectile("PS20_BaleBall",frandom(-3,3),false,0,-2,0,frandom(-3,3));
+			A_FireProjectile("PS20_BaleBall",frandom(-3,3),false,0,-2,0,frandom(-3,3));
+			//A_FireProjectile("PS20_BaleBall",frandom(-3,3),false,0,-2,0,frandom(-3,3));
+			//A_FireProjectile("PS20_BaleBall",frandom(-3,3),false,0,-2,0,frandom(-3,3));
+			invoker.weaponstatus[PS20S_CHAMBER]=1;
+			invoker.weaponstatus[PS20S_HEAT]+=86;
+		}
+		P20G B 1;
+		P20G A 10;
+		goto unload;
+	flash:
+		TNT1 A 1 bright{
+			HDFlashAlpha(0,true);
+			A_Light1();
+		}
+		TNT1 A 2{
+			A_ZoomRecoil(0.5);
+			A_Light0();
+		}
+		stop;
+	unload:
+	---- A 0 A_JumpIfInventory("HDIncapWeapon",1,"Incapped");
+	YEET:
+		---- A 1
+		{
+		if(player&&hdweapon(player.readyweapon)){
+		 player.cmd.buttons|=BT_ZOOM;
+		 DropInventory(player.readyweapon);
+		}
+		}
+		TNT1 A 0;
+	goto nope;
+	Incapped:
+	TNT1 A 1 A_SelectWeapon("HDIncapWeapon");
+	goto nope;
+	spawn:
+		P20P AB -1 nodelay{
+			if(invoker.weaponstatus[PS20S_CHAMBER]<2)frame=1;
+		}
+	}
+	override void InitializeWepStats(bool idfa){
+		weaponstatus[PS20S_CHAMBER]=2;
+		if(!idfa){
+			weaponstatus[0]=0;
+			weaponstatus[PS20S_HEAT]=0;
+		}
+	}
+}
+enum ps20status{
+	PS20F_JUSTUNLOAD=1,
+
+	PS20S_STATUS=0,
+	PS20S_DUMMY=1,
+	PS20S_CHAMBER=2,
+	PS20S_HEAT=3,
+};
+
+class PS20_BaleBall:hdfireball{
+	default{
+		missiletype "zbbt";
+		seesound "pb/null";
+		//damagetype "balefire";
+		activesound "baron/ballhum";
+		decal "gooscorch";
+		gravity 0;
+		speed 95;
+	}
+	actor lingerburner;
+	override void ondestroy(){
+		if(lingerburner)lingerburner.destroy();
+		super.ondestroy();
+	}
+	states{
+	spawn:
+		BAL7 A 0 nodelay{
+			actor bbl=spawn("BaronBallLight",pos,ALLOW_REPLACE);bbl.target=self;
+		}
+		BAL7 ABAB 3 A_FBTail();
+	spawn2:
+		BAL7 AB 3 {
+			if(!A_FBSeek())A_FBFloat();
+		}goto death;
+	death:
+		BAL7 A 0{
+			vel.z+=0.5;
+			if(!blockingmobj){
+				tracer=null;
+				setstatelabel("burn");
+
+				lingerburner=spawn("BaleBallBurner",pos,ALLOW_REPLACE);
+				lingerburner.target=target;lingerburner.master=self;
+				return;
+			}else if(target&&
+				blockingmobj.health>0&&target.health>0&&
+				blockingmobj.getspecies()==target.getspecies()&&
+				!(blockingmobj.ishostile(target))
+			)return;
+			else if(tracer&&blockingmobj==tracer){
+				vel.z=2;
+				tracer.damagemobj(self,target,random(8,16),"balefire");
+				if(tracer&&tracer.bcorpse){
+					//hdf.give(tracer,"SawGib",random(10,20));
+				}
+				alpha=1;scale*=1.2;
+				setstatelabel("burn");
+			}
+		}
+	splat:
+		BAL7 CDE 4;
+		stop;
+	burn:
+		BAL7 CDE 3{
+			A_FadeOut(0.05);
+			frame=random(2,4);roll=random(0,360);
+			if(!tracer){
+				addz(0.1);
+				return;
+			}
+
+			if(tracer is "HDPlayerPawn"&&tracer.health<1&&HDPlayerPawn(tracer).playercorpse){
+				tracer=HDPlayerPawn(tracer).playercorpse;
+			}
+
+			double trad=tracer.radius;double tht=tracer.height;
+			setxyz(tracer.pos+(frandom(-trad,trad),frandom(-trad,trad),frandom(tht*0.5,tht)));
+
+			if(alpha>0.3){
+				if(tracer.bcorpse){
+					//hdf.give(tracer,"SawGib",random(1,3));
+				}else tracer.damagemobj(self,target,random(1,3),"balefire");
+			}else{
+				A_Immolate(tracer,target,random(40,50));
+				destroy();
+			}
+		}wait;
+	}
+}
+
+class PB_PS20_IncapShooter : Inventory {
+	int cooldown;
+
+		override void DoEffect() {
+		super.DoEffect();
+		let ownr = HDPlayerPawn(owner);
+		if(!ownr || !ownr.player.ReadyWeapon) { return; }
+		if(cooldown == 0 && ownr.player.ReadyWeapon.GetClassName() == 'HDIncapWeapon') {
+			if(ownr.player.cmd.buttons & BT_USER4) {
+				if(HDPS20(ownr.player.ReadyWeapon).weaponstatus[PS20S_CHAMBER] > 1) {
+					HDPS20(ownr.player.ReadyWeapon).weaponstatus[PS20S_CHAMBER]=1;
+					owner.A_DropItem('HDPS20', 1);
+					cooldown = 20;
+				}
+			}
+		}
+		cooldown = clamp(cooldown - 1, 0, 20);
+	}
+}

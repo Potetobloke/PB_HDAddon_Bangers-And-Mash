@@ -1,0 +1,4 @@
+GameInfo {
+	//AddEventHandlers = "PB_Z_MeleeStuff_Spawner","PB_Z_MAC11_Spawner","PB_Z_5mmStuff_Spawner","PB_Z_KrautSpaceMagic_Spawner","PB_Z_CobrayStuff_Spawner","PB_HDWeapon_Spawner"
+	AddEventHandlers = "PB_HDWeapon_Spawner" , "PB_AmmoHandler"
+}

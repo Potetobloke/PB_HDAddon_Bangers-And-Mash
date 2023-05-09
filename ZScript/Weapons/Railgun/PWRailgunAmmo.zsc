@@ -1,0 +1,51 @@
+// ------------------------------------------------------------
+// railgun ammo 
+// ------------------------------------------------------------
+
+const ENC_ELECTROMAG_AMMO=ENC_776*0.95;
+const HDLD_PWRAILGUNAMMO="4ta";
+
+class HD8mmElectroMagnetic:HDRoundAmmo{
+	default{
+		+inventory.ignoreskill
+		+cannotpush
+		+forcexybillboard
+		+rollsprite +rollcenter
+		+hdpickup.multipickup
+		inventory.pickupmessage "Picked up a 8mm EC round.";
+		hdpickup.refid HDLD_PWRAILGUNAMMO;
+		tag "8x35mm Electromagnetic Cartridge";
+		hdpickup.bulk ENC_ELECTROMAG_AMMO;
+		inventory.icon "RLGAZ0";
+		xscale 0.3;yscale 0.3;
+	}
+	override void SplitPickup(){
+		SplitPickupBoxableRound(12,36,"HD8mmECAmmoBox","RLGSZ0","RLGAZ0");
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HDFortuneRailgun");
+	}
+	states{
+	spawn:
+		RLGA Z -1;
+		RLGS Z -1;
+	}
+}
+
+class HD8mmECAmmoBox:HDUPK{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Box of 9mm"
+		//$Sprite "9BOXA0"
+
+		scale 0.3;
+		hdupk.amount 36;
+		hdupk.pickupsound "weapons/pocket";
+		hdupk.pickupmessage "Picked up a box of 8mm EC rounds.";
+		hdupk.pickuptype "HD8mmElectroMagnetic";
+	}
+	states{
+	spawn:
+		RLGS Y -1;
+	}
+}

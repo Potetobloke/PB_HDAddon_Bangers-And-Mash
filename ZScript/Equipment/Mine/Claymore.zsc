@@ -1,0 +1,40 @@
+// ------------------------------------------------------------
+// Directional Mine
+// ------------------------------------------------------------
+
+const HDLD_MINE_DIRECTIONAL="cmr";
+const ENC_MINE_DIRECTIONAL=ENC_FRAG*1.1;
+
+class HDDirectionalMine:HDAmmo{
+	default{
+		//+forcexybillboard
+		inventory.icon "WPG0Z0";
+		inventory.amount 1;
+		scale 0.35;
+		inventory.maxamount 50;
+		inventory.pickupmessage "Picked up a directional mine.";
+		inventory.pickupsound "weapons/pocket";
+		tag "M23 Directional Anti-Personnel Mine";
+		hdpickup.refid HDLD_MINE_DIRECTIONAL;
+		hdpickup.bulk ENC_MINE_DIRECTIONAL;
+		+INVENTORY.KEEPDEPLETED
+	}
+	override bool IsUsed(){return true;}
+	override void AttachToOwner(Actor user)
+	{
+		user.GiveInventory("HDClaymorePlacer", 1);
+		super.AttachToOwner(user);
+	}
+	override void DetachFromOwner()
+	{
+		if(!(owner.player.ReadyWeapon is "HDClaymorePlacer"))
+		{
+			TakeInventory("HDClaymorePlacer", 1);
+		}
+		super.DetachFromOwner();
+	}
+	states{
+	spawn:
+		WPG0 Z -1;stop;
+	}
+}

@@ -1,0 +1,199 @@
+class HDFlamerWeapon:HDWeapon{
+	default{
+		//$Category "Weapons/Hideous Destructor"
+		//$Title "burn thingy"
+		//$Sprite "CSAWA0"
+		+hdweapon.fitsinbackpack
+		weapon.selectionorder 90;
+		weapon.slotnumber 4;
+		weapon.bobstyle "Alpha";
+		weapon.bobrangex 0.3;
+		weapon.bobrangey 1.4;
+		weapon.bobspeed 2.1;
+		weapon.kickback 2;
+		scale 0.4;
+		inventory.pickupmessage "woah a flamer";
+		obituary "%o was marinated well by %k.";
+		hdweapon.barrelsize 26,1,2;
+		//hdweapon.refid HDLD_CHAINSW;
+		tag "Flamer";
+	}
+	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
+	override hdweapon GetSpareWeapon(actor newowner,bool reverse){return GetSpareWeaponRegular(newowner,reverse);}
+
+	override string,double getpickupsprite(){return "CSAWA0",0.7;}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel == 1){
+			sb.drawbattery(-54,-4,sb.DI_SCREEN_CENTER_BOTTOM,reloadorder:true);
+			sb.drawnum(hpl.countinv("HDGasTank"),-46,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+		}
+		if(!hdw.weaponstatus[1])sb.drawstring(
+			sb.mamountfont,"00000",(-16,-9),sb.DI_TEXT_ALIGN_RIGHT|
+			sb.DI_TRANSLATABLE|sb.DI_SCREEN_CENTER_BOTTOM,
+			Font.CR_DARKGRAY
+		);else if(hdw.weaponstatus[1]>0)sb.drawwepnum(hdw.weaponstatus[1],700);
+	}
+	override string gethelptext(){
+		return
+		WEPHELP_FIRE.."  Fire\n"
+		..WEPHELP_RELOADRELOAD
+		..WEPHELP_UNLOADUNLOAD
+		;
+	}
+	override double gunmass(){
+		return 15+weaponstatus[TOZTS_GASOLINE]<0?0:1;
+	}
+	override double weaponbulk(){
+		return 100+(weaponstatus[TOZTS_GASOLINE]>=0?ENC_GASTANK:0);
+	}
+	override void consolidate(){
+		CheckBFGCharge(TOZTS_GASOLINE);
+	}
+	override void DropOneAmmo(int amt){
+		if(owner){
+			amt=clamp(amt,1,10);
+			owner.A_DropInventory("HDGasTank",1);
+		}
+	}
+	
+		action void A_HDFlamerFire(){
+		A_WeaponReady(WRF_NONE);
+		invoker.weaponstatus[TOZTS_GASOLINE]-5;
+			A_FireProjectile("HDFlamerProjectile",frandom(-3,3),false,0,-2); 
+			A_MuzzleClimb(
+				randompick(-1,1)*frandom(0.2,0.3),
+				randompick(-1,1)*frandom(0.2,0.4));
+		}
+
+	states{
+	ready:
+		FLM0 C 1{
+			if(invoker.weaponstatus[TOZTS_INERTIA]>0)setweaponstate("ready2");
+			else A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWUSER3|WRF_ALLOWUSER4);
+		}goto readyend;
+		
+	select0:
+		FLM0 A 0{invoker.weaponstatus[TOZTS_INERTIA]=0;}
+		goto select0big;
+	deselect0:
+		FLM0 A 0;
+		goto deselect0big;
+	hold:
+		FLM0 A 0 A_JumpIf(invoker.weaponstatus[TOZTS_GASOLINE]>4,"saw");
+		goto nope;
+	fire:
+		FLM0 C 2;
+		FLM0 C 4 A_JumpIf(invoker.weaponstatus[TOZTS_GASOLINE]>4,"saw");
+		goto nope;
+	saw:
+		FLM0 AB 1 A_HDFlamerFire();
+		FLM0 B 0 A_Refire();
+		goto thefunisover;
+	thefunisover:
+		FLM0 A 0 A_StartSound ("Weapons/FlamerEnd",CHAN_WEAPON);
+		FLM0 A 12;
+		goto readyend;
+
+	reload:
+		FLM0 C 0{
+			if(
+				invoker.weaponstatus[TOZTS_GASOLINE]>=700
+				||!countinv("HDGasTank")
+			){return resolvestate("nope");}
+			invoker.weaponstatus[0]&=~TOZTF_JUSTUNLOAD;
+			return resolvestate("unmag");
+		}
+
+	user4:
+	unload:
+		FLM0 C 0{
+			if(invoker.weaponstatus[TOZTS_GASOLINE]<0){
+				return resolvestate("nope");
+			}invoker.weaponstatus[0]|=TOZTF_JUSTUNLOAD;return resolvestate(null);
+		}
+	unmag:
+		FLM0 A 1 offset(0,33);
+		FLM0 A 1 offset(0,35);
+		FLM0 A 1 offset(0,37);
+		FLM0 A 1 offset(0,39);
+		FLM0 A 2 offset(0,44);
+		FLM0 A 2 offset(0,52);
+		FLM0 A 3 offset(2,62);
+		FLM0 A 4 offset(4,74);
+		FLM0 A 7 offset(6,78)A_StartSound("weapons/csawopen",CHAN_WEAPON);
+		FLM0 A 0{
+			A_StartSound("weapons/flamertwist1",CHAN_WEAPON);
+			if(
+				!PressingUnload()&&!PressingReload()
+			){
+				setweaponstate("dropmag");
+			}else setweaponstate("pocketmag");
+		}
+	dropmag:
+		FLM0 A 0{
+			if(invoker.weaponstatus[TOZTS_GASOLINE]>=0){
+				HDMagAmmo.SpawnMag(self,"HDGasTank",invoker.weaponstatus[TOZTS_GASOLINE]);
+			}
+			invoker.weaponstatus[TOZTS_GASOLINE]=-1;
+		}goto magout;
+	pocketmag:
+		FLM0 A 6 offset(7,80){
+			if(invoker.weaponstatus[TOZTS_GASOLINE]>=0){
+				HDMagAmmo.GiveMag(self,"HDGasTank",invoker.weaponstatus[TOZTS_GASOLINE]);
+				A_StartSound("weapons/pocket");
+				A_MuzzleClimb(
+					randompick(-1,1)*frandom(-0.3,-1.2),
+					randompick(-1,1)*frandom(0.3,1.8)
+				);
+			}
+			invoker.weaponstatus[TOZTS_GASOLINE]=-1;
+		}
+		FLM0 A 7 offset(6,81) A_StartSound("weapons/pocket");
+		goto magout;
+
+	magout:
+		FLM0 A 0 A_JumpIf(invoker.weaponstatus[0]&TOZTF_JUSTUNLOAD,"reloadend");
+	loadmag:
+		FLM0 A 4 offset(7,79) A_MuzzleClimb(
+			randompick(-1,1)*frandom(-0.3,-1.2),
+			randompick(-1,1)*frandom(0.3,0.8)
+		);
+		FLM0 A 2 offset(6,78) A_StartSound("weapons/pocket");
+		FLM0 AA 5 offset(5,76) A_MuzzleClimb(
+			randompick(-1,1)*frandom(-0.3,-1.2),
+			randompick(-1,1)*frandom(0.3,0.8)
+		);
+		FLM0 A 0{
+			let mmm=HDMagAmmo(findinventory("HDGasTank"));
+			if(mmm)invoker.weaponstatus[TOZTS_GASOLINE]=mmm.TakeMag(true);
+		}
+	reloadend:
+		FLM0 A 6 offset(5,72);
+		FLM0 A 5 offset(4,74)A_StartSound("weapons/csawclose",CHAN_WEAPON);
+		FLM0 A 4 offset(2,62);
+		FLM0 A 3 offset(0,52);
+		FLM0 A 4 offset(0,44);
+		FLM0 A 1 offset(0,37);
+		FLM0 A 1 offset(0,35);
+		FLM0 C 1 offset(0,33);
+		goto ready;
+
+	user3:
+		FLM0 A 0 A_MagManager("HDGasTank");
+		goto ready;
+
+	spawn:
+		CSAW A -1;
+	}
+	override void initializewepstats(bool idfa){
+		weaponstatus[TOZTS_GASOLINE]=700;
+	}
+}
+
+enum flamerstatus{
+	TOZTF_JUSTUNLOAD=1,
+
+	TOZTS_FLAGS=0,
+	TOZTS_GASOLINE=1,
+	TOZTS_INERTIA=2,
+};

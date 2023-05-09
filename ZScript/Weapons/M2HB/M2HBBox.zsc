@@ -1,0 +1,229 @@
+const HDLD_M2HB_BELTBOX="5bx";
+
+const ENC_M2HBBELTBOX_EMPTY=11;
+const ENC_12MMBELTLINK=0.008;
+
+const HDLD_12MMBELTLINK="5lk";
+
+class HD_PB_50OMGBeltBox:HDMagAmmo{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title ".50 OMG Ammo Box"
+		//$Sprite "RMAGA0"
+
+		hdmagammo.maxperunit 100;
+		hdmagammo.roundtype "HD50OMGAmmo";
+		hdmagammo.roundbulk ENC_50OMG_LOADED;
+		hdmagammo.magbulk ENC_M2HBBELTBOX_EMPTY;
+		hdpickup.refid HDLD_M2HB_BELTBOX;
+		tag ".50 OMG Belt Box";
+		inventory.pickupmessage "Picked up a .50 OMG belt box.";
+		scale 0.8;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"M2ABA0":"M2ABB0";
+		return magsprite,"RBRSA3A7","HD50OMGAmmo",1.7;
+	}
+	
+	override void DrawRoundCount(HDStatusBar sb,HDPlayerPawn hpl,name roundsprite,double scl,int offx,int offy){
+		bool helptext=cvar.getcvar("hd_helptext",hpl.player).getbool();
+		offx+=40;
+		scl=1.6;
+		sb.drawstring(
+			sb.pSmallFont,sb.FormatNumber(hpl.countinv(roundtype)),
+			(offx+2,offy),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
+			font.CR_BROWN
+		);
+		sb.drawimage(roundsprite,(offx,offy),
+			sb.DI_SCREEN_CENTER|sb.DI_ITEM_RIGHT_TOP,
+			scale:(scl,scl)
+		);
+		
+		sb.drawstring(
+			sb.pSmallFont,sb.FormatNumber(hpl.countinv("HD_12MMBeltLink")),
+			(offx+9,offy+9),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
+			font.CR_BROWN
+		);
+		sb.drawimage("2BKZA0",(offx+7,offy+9),
+			sb.DI_SCREEN_CENTER|sb.DI_ITEM_RIGHT_TOP,
+			scale:(1.2,1.2)
+		);
+		
+		sb.DrawString(
+			sb.psmallfont,string.format("\cuDrop excess belt links\n with the \cqpickup manager\cu."),
+			(offx-32,offy+20),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
+			wrapwidth:smallfont.StringWidth("m")*80
+		);
+		
+	}
+	
+	
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_M2HB");
+	}
+	
+	/*override bool Insert(){
+		SyncAmount();
+		int mindex=mags.size()-1;
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]>=maxperunit
+			||!owner.countinv(roundtype)
+		)return false;
+		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
+		owner.A_StartSound("weapons/rifleclick2",CHAN_WEAPON);
+		mags[mags.size()-1]++;
+		
+			inserttime=11;
+
+		return true;
+	}*/
+	/*override bool Extract(){
+		SyncAmount();
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]<1
+		)return false;
+		//Ammo Type 1
+		if
+		(HDPickup.MaxGive(owner,roundtype,roundbulk)>=1)
+		{HDF.Give(owner,roundtype,1);}
+		else 
+		{HDPickup.DropItem(owner,roundtype,1);}
+		
+		owner.A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
+		mags[mags.size()-1]--;
+		
+		extracttime=2;
+		
+		return true;
+	}*/
+	
+	override bool Insert(){
+		SyncAmount();
+		int mindex=mags.size()-1;
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]>=maxperunit
+			||!owner.countinv(roundtype)
+			||!owner.countinv("HD_12MMBeltLink")
+		)return false;
+		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
+		owner.A_TakeInventory("HD_12MMBeltLink",1,TIF_NOTAKEINFINITE);
+		owner.A_PlaySound("weapons/rifleclick2",CHAN_WEAPON);
+		mags[mags.size()-1]++;
+		
+			inserttime=11;
+
+		return true;
+	}
+	
+	override bool Extract(){
+		SyncAmount();
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]<1
+		)return false;
+		//Ammo Type 1
+		if
+		(HDPickup.MaxGive(owner,roundtype,roundbulk)>=1)
+		{HDF.Give(owner,roundtype,1);}
+		else 
+		{HDPickup.DropItem(owner,roundtype,1);}
+		//Ammo Type 2
+		if(
+		HDPickup.MaxGive(owner,"HD_12MMBeltLink",ENC_12MMBELTLINK)>=1)
+		{HDF.Give(owner,"HD_12MMBeltLink",1);}
+		else 
+		{HDPickup.DropItem(owner,"HD_12MMBeltLink",1);}
+		
+		owner.A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
+		mags[mags.size()-1]--;
+		
+		extracttime=2;
+		
+		return true;
+	}
+	
+	states{
+	spawn:
+		M2AB A -1;
+		stop;
+	spawnempty:
+		M2AB B -1{
+			brollsprite=true;brollcenter=true;
+			roll=randompick(0,0,0,0,2,2,2,2,1,3)*90;
+		}stop;
+	}
+}
+
+class HD_12MMBeltLink:HDRoundAmmo{
+	default{
+		+inventory.ignoreskill +forcexybillboard +cannotpush
+		+hdpickup.multipickup
+		+hdpickup.cheatnogive
+		+rollsprite +rollcenter
+		height 16;radius 8;
+		tag "12mm belt link";
+		hdpickup.refid HDLD_12MMBELTLINK;
+		hdpickup.bulk ENC_12MMBELTLINK;
+		xscale 0.65;yscale 0.65;
+		inventory.pickupmessage "Picked up some belt links for .50 OMG.";
+	}
+	override void SplitPickup(){
+		SplitPickupBoxableRound(12,120,"PB_12MMBeltLinkPile","2BKYA0","2BKZA0");
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_M2HB");
+	}
+	states{
+	spawn:
+		2BKZ A -1;
+		2BKY A -1;
+		stop;
+	}
+}
+
+class PB_12MMBeltLinkPile:HDUPK{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Pile of 7.76 Belt Links"
+		//$Sprite "BLT0B0"
+
+		scale 0.65;
+		hdupk.amount 120;
+		hdupk.pickupsound "weapons/pocket";
+		hdupk.pickupmessage "Picked up a pile of 7.76mm belt links.";
+		hdupk.pickuptype "HD_12MMBeltLink";
+		+forcexybillboard
+	}
+	states{
+	spawn:
+		2BKZ B -1;
+	}
+}
+
+class HDFlyingBeltLink_12MM:HDSpent50AM{ //why does it inherit from the .50 AM casings? i dunno im lazy
+	override void postbeginplay(){
+		HDDebris.postbeginplay();
+	}
+	default{
+		scale 0.65;
+		bouncefactor 0.1;
+		bouncesound "there is no sound";
+	}
+	states{
+		spawn:
+		2BKZ A 0 nodelay{
+			A_SetRoll(roll+frandom(0,180));
+		}
+		2BKZ A 1{
+			A_SetRoll(roll+45,SPF_INTERPOLATE);
+		}wait;
+	death:
+		TNT1 A 1{
+			actor a=spawn("HD_12MMBeltLink",self.pos,ALLOW_REPLACE);
+			a.roll=self.roll;a.vel=self.vel;
+		}stop;
+	}
+}

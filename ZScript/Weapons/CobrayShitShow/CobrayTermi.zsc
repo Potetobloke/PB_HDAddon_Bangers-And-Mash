@@ -1,0 +1,419 @@
+const HDLD_TERMINATOR="trs";
+
+class HDTerminatorSG:HDWeapon{
+	default{
+		//$Category "Weapons/Hideous Destructor"
+		//$Title "Raycob Exterminator"
+		//$Sprite "TRMPA0"
+		+hdweapon.fitsinbackpack
+		+hdweapon.reverseguninertia
+		scale 0.63;
+		weapon.selectionorder 50;
+		weapon.slotnumber 3;
+		weapon.slotpriority 0.5;
+		weapon.kickback 30;
+		weapon.bobrangex 0.1;
+		weapon.bobrangey 0.6;
+		weapon.bobspeed 2.5;
+		weapon.bobstyle "normal";
+		obituary "%o died an embarrassing death, caused by %k.";
+		inventory.pickupmessage "You got the Raycob Exterminator!";
+		tag "Raycob Exterminator";
+		hdweapon.refid HDLD_TERMINATOR;
+		hdweapon.barrelsize 21,0.3,0.5;
+		inventory.maxamount 3;
+		
+			hdweapon.loadoutcodes"
+			\cuscrew - 0/1, adds a more reliable striker.";
+		
+	}
+	
+		override string pickupmessage(){
+		if(weaponstatus[TRMI_ALTPIN]>0)return string.format("%s The striker seems to be replaced with a screw.",super.pickupmessage());
+		//else return string.format("%s ",super.pickupmessage());
+		return super.pickupmessage();
+	}
+		double shotpower;
+	static clearscope double getshotpower(){return frandom(0.9,1.05);}
+	
+		//returns the power of the load just fired
+	static double Fire(actor caller,int choke=1){
+		double spread=6.;
+		double speedfactor=1.;
+		let ttt=HDTerminatorSG(caller.findinventory("HDTerminatorSG"));
+
+		spread=7.5;
+		speedfactor=1.03;
+
+		double shotpower=getshotpower();
+		spread*=shotpower;
+		speedfactor*=shotpower;
+		HDBulletActor.FireBullet(caller,"HDB_wad");
+		let p=HDBulletActor.FireBullet(caller,"HDB_00",
+			spread:spread,speedfactor:speedfactor,amount:10
+		);
+		distantnoise.make(p,"world/shotgunfar");
+		//caller.A_StartSound("weapons/hunter",CHAN_WEAPON);
+		return shotpower;
+	}
+	
+	action void A_FireTerminator(){
+		double shotpower=invoker.Fire(self);
+		A_GunFlash();
+		vector2 shotrecoil=(randompick(-1,1),-2.6);
+		A_MuzzleClimb(0,0,shotrecoil.x,shotrecoil.y,randompick(-1,1)*shotpower,-0.3*shotpower);
+		invoker.weaponstatus[TRMI_CHAMBER]=1;
+		invoker.shotpower=shotpower;
+	}
+	
+
+	
+	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
+	override hdweapon GetSpareWeapon(actor newowner,bool reverse){return GetSpareWeaponRegular(newowner,reverse);}
+	override double weaponbulk(){
+		return 60;
+	}
+	override double gunmass(){
+		return 5;
+	}
+	override string,double getpickupsprite(){
+		string spr;
+		if(weaponstatus[TRMI_COCKED]<1){
+			spr="B";
+		}else{
+			spr="A";
+		}
+		return "TRMP"..spr.."0",1.;
+	}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel == 1){
+			sb.drawimage("SHL1A0",(-47,-10),basestatusbar.DI_SCREEN_CENTER_BOTTOM);
+			sb.drawnum(hpl.countinv("HDShellAmmo"),-46,-8,
+				basestatusbar.DI_SCREEN_CENTER_BOTTOM
+			);
+		}
+		int chm = hdw.weaponstatus[TRMI_CHAMBER];
+			if(chm>1)sb.drawwepdot(-19,-11,(5,3));
+			if(chm)sb.drawwepdot(-16,-11,(2,3));
+		}
+	
+	override string gethelptext(){
+		return
+		WEPHELP_FIRESHOOT
+		..WEPHELP_ALTFIRE.."   Open bolt\n"
+		..WEPHELP_RELOAD.."   Load Chamber\n"
+		..WEPHELP_UNLOAD.."   Look Upwards while the bolt is open\n"
+		;
+	}
+	override void DrawSightPicture(
+		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
+		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
+	){
+		int cx,cy,cw,ch;
+		[cx,cy,cw,ch]=screen.GetClipRect();
+		vector2 scc;
+		vector2 bobb=bob*1.6;
+
+		if(hpl.player.getpsprite(PSP_WEAPON).frame>=2){
+			sb.SetClipRect(
+				-10+bob.x,-5+bob.y,20,14,
+				sb.DI_SCREEN_CENTER
+			);
+			scc=(0.7,0.8);
+			bobb.y=clamp(bobb.y*1.1-3,-10,10);
+		}else{
+			sb.SetClipRect(
+				-8+bob.x,-4+bob.y,16,10,
+				sb.DI_SCREEN_CENTER
+			);
+			scc=(0.6,0.6);
+			bobb.y=clamp(bobb.y,-16,16);
+		}
+		sb.drawimage(
+			"ctrmsite",(0,0)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+			alpha:0.9,scale:scc
+		);
+		sb.SetClipRect(cx,cy,cw,ch);
+		sb.drawimage(
+			"TNT1A0",(0,0)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+			scale:scc
+		);
+	}
+	override void DropOneAmmo(int amt){
+		if(owner){
+			amt=clamp(amt,1,10);
+			if(owner.countinv("HDShellAmmo"))owner.A_DropInventory("HDShellAmmo",amt*15);
+		}
+	}
+	
+	states{
+	
+	
+	funnyshell:
+		TNT1 A 4{
+			if(
+				invoker.weaponstatus[TRMI_CHAMBER]>0&&
+				invoker.weaponstatus[TRMI_COCKED]>0&&(
+					pitch<-60
+				)
+			){
+				class<actor>which=invoker.weaponstatus[TRMI_CHAMBER]>1?"HDFumblingShell":"HDSpentShell";
+				actor shl=spawn(which,pos+(cos(angle)*10,sin(angle)*10,height*0.80),ALLOW_REPLACE);
+				shl.angle=angle;shl.A_ChangeVelocity(1,2,1,CVF_RELATIVE);
+				
+				shl.A_StartSound(shl.bouncesound,volume:0.3);
+				invoker.weaponstatus[TRMI_CHAMBER]=0;
+			}
+		}wait;
+	
+	select0:
+		TRMG A 0 A_JumpIf(invoker.weaponstatus[TRMI_COCKED]>0,2);
+		TRMG B 0;
+		---- # 1 A_Raise();
+		---- # 1 A_Raise(30);
+		---- # 1 A_Raise(30);
+		---- # 1 A_Raise(24);
+		---- # 1 A_Raise(18);
+		wait;
+	deselect0:
+		TRMG A 0 A_JumpIf(invoker.weaponstatus[TRMI_COCKED]>0,2);
+		TRMG B 0;
+		---- ### 1 A_Lower();
+		---- # 1 A_Lower(18);
+		---- # 1 A_Lower(24);
+		---- # 1 A_Lower(30);
+		wait;
+	ready:
+		TRMG A 0 A_JumpIf(invoker.weaponstatus[TRMI_COCKED]>0,2);
+		TRMG B 0;
+		TRMG # 1{
+			A_SetCrosshair(21);
+			A_WeaponReady(WRF_ALL);
+			A_Overlay(2,"funnyshell");
+		}goto readyend;
+	user2:
+	firemode:
+		goto nope;
+	altfire:
+		---- A 0 A_JumpIf(invoker.weaponstatus[TRMI_COCKED]>0,"nope");
+		TRMG B 3 A_WeaponBusy();
+		TRMG B 0 A_Refire("cock");
+		goto nope;
+	cock:
+		TRMG B 1 offset(0,34);
+		---- A 1 offset(-1,41);
+		---- A 2 offset(-2,45);
+		TRMC F 2 offset(-2,49);
+		TRMC AB 2;
+		TRMC C 2 {A_StartSound("weapons/terminatoropen",7,0,0.9);invoker.weaponstatus[TRMI_COCKED]=1;}
+	holdmycock.lmao:
+		TRMC H 1;
+		TRMC H 0 A_Refire("holdmycock.lmao");
+	end:
+		TRMC H 2;
+		TRMC D 2;
+		TRMC E 2;
+		TRMG A 2 offset(-1,43);
+		---- A 1 offset(0,34);
+		---- A 1 offset(0,34);
+		goto nope;
+	althold:
+	
+	hold:
+		goto nope;
+	fire:
+		---- A 0{
+			invoker.weaponstatus[0]&=~TRMF_JUSTUNLOAD;
+			if(invoker.weaponstatus[TRMI_COCKED]>0)setweaponstate("shoot");
+		}goto nope;
+	shoot:
+		TRMG A 1 A_JumpIf(invoker.weaponstatus[TRMI_CHAMBER]<2,"dontfire");
+		TRMG A 0 A_JumpIf(invoker.weaponstatus[TRMI_ALTPIN]>0,"shootforreal");
+		TRMG B 0 A_Jump(98,"dontfire");
+	shootforreal:
+		TRMG B 1{
+            if(invoker.weaponstatus[TRMI_CHAMBER]==2)
+            A_FireTerminator();
+            givebody(max(0,11-health));
+			invoker.weaponstatus[TRMI_CHAMBER]=1;
+			invoker.weaponstatus[TRMI_COCKED]=0;
+            damagemobj(invoker,self,5,"bashing");
+            A_StartSound("weapons/terminatorfwd",7,0,0.9);
+        }
+		TRMG D 1{
+			if(hdplayerpawn(self)){
+				hdplayerpawn(self).gunbraced=false;
+				A_GiveInventory("IsMoving",1);
+			}
+				A_MuzzleClimb(1.6,-3.9,1.6,-3.9);
+		}
+		TRMG D 0{
+
+				A_StartSound("weapons/terminatoropen",7,0,0.9);
+				setweaponstate("nope");
+			}
+
+		TRMG D 1{
+			A_WeaponReady(WRF_NOFIRE);
+			invoker.weaponstatus[TRMI_CHAMBER]=2;
+			invoker.weaponstatus[TRMI_MAG]--;
+			A_Refire();
+		}goto ready;
+	dontfire:
+			TRMG D 2{
+				A_StartSound("weapons/terminatorfwd",7,0,0.9);
+				invoker.weaponstatus[TRMI_COCKED]=0;
+			}
+			TRMG B 1;
+			goto nope;
+		//	goto recock;
+		//recock:
+		//	TRMC AB 2;
+		//	TRMC C 2 A_StartSound("weapons/terminatoropen",7,0,0.9);
+		//	TRMC D 2;
+		//	TRMC E 4;
+		//	goto nope;
+	flash:
+		TRMF A 1 bright{
+			HDFlashAlpha(64);
+			A_Light1();
+			//invoker.weaponstatus[TRMI_CHAMBER]=1;
+			A_ZoomRecoil(0.995);
+			A_MuzzleClimb(-frandom(0.4,1.2),-frandom(0.4,1.6));
+		}
+		TRMF A 0 A_StartSound("weapons/terminatorfire",CHAN_WEAPON,0,1.0);
+		TRMF A 0 A_Light0();
+		stop;
+	loadchamber:
+		---- B 0{
+			if(
+				!(invoker.weaponstatus[0]&TRMF_JUSTUNLOAD)
+				&&(
+					invoker.weaponstatus[TRMI_COCKED]<1
+				)
+			)setweaponstate("nope");
+		}
+		---- "#" 1 offset(2,36) {A_ClearRefire();A_ClearOverlays(2,2);}
+		---- "#" 1 offset(3,38);
+		---- "#" 1 offset(5,42);
+		---- "#" 1 offset(8,48) A_StartSound("weapons/pocket",CHAN_WEAPON);
+		---- "#" 1 offset(9,52) A_MuzzleClimb(frandom(-0.2,0.2),0.2,frandom(-0.2,0.2),0.2,frandom(-0.2,0.2),0.2);
+		---- "#" 2 offset(8,60);
+		---- "#" 2 offset(7,72);
+		---- "#" 6 offset(6,79);
+		---- "#" 4; //A_StartSound("weapons/terminatoropen",CHAN_WEAPON);
+		---- "#" 9 offset(8,75) A_StartSound("weapons/pocket",CHAN_WEAPON);
+		---- "#" 6 offset(8,77){
+			A_StartSound("weapons/bossload",CHAN_WEAPON,0,0.7);
+			if(invoker.weaponstatus[0]&TRMF_JUSTUNLOAD){
+
+				// Grabs the chamber's value. 
+				int chm=invoker.weaponstatus[TRMI_CHAMBER];
+				
+				// Resets chamber.
+				invoker.weaponstatus[TRMI_CHAMBER]=0;
+				
+				// Masks all of the reloading booleans together. 
+				bool reloadkey = pressingunload() || pressingreload() || pressingaltreload();
+				
+				// Here we check to see if the player is holding unload.
+				// if not the shell is fumbled. 
+				if(reloadkey && (chm >= 2))
+				{
+					HDF.Give(invoker.owner,"HDShellAmmo",1);
+					return;
+				}
+				else
+				{
+					// This is dumb and bad but it works. 
+					chm--;
+					
+					// Actually spawns the loose actor. 
+					class<actor> whatkind=chm==1?"HDFumblingShell":"HDSpentShell_Sweeper";
+					actor rrr=spawn(whatkind,pos+(cos(angle)*10,sin(angle)*10,height*0.80),ALLOW_REPLACE);
+					rrr.angle=angle;rrr.A_ChangeVelocity(1,2,1,CVF_RELATIVE);
+				}
+			}else
+			{
+				A_TakeInventory("HDShellAmmo",1,TIF_NOTAKEINFINITE);
+				invoker.weaponstatus[TRMI_CHAMBER]=2;
+			}
+		} 
+		TRMG "#" 0{
+			if(invoker.weaponstatus[TRMI_CHAMBER]<=1)setweaponstate("emptyraise");
+		}
+		TRMG "#" 2 offset(7,72);
+		---- "#" 2 offset(8,60);
+		---- "#" 1 offset(7,52);
+		---- "#" 1 offset(5,42);
+		---- "#" 1 offset(3,38);
+		---- "#" 1 offset(3,35);
+		---- "#" 0;//{
+			//if(invoker.weaponstatus[TRMI_CHAMBER]>=1)setweaponstate("recock");
+		//}
+		goto ready;
+		emptyraise:
+		TNT1 A 3;
+		TRMG B 2 offset(7,72);
+		TRMG "#" 2 offset(8,60);
+		TRMG "#" 1 offset(7,52);
+		TRMG "#" 1 offset(5,42);
+		TRMG "#" 1 offset(3,38);
+		TRMG "#" 1 offset(3,35);
+		goto ready;
+		
+	reload:
+		---- A 0{
+			invoker.weaponstatus[0]&=~TRMF_JUSTUNLOAD;
+			if(invoker.weaponstatus[TRMI_CHAMBER]>=1)setweaponstate("nope");
+			else if(countinv("HDShellAmmo"))setweaponstate("loadchamber");
+			else setweaponstate("nope");
+		}
+		goto nope;
+	spawn:
+		TRMP AB -1 nodelay{
+			if(invoker.weaponstatus[TRMI_COCKED]<1){
+				frame=1;
+			}else{
+				frame=0;
+			}
+		}stop;
+	}
+	override void initializewepstats(bool idfa){
+		weaponspecial = 1337;
+		if(weaponstatus[TRMI_ALTPIN]==1)weaponstatus[TRMI_ALTPIN]=1;
+		else weaponstatus[TRMI_ALTPIN]=0;
+		weaponstatus[TRMI_CHAMBER]=2;
+		weaponstatus[TRMI_COCKED]=1;
+	}
+	override void loadoutconfigure(string input)
+	{
+		int altpin = getloadoutvar(input,"screw");
+		if(altpin>0)
+			weaponstatus[TRMI_ALTPIN] = 1;
+	}
+}
+
+class TerminatorRandom:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let lll=HDTerminatorSG(spawn("HDTerminatorSG",pos,ALLOW_REPLACE));
+			if(!lll)return;
+			lll.special=special;
+			lll.vel=vel;
+//			for(int i=0;i<5;i++)lll.args[i]=args[i];
+			if(!random(0,8))lll.weaponstatus[0]|=TRMI_ALTPIN;
+		}stop;
+	}
+}
+
+enum terminatorstatus{
+	TRMF_JUSTUNLOAD=1,
+
+	TRMI_FLAGS=0,
+	TRMI_MAG=1,
+	TRMI_CHAMBER=2, //0 empty, 1 spent, 2 loaded
+	TRMI_ALTPIN=3,
+	TRMI_COCKED=4,
+};

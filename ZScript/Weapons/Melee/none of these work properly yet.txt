@@ -1,0 +1,329 @@
+class pb_stupidfuckinhack:IdleDummy{
+	default{
+		+bloodlessimpact +nodecal +hittracer +puffonactors
+		stamina 1;
+	}
+}
+
+class HDRiotShield:HD_PB_UnarmedWeapon{ //HD_PB_UnarmedWeapon
+	
+	HDRiotShield_Front shieldActor;
+	
+	default{
+		+WEAPON.MELEEWEAPON +WEAPON.NOALERT +WEAPON.NO_AUTO_SWITCH
+		-weapon.cheatnotweapon
+		-nointeraction
+		-inventory.untossable
+		+forcepain
+		+forceXYbillboard
+		+rollsprite
+		+rollcenter
+		+hdweapon.reverseguninertia
+		radius 6;height 3;
+		inventory.pickupmessage "You got the ballistic shield!";
+		//hdweapon.barrelsize -30,0,0;
+		obituary "%o somehow got killed by %k. You really shouldn't be able to get killed by this.";
+		attacksound "*fist";
+		weapon.selectionorder 100;
+		weapon.kickback 120;
+		weapon.bobstyle "Alpha";
+		weapon.bobspeed 2.6;
+		weapon.bobrangex 0.1;
+		weapon.bobrangey 0.5;
+		weapon.slotnumber 1;
+		weapon.slotpriority 0.95;
+		//scale 0.6;
+		//+FLATSPRITE
+		tag "Ballistic Shield";
+		//hdweapon.refid HDLD_KNIFE;
+	}
+	
+	action void HDThisIsStupid(int dmg){
+		flinetracedata punchline;
+		bool punchy=linetrace(
+			angle,15,pitch,
+			TRF_NOSKY,
+			offsetz:height-12,
+			data:punchline
+		);
+		if(!punchy)return;
+
+		//actual puff effect if the shot connects
+		LineAttack(angle,48,pitch,punchline.hitline?(countinv("PowerStrength")?random(50,120):random(5,15)):0,"none",
+			"pb_stupidfuckinhack",
+			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
+			offsetz:height-12
+		);
+
+		actor punchee=punchline.hitactor;
+		
+		HDBleedingWound.inflict(punchee,dmg*frandom(0.6,1.6));
+
+		if(!punchee)invoker.targethealth=0;else{
+			invoker.targethealth=punchee.health;
+			invoker.targetspawnhealth=punchee.spawnhealth();
+			invoker.targettimer=0;
+		}
+	}
+	
+	//for throwing a weapon
+	override inventory CreateTossable(int amount){
+		let onr=hdplayerpawn(owner);
+		bool throw=(
+			onr&&(
+				onr.zerk
+				||(
+					onr.player
+					&&onr.player.cmd.buttons&BT_ZOOM
+				)
+			)
+		);
+		bool isreadyweapon=onr&&onr.player&&onr.player.readyweapon==self;
+		if(!isreadyweapon)throw=false;
+		let thrown=super.createtossable(amount);
+		if(!thrown)return null;
+		let newwep=GetSpareWeapon(onr,doselect:isreadyweapon);
+		hdweapon(thrown).bjustchucked=true;
+		thrown.target=onr;
+		if(throw){
+			thrown.bmissile=true;
+			thrown.bBOUNCEONWALLS=true;
+			thrown.bBOUNCEONFLOORS=true;
+			thrown.bALLOWBOUNCEONACTORS=true;
+			thrown.bBOUNCEAUTOOFF=true;
+		}else{
+			thrown.bmissile=false;
+			thrown.bBOUNCEONWALLS=false;
+			thrown.bBOUNCEONFLOORS=false;
+			thrown.bALLOWBOUNCEONACTORS=false;
+			thrown.bBOUNCEAUTOOFF=false;
+		}
+		return thrown;
+	}
+	//an override is needed because DropInventory will undo anything done in CreateTossable
+	double throwvel;
+	override void Tick(){
+		super.Tick();
+		if(bjustchucked&&target){
+			double cp=cos(target.pitch);
+			if(bmissile){
+				vel=target.vel+
+					(cp*cos(target.angle),cp*sin(target.angle),-sin(target.pitch))
+					*min(20,1000/weaponbulk())
+					*((hdplayerpawn(target)&&hdplayerpawn(target).zerk>0)?frandom(1,4):1
+				);
+			}else vel=target.vel+2*(cp*cos(target.angle),cp*sin(target.angle),-sin(target.pitch))*2;
+			setz(target.pos.z+target.height-16);
+			throwvel=vel dot vel;
+			bjustchucked=false;
+		}
+		if(owner){
+			if(amount<1){
+				destroy();
+				return;
+			}else{
+				//update count
+				actualamount=1;
+				if(owner&&owner.findinventory("SpareWeapons")){
+					let spw=spareweapons(owner.findinventory("SpareWeapons"));
+					string gcn=getclassname();
+					for(int i=0;i<spw.weapontype.size();i++){
+						if(spw.weapontype[i]==gcn)actualamount++;
+					}
+				}
+			}
+			let onr=hdplayerpawn(owner);
+			if(
+				!bwimpy_weapon
+				&&!hdfist(self)
+				&&onr
+				&&onr.player
+				&&onr.player.readyweapon==self
+				&&!onr.barehanded
+				&&onr.zerk
+				&&(
+					onr.player.cmd.buttons&BT_ATTACK
+					||onr.player.cmd.buttons&BT_ALTATTACK
+					||onr.player.cmd.buttons&BT_ZOOM
+					||bweaponbusy
+					||onr.vel.xy==(0,0)
+				)
+				&&!random(0,511)
+			){
+				onr.A_StartSound(random(0,5)?"*xdeath":"*taunt",CHAN_VOICE);
+				onr.A_AlertMonsters();
+				onr.dropinventory(self);
+			}
+		}
+	}
+	
+	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
+	override hdweapon GetSpareWeapon(actor newowner,bool reverse,bool doselect){return GetSpareWeaponRegular(newowner,reverse);}
+	
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		let ww=HDRiotShield(hdw);
+		if(ww.targethealth)sb.drawwepnum(ww.targethealth,ww.targetspawnhealth);
+	}
+	override string gethelptext(){
+		return
+		"No actions available.";
+	}
+
+	states{
+	
+	spawnshield:
+		TNT1 A 1{
+// 		A_SpawnItemEx("HDRiotShield_Front",
+// 					23+cos(pitch)*1,0,10-sin(pitch)*25,
+// 					vel.x,vel.y,vel.z,
+// 					0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
+// 				);
+			if (!invoker.shieldActor)
+			{
+				invoker.shieldActor = HDRiotShield_Front(Actor.Spawn("HDRiotShield_Front",
+				pos + (AngleToVector(angle, 35), pos.z), ALLOW_REPLACE));
+				if (invoker.shieldActor)
+				{
+					invoker.shieldActor.master = invoker;
+					invoker.shieldActor.target = self;
+				}
+			}
+			//HDMobAI.Frighten(self,128);
+		}loop;
+	select0:
+		TNT1 A 0 {
+		A_Overlay(2,"spawnshield");
+		}
+		goto select0bfg;
+	deselect:
+		TNT1 A 0 {
+		A_StartDeselect();
+		}
+	deselect0:
+		TNT1 A 0;
+		goto deselect0small;
+		
+	ready:
+		TNT1 A 1{
+		//A_FireProjectile("HDRiotShield_Front",0,false); 
+			/*A_SpawnItemEx("HDRiotShield_Front",
+					23+cos(pitch)*1,0,height-45-sin(pitch)*15,
+					vel.x,vel.y,vel.z,
+					0,SXF_ABSOLUTEMOMENTUM|SXF_TRANSFERPITCH
+				);
+			A_SpawnItemEx("HDRiotShield_SideHitbox",
+					21+cos(pitch)*1,5,height-45-sin(pitch)*15,
+					vel.x,vel.y,vel.z,
+					0,SXF_ABSOLUTEMOMENTUM|SXF_TRANSFERPITCH
+				);
+			A_SpawnItemEx("HDRiotShield_SideHitbox",
+					21+cos(pitch)*1,-5,height-45-sin(pitch)*15,
+					vel.x,vel.y,vel.z,
+					0,SXF_ABSOLUTEMOMENTUM|SXF_TRANSFERPITCH
+				);*/
+				A_WeaponReady(WRF_NOFIRE);
+			}
+		goto readyend;
+	spawn:
+		RSH0 Z -1 A_SetPitch(270);
+		stop;
+	}
+}
+
+class HDRiotShield_Front:HDActor{
+	default{
+	+shootable -nodamage +noblood +dontthrust +thruspecies
+	+solid +interpolateangles
+	PainChance 256;
+	mass 4000;
+	radius 13;
+	Height 53;
+	health 100;
+	damagefactor 0.5;
+	species "HDPlayerPawn";
+	}
+	virtual double bulletresistance(
+		double hitangle //abs(bullet.angleto(hitactor),bullet.angle)
+	){
+		return max(0,0.25);
+	}
+	
+	override void Tick()
+	{
+		super.Tick();
+		let plr = PlayerPawn(target);
+		if (!plr)
+			Destroy();
+		else
+		{
+		Vector3 dest;
+		dest.xy = plr.pos.xy + AngleToVector(plr.angle, 36);
+		dest.z = plr.pos.z - 26 - sin(plr.pitch+45)*27 + 53 * plr.player.crouchfactor;
+		vel = dest - pos + plr.vel;
+		angle = plr.angle;
+		let hdrs = HDRiotShield(plr.player.readyweapon);
+		if (!hdrs)
+			Destroy();
+		}
+	}
+	
+	states{
+	spawn:
+		RSH0 Z -1;
+		stop;
+	pain:
+		RSH0 Z 2 A_StartSound("misc/riotshield/hit",chan_body,chanf_overlap);
+		goto spawn;
+	pain.bashing:
+		RSH0 Z 2;
+		goto spawn;
+	pain.fire:
+		RSH0 Z 2;
+		goto spawn;
+	Death:
+		RSH0 Z 1;
+		stop;
+	}
+}
+
+class HDRiotShield_Permanent:HDRiotShield_Front{
+	default{
+	mass 40;
+	gravity 1;
+	radius 10;
+	Height 60;
+	health 9000;
+	damagefactor 0.1;
+	species "riotshield";
+	}
+	states{
+	spawn:
+		RSH0 Z -1;
+		stop;
+	pain:
+		RSH0 Z 1 A_StartSound("misc/riotshield/hit",chan_body,chanf_overlap);
+		goto spawn;
+	Death:
+		TNT1 A 1;
+		stop;
+	}
+}
+
+class HDRiotShield_SideHitbox:HDRiotShield_Front{
+	default{
+	mass 40;
+	radius 10;
+	Height 65;
+	health 900000;
+	damagefactor 0.1;
+	species "riotshield";
+	}
+	states{
+	spawn:
+		TNT1 A 2;
+		stop;
+	Death:
+		TNT1 A 1;
+		stop;
+	}
+}

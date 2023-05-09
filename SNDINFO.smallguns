@@ -1,0 +1,26 @@
+// Handguns & Machine Pistols //
+
+weapons/pistol/magnum HD50FIR1
+weapons/50AM_Mag/MagOut HD50REL1
+weapons/50AM_Mag/MagIn HD50REL2
+
+$alias weapons/50AM_Mag/SlideLock weapons/pistoldry
+$alias weapons/50AM_Mag/SlideFwd weapons/rifleclick
+
+weapons/MAC11Shot Sounds/MAC11/MACFire1.ogg
+
+weapons/MACStockOut Sounds/MAC11/MACStk1.wav
+weapons/MACStockIn Sounds/MAC11/MACStk2.wav
+weapons/MACStockClick Sounds/MAC11/MACStk3.wav
+
+weapons/MACboltback Sounds/MAC11/MACBoltBack.ogg
+weapons/MACboltfwd Sounds/MAC11/MACBoltFwd.ogg
+
+weapons/mk23shot Sounds/MK23/FireSD.ogg
+
+weapons/mk23chamber1  dsrifck2 $pitchset weapons/mk23chamber1 0.9
+weapons/mk23chamber2  dsrifclk $pitchset weapons/mk23chamber2 1.2
+
+$alias weapons/mk23magclick weapons/pismagclick
+$alias weapons/mk23magout weapons/pismagclick
+$alias weapons/mk23dry weapons/pistoldry

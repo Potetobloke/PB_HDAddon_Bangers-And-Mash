@@ -1,0 +1,35 @@
+weapons/ps20fire Sounds/PS20/PS20Fire.ogg
+weapons/ps20fire2 dsfwoosh
+
+pb/fuck nothing
+
+pb/tools/fireext/shoot dsfwoosh
+
+$random misc/riotshield/hit {misc/riotshield/hit1 misc/riotshield/hit2 misc/riotshield/hit3}
+
+misc/riotshield/hit1		Sounds/Shield/HITS1.wav
+misc/riotshield/hit2		Sounds/Shield/HITS2.wav
+misc/riotshield/hit3		Sounds/Shield/HITS3.wav
+misc/riotshield/hit4		Sounds/Shield/HITS4.wav
+
+$limit misc/riotshield/hit1 0
+$limit misc/riotshield/hit2 0
+$limit misc/riotshield/hit3 0
+$limit misc/riotshield/hit4 0
+
+weapons/flamertwist1 Sounds/Flamers/FlamerRel1.wav
+weapons/flamertwist2 Sounds/Flamers/FlamerRel2.wav
+
+weapons/manccannonignite Sounds/Flamers/IgniteHeavy.ogg
+
+weapons/flamerstart Sounds/Flamers/FireStart.wav
+weapons/flamerstop Sounds/Flamers/FireEnd.wav
+
+weapons/fusionpistolfire 		Sounds/FusionPistol/FPFire.ogg
+weapons/fusionpistolfire2		Sounds/FusionPistol/FPFire2.ogg
+weapons/fusionpistolcharge		Sounds/FusionPistol/FPCharge.ogg
+weapons/fusionpistolbeep		Sounds/FusionPistol/FPBeep.ogg
+
+weapons/grenade/gas/start Sounds/Grenades/GasStart.ogg
+weapons/grenade/gas/hiss Sounds/Grenades/GasHiss.ogg
+weapons/grenade/gas/end Sounds/Grenades/GasEnd.ogg

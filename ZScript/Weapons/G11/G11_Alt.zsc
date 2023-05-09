@@ -1,0 +1,397 @@
+class HDB_426_Suppressed:HDB_426{
+	default{
+	hdbulletactor.distantsound "world/riflefar";
+	hdbulletactor.distantsoundvol 0.05;
+	}
+}
+
+class HDG11Rifle_Scoped:HDWeapon{
+	default{
+		//$Category "Weapons/Hideous Destructor"
+		//$Title "Heckler & Mok G26SD"
+		//$Sprite "G12PA0"
+
+		+hdweapon.fitsinbackpack
+		obituary "%o received lead poisoning from %k's PEZ dispenser.";
+		weapon.selectionorder 16;
+		weapon.slotnumber 4;
+		scale 0.75;
+		inventory.pickupmessage "You got the G26SD!";
+		hdweapon.barrelsize 26,1,2.25;
+		hdweapon.refid HDLD_G11_Scoped;
+		tag "H&M G26SD Service Rifle";
+	}
+	
+	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
+	override hdweapon GetSpareWeapon(actor newowner,bool reverse,bool doselect){return GetSpareWeaponRegular(newowner,reverse,doselect);}
+
+	override double gunmass(){
+		return 6.9;
+	}
+	override double weaponbulk(){
+		double blx=108;
+		int mgg=weaponstatus[G11S_MAG];
+		return blx+(mgg<0?0:(ENC_G11MAG_E_LOADED+mgg*ENC_426_LOADED));
+	}
+	override void failedpickupunload(){
+		failedpickupunloadmag(G11S_MAG,"HDG11Mag");
+	}
+	override void DropOneAmmo(int amt){
+		if(owner){
+			amt=clamp(amt,1,10);
+			if(owner.countinv("FourMilAmmo"))owner.A_DropInventory("FourMilAmmo",amt*45);
+			else owner.A_DropInventory("HDG11Mag",amt);
+		}
+	}
+	override string,double getpickupsprite(){
+	return "G12P"..((weaponstatus[G11S_MAG]<0)?"B":"A").."0",1.;
+	}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel==1){
+			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HDG11Mag")));
+			if(nextmagloaded>=45){
+				sb.drawimage("G11NORM",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM);
+			}else if(nextmagloaded<1){
+				sb.drawimage("G11EMPTY",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.);
+			}else sb.drawbar(
+				"G11NORM","G11GREY",
+				nextmagloaded,45,
+				(-46,-3),-1,
+				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
+			);
+			sb.drawnum(hpl.countinv("HDG11Mag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+		}
+		sb.drawwepcounter(hdw.weaponstatus[G11S_AUTO],
+			-22,-10,"RBRSA3A7","STBURAUT","STFULAUT"
+		);
+		sb.drawwepnum(hdw.weaponstatus[G11S_MAG],45);
+		if(hdw.weaponstatus[G11S_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));
+		sb.drawnum(hdw.weaponstatus[G11S_ZOOM],
+		-30,-22,sb.DI_SCREEN_CENTER_BOTTOM|sb.DI_TEXT_ALIGN_RIGHT,Font.CR_DARKGRAY
+		);
+	}
+	override string gethelptext(){
+		return
+		WEPHELP_FIRESHOOT
+		..WEPHELP_RELOAD.."  Reload\n"
+		..WEPHELP_FIREMODE.."  Semi/Burst\n"
+		..WEPHELP_MAGMANAGER
+		..WEPHELP_UNLOADUNLOAD
+		..WEPHELP_ZOOM.."+"..WEPHELP_FIREMODE.."+"..WEPHELP_UPDOWN.."  Zoom\n"
+		;
+	}
+	override void DrawSightPicture(
+		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
+		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
+	){
+		int scaledyoffset=47;
+		if(hdw.weaponstatus[0]&ZM66F_GLMODE)sb.drawgrenadeladder(hdw.airburst,bob);
+		else{
+		vector2 bobb=bob*1.25;
+		//bobb.y=clamp(bobb.y,-8,8);
+		
+		sb.drawimage(
+			"G11S_004",(0,7)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+			alpha:1.0,scale:(0.8,0.7));
+				sb.drawimage(
+					"G11S_003",(0,0)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+					scale:(0.8,0.7)
+				);
+			if(scopeview){
+				double degree=(hdw.weaponstatus[G11S_ZOOM])*0.1;
+
+				int scaledwidth=57;
+				int cx,cy,cw,ch;
+				[cx,cy,cw,ch]=screen.GetClipRect();
+				sb.SetClipRect(
+					-28+bob.x,13+bob.y,scaledwidth,scaledwidth,
+					sb.DI_SCREEN_CENTER
+				);
+
+
+				sb.fill(color(255,0,0,0),
+					bob.x-33,scaledyoffset+bob.y-33,
+					60,60,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER
+				);
+		
+				texman.setcameratotexture(hpc,"HDXCAM_ZM66",degree);
+				let cam  = texman.CheckForTexture("HDXCAM_ZM66",TexMan.Type_Any);
+				sb.DrawCircle(cam,(0,scaledyoffset-6)+bob*3,.075,usePixelRatio:true);
+
+
+				sb.SetClipRect(cx,cy,cw,ch);
+				sb.drawimage(
+					"g11s_002",(0,scaledyoffset-6)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+					scale:(0.85,0.85)
+				);
+				sb.drawnum(int(degree*10),
+					3+bob.x,68+bob.y,sb.DI_SCREEN_CENTER,Font.CR_BLACK
+				);
+			}
+		}
+	}
+	states{
+	select0:
+	TNT1 A 0;
+		GS1G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GS1G A 0;
+		#### # 0;
+		goto select0big;
+	deselect0:
+		GS1G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GS1G A 0;
+		#### # 0;
+		goto deselect0big;
+
+	ready:
+		GS1G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GS1G A 0;
+		#### # 1{
+			A_SetCrosshair(21);
+			invoker.weaponstatus[G11S_RATCHET]=0;
+			if(pressingzoom())A_ZoomAdjust(G11S_ZOOM,16,70);
+			else A_WeaponReady(WRF_ALL);
+			}
+		goto readyend;
+	user3:
+		---- A 0 A_MagManager("HDG11Mag");
+		goto ready;
+	altfire:
+	althold:
+		goto nope;
+	hold:
+		GS1G A 0{
+			if(
+				//full auto
+				invoker.weaponstatus[G11S_AUTO]==2
+			)setweaponstate("fire2");
+			else if(
+				//burst
+				invoker.weaponstatus[G11S_AUTO]<1
+				||invoker.weaponstatus[G11S_RATCHET]>2
+			)setweaponstate("nope");
+		}goto fire2;
+	user2:
+	firemode:
+		---- # 1{
+			int aut=invoker.weaponstatus[G11S_AUTO];
+			if(aut>=2)invoker.weaponstatus[G11S_AUTO]=0;
+			else if(aut<0)invoker.weaponstatus[G11S_AUTO]=0;
+			else invoker.weaponstatus[G11S_AUTO]++;
+		}goto nope;
+	fire:
+		GS1G # 1;
+	fire2:
+		GS1G C 1{
+			if(invoker.weaponstatus[G11S_CHAMBER]==2){
+				A_GunFlash();
+			}else{
+				if(invoker.weaponstatus[G11S_MAG]>0)setweaponstate("chamber");
+				else setweaponstate("nope");
+			}
+		}
+		GS1G D 0{
+
+			if(invoker.weaponstatus[G11S_MAG]>0){
+				invoker.weaponstatus[G11S_MAG]--;
+				invoker.weaponstatus[G11S_CHAMBER]=2;
+			}
+			
+			if(invoker.weaponstatus[G11S_AUTO]==2)
+			{A_SetTics(1);}
+			else if(invoker.weaponstatus[G11S_AUTO]==1)
+			{
+			A_SetTics(0);
+			A_ReFire();
+			}
+			A_WeaponReady(WRF_NOFIRE);
+		}
+		GS1G A 1
+		{
+		if(invoker.weaponstatus[G11S_AUTO]==2)
+			{A_SetTics(2);}
+		else if(invoker.weaponstatus[G11S_AUTO]==0)
+			{A_SetTics(1); A_ReFire();}
+		}
+		#### A 0 A_ReFire();
+		goto nope;
+	flash:
+		TNT1 A 1 bright{
+			HDFlashAlpha(-200);
+			A_Light1();
+			A_StartSound("weapons/g11fire2",CHAN_WEAPON,CHANF_OVERLAP);
+			//A_ZoomRecoil(min(0.95,1.-0.05*min(invoker.weaponstatus[G11S_AUTO],1)));
+
+			//shoot the bullet
+			//copypaste any changes to spawnshoot as well!
+			HDBulletActor.FireBullet(self,"HDB_426_Suppressed");
+			invoker.weaponstatus[G11S_RATCHET]++;
+			invoker.weaponstatus[G11S_CHAMBER]=0;
+			A_MuzzleClimb(
+				-frandom(0.025,0.05),-frandom(0.01,0.05),
+				-0.2,-frandom(0.3,0.4),
+				-frandom(0.2,1.1),-frandom(1.0,1.5)
+			);
+			A_AlertMonsters(300);
+		}
+		goto lightdone;
+
+
+	unloadchamber:
+		GS1C A 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GS1C A 0;
+		#### # 2 A_JumpIf(invoker.weaponstatus[G11S_CHAMBER]<1,"nope");
+		#### B 3;
+		#### D 4 A_StartSound("weapons/G11Wind",CHAN_6);
+		#### C 5{
+			class<actor>which=invoker.weaponstatus[G11S_CHAMBER]>1?"FourMilAmmo":"HDDebris";
+			invoker.weaponstatus[G11S_CHAMBER]=0;
+			A_SpawnItemEx(which,
+				cos(pitch)*10,0,height-11-sin(pitch)*10,
+				vel.x,vel.y,vel.z,
+				0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
+			);
+			A_StartSound("weapons/G11Click",CHAN_6);
+		}
+		#### DBA 3;
+		goto nope;
+	loadchamber:
+		GS1C A 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GS1C A 0;
+		#### # 2 A_JumpIf(invoker.weaponstatus[G11S_CHAMBER]<1,"nope");
+		#### B 3;
+		#### D 4 A_StartSound("weapons/G11Wind",CHAN_6);
+		#### C 5{
+				if(countinv("FourMilAmmo")){
+				A_TakeInventory("FourMilAmmo",1,TIF_NOTAKEINFINITE);
+				invoker.weaponstatus[G11S_CHAMBER]=2;
+				A_StartSound("weapons/smgchamber",CHAN_7);
+				A_StartSound("weapons/G11Click",CHAN_6);
+			}
+		}
+		#### DBA 3;
+		goto nope;
+	user4:
+	unload:
+		GS1G # 0{
+			invoker.weaponstatus[0]|=G11F_JUSTUNLOAD;
+			if(
+				invoker.weaponstatus[G11S_MAG]>=0
+			)setweaponstate("unmag");
+			else if(invoker.weaponstatus[G11S_CHAMBER]>0)setweaponstate("unloadchamber");
+		}goto nope;
+	reload:
+		GS1G # 0{
+			invoker.weaponstatus[0]&=~G11F_JUSTUNLOAD;
+			if(invoker.weaponstatus[G11S_MAG]>=45)setweaponstate("nope");
+			else if(HDMagAmmo.NothingLoaded(self,"HDG11Mag")){
+				if(
+					invoker.weaponstatus[G11S_MAG]<0
+					&&countinv("FourMilAmmo")
+				)setweaponstate("loadchamber");
+				else setweaponstate("nope");
+			}
+		}goto unmag;
+	unmag:
+	#### # 0 A_SetCrosshair(21);
+		GS1C A 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,"ununmag");
+		GS1R A 3;
+		GS1R B 3;
+		GS1R D 4;
+		GS1R EFG 4;
+		GS1R H 3 A_StartSound("weapons/G11MagOut",CHAN_WEAPON);
+		GS1R I 4{
+			A_MuzzleClimb(0.3,0.4);
+			A_StartSound("weapons/G11Wind2",CHAN_WEAPON);
+		}
+		GS1R JKLM 3;
+		GS1R O 2;
+				GS1R O 0{
+			int magamt=invoker.weaponstatus[G11S_MAG];
+			if(magamt<0){
+				setweaponstate("magout");
+				return;
+			}
+			invoker.weaponstatus[G11S_MAG]=-1;
+			if(
+				(!PressingUnload()&&!PressingReload())
+				||A_JumpIfInventory("HDG11Mag",0,"null")
+			){
+				HDMagAmmo.SpawnMag(self,"HDG11Mag",magamt);
+				setweaponstate("magout");
+			}else{
+				HDMagAmmo.GiveMag(self,"HDG11Mag",magamt);
+				A_StartSound("weapons/pocket",CHAN_WEAPON);
+				setweaponstate("pocketmag");
+			}
+		}
+	pocketmag:
+		GS1R MO 7 A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+	magout:
+		GS1R M 0{
+			if(invoker.weaponstatus[0]&G11F_JUSTUNLOAD)setweaponstate("reloadend");
+			else setweaponstate("loadmag");
+		}
+		goto loadmag;
+	ununmag:
+		GS2R AB 3;
+		GS2R CDE 4;
+	goto pocketmag;
+	loadmag:
+		GS1R M 0 A_StartSound("weapons/pocket",CHAN_WEAPON);
+		GS1R M 6 A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+		GS1R O 6 A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+		GS1R LKJIH 3;
+		GS1R N 3{
+			let mmm=hdmagammo(findinventory("HDG11Mag"));
+			if(mmm){
+				invoker.weaponstatus[G11S_MAG]=mmm.TakeMag(true);
+				A_StartSound("weapons/smgmagclick",CHAN_BODY);
+			}
+		}
+		GS1R GFED 3;
+		#### # 0
+		{
+					if(
+				invoker.weaponstatus[G11S_MAG]<1
+				||invoker.weaponstatus[G11S_CHAMBER]==2
+			)setweaponstate("reloadend");
+		}
+	chamber:
+		GS1C B 3;
+		#### D 4 A_StartSound("weapons/G11Wind",CHAN_6);
+		#### C 5{
+			invoker.weaponstatus[G11S_MAG]--;
+			invoker.weaponstatus[G11S_CHAMBER]=2;
+			A_StartSound("weapons/smgchamber",CHAN_7);
+			A_StartSound("weapons/G11Click",CHAN_6);
+		}
+		#### DBA 3;
+		GS1R P 3;
+		goto nope;
+
+	reloadend:
+		GS1R BAP 3;
+		goto nope;
+
+
+	spawn:
+		G12P AB -1 nodelay{
+			if(invoker.weaponstatus[G11S_MAG]<0)frame=1;
+		}
+	}
+	override void initializewepstats(bool idfa){
+		weaponspecial = 1337;
+		weaponstatus[0]=0;
+		weaponstatus[G11S_ZOOM]=30;
+		weaponstatus[G11S_MAG]=45;
+		weaponstatus[G11S_CHAMBER]=2;
+		if(!idfa)weaponstatus[G11S_AUTO]=0;
+	}
+		
+override void loadoutconfigure(string input)
+{
+		int zoom=getloadoutvar(input,"zoom",3);
+		if(zoom>=0)weaponstatus[G11S_ZOOM]=clamp(zoom,16,70);
+}
+}

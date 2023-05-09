@@ -1,0 +1,35 @@
+/*Model HDRiotShield
+{
+   Path "models/riotshield"
+   Model 0 "shield.obj"
+   Skin 0 "shield.png"
+   Scale 11.5 11.5 11.5
+   Offset 1 1 -20
+   USEACTORPITCH
+
+   Frame RSH0 z 0 "frame01"
+}
+
+Model HDRiotShield_Front
+{
+   Path "models/riotshield"
+   Model 0 "shield.obj"
+   Skin 0 "shield.png"
+   Scale 11.5 11.5 11.5
+   Offset -1 0.1 0.1
+   //USEACTORPITCH
+
+   Frame RSH0 z 0 "frame01"
+}
+
+Model HDRiotShield_Permanent
+{
+   Path "models/riotshield"
+   Model 0 "shield.obj"
+   Skin 0 "shield.png"
+   Scale 11.5 11.5 11.5
+   USEACTORPITCH
+   Offset 1 0 0
+
+   Frame RSH0 z 0 "frame01"
+}*/

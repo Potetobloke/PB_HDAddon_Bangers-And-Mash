@@ -1,0 +1,545 @@
+// ------------------------------------------------------------
+// Fireaxe
+// ------------------------------------------------------------
+/*class HDAxeHit:IdleDummy{
+	default{
+		+bloodlessimpact +nodecal +hittracer +puffonactors
+		stamina 1;
+	}
+}*/
+
+class HDAxePuff:HDBulletPuff{
+	default{
+		stamina 5;scale 0.6;
+		hdbulletpuff.scarechance 5;
+	}
+	override void postbeginplay(){
+		super.postbeginplay();
+		if(max(abs(pos.x),abs(pos.y),abs(pos.z))>=32768){destroy();return;}
+		if(!random(0,scarechance)){
+			actor fff=spawn("idledummy",pos,ALLOW_REPLACE);
+			fff.stamina=random(60,120);
+			hdmobai.frighten(fff,256);
+		}
+		A_StartSound("misc/bullethit",0,0,0.5*stamina*stamina);
+		A_StartSound("weapons/axewall",CHAN_7,0,1.02*stamina*stamina);
+		A_ChangeVelocity(-0.4,0,frandom(0.1,0.4),CVF_RELATIVE);
+		trymove(pos.xy+vel.xy,false);
+		int stm=stamina;
+		// this doesn't actually do anything
+		//fadeafter=frandom(0,1);
+		scale*=frandom(0.9,1.1);
+		for(int i=0;i<stamina;i++){
+			A_SpawnParticle("gray",
+				SPF_RELATIVE,70,frandom(4,20)*getdefaultbytype((class<actor>)(missilename)).scale.x,0,
+				frandom(-3,3),frandom(-3,3),frandom(0,4),
+				frandom(-0.4,0.4)*stm,frandom(-0.4,0.4)*stm,frandom(0.4,1.2)*stm,
+				frandom(-0.1,0.1),frandom(-0.1,0.1),-1.
+			);
+
+//			actor ch=spawn(missilename,self.pos,ALLOW_REPLACE);
+//			ch.vel=self.vel+(random(-stm,stm),random(-stm,stm),random(-2,12));
+		}
+	}
+	states{
+	spawn:
+		TNT1 A 1 nodelay{
+			if(tracer){
+				//if(tracer.bcorpse)hdf.give(tracer,"SawGib",random(5,10));
+				if(tracer.bnoblood)
+				{
+				HDBleedingWound.inflict(tracer,10,3);
+				}
+				else 
+				{
+				HDBleedingWound.inflict(tracer,10,3);
+				}
+			}
+		}stop;
+	crash:
+		TNT1 A 1;
+		stop;
+	}
+}
+	
+const HDLD_FAXE="axe";
+
+class HDFireAxe:HD_PB_UnarmedWeapon{
+	int targettimer;
+	int targethealth;
+	int targetspawnhealth;
+	bool flicked;
+	bool washolding;
+	default{
+		//$Category "Weapons/Hideous Destructor"
+		//$Title "Fire Axe"
+		//$Sprite "FAXPA0"
+		+WEAPON.MELEEWEAPON +WEAPON.NOALERT +WEAPON.NO_AUTO_SWITCH
+		+hdweapon.fitsinbackpack
+		//-hdweapon.dontnull
+		-weapon.cheatnotweapon
+		-inventory.untossable
+		-nointeraction
+		+forcepain
+		+forceXYbillboard
+		+rollsprite
+		+rollcenter
+		inventory.pickupmessage "You got the Fire Axe! (not on fire though)";
+		obituary "''Hey %o!'', shouted %k.";
+		attacksound "weapons/axewall";
+		weapon.selectionorder 200;
+		weapon.slotpriority 0.75;
+		weapon.kickback 15;
+		weapon.bobstyle "Alpha";
+		weapon.bobspeed 2.6;
+		weapon.bobrangex 0.2;
+		weapon.bobrangey 0.5;
+		weapon.slotnumber 1;
+		DamageFunction (random(40,45));
+		scale 0.75;
+		tag "Fire Axe";
+		hdweapon.refid HDLD_FAXE;
+		//hdweapon.barrelsize 21,3,1;
+	}
+	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
+	override hdweapon GetSpareWeapon(actor newowner,bool reverse,bool doselect){return GetSpareWeaponRegular(newowner,reverse);}
+	
+	int walldamagemeter;
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		let ww=HDFireAxe(hdw);
+		if(ww.targethealth)sb.drawwepnum(ww.targethealth,ww.targetspawnhealth);
+		if(walldamagemeter>0)sb.drawwepnum(walldamagemeter,100,posy:-9);
+	}
+	
+	//for throwing a weapon
+	override inventory CreateTossable(int amt){
+		let onr=hdplayerpawn(owner);
+		bool throw=(
+			onr
+			&&onr.player
+			&&onr.player.cmd.buttons&BT_ZOOM
+		);
+		bool isreadyweapon=onr&&onr.player&&onr.player.readyweapon==self;
+		if(!isreadyweapon)throw=false;
+		let thrown=super.createtossable(amt);
+		if(!thrown)return null;
+		let newwep=GetSpareWeapon(onr,doselect:isreadyweapon);
+		hdweapon(thrown).bjustchucked=true;
+		thrown.target=onr;
+		thrown.lastenemy=onr;
+		if(throw){
+			thrown.bmissile=true;
+			thrown.bBOUNCEONWALLS=true;
+			thrown.bBOUNCEONFLOORS=true;
+			thrown.bALLOWBOUNCEONACTORS=true;
+			thrown.bBOUNCEAUTOOFF=true;
+		}else{
+			thrown.bmissile=false;
+			thrown.bBOUNCEONWALLS=false;
+			thrown.bBOUNCEONFLOORS=false;
+			thrown.bALLOWBOUNCEONACTORS=false;
+			thrown.bBOUNCEAUTOOFF=false;
+		}
+		return thrown;
+	}
+	//an override is needed because DropInventory will undo anything done in CreateTossable
+	double throwvel;
+	override void OnDrop(Actor dropper){
+		if(bjustchucked&&target){
+			double cp=cos(target.pitch);
+			if(bmissile){
+				vel=target.vel+
+					(cp*(cos(target.angle),sin(target.angle)),-sin(target.pitch))
+					*min(20,800/weaponbulk())
+					*(hdplayerpawn(target)?hdplayerpawn(target).strength:1.)
+				;
+			}else vel=target.vel+(cp*(cos(target.angle),sin(target.angle)),-sin(target.pitch))*4;
+			throwvel=vel dot vel;
+			bjustchucked=false;
+		}
+
+		//copypasted from HDPickup
+		if(dropper){
+			setz(dropper.pos.z+dropper.height*0.8);
+			if(!bmissile){
+				double dp=max(dropper.pitch-6,-90);
+				vel=dropper.vel+(
+					cos(dp)*(cos(dropper.angle),sin(dropper.angle)),
+					-sin(dp)
+				)*3;
+			}
+			HDBackpack.ForceUpdate(dropper);
+		}
+	}
+
+	
+	override string,double getpickupsprite(){return "FAXPA0",1.;}
+	
+	override string gethelptext(){
+		return
+		WEPHELP_FIRE.."  Swing\n"
+		..WEPHELP_ALTFIRE.."   Lunge\n"
+		..WEPHELP_RELOAD.."   Kick then Swing/Withdraw Attack\n"
+		..WEPHELP_UNLOAD.."   Throw\n"
+		//..WEPHELP_ZOOM.."+"..WEPHELP_DROP.."   Drop misc. items\n"
+		;
+	}
+	
+	override void DoEffect(){
+		super.DoEffect();
+		if(targettimer<70)targettimer++;else{
+			tracer=null;
+			targettimer=0;
+			targethealth=0;
+		}
+	}
+	action void HDPunchAxe(double dmg){
+		flinetracedata punchline;
+		bool punchy=linetrace(
+			angle,70,pitch,
+			TRF_NOSKY,
+			offsetz:height-12,
+			data:punchline
+		);
+		
+		if(!punchy)return;
+
+		{
+			bool didit;double didwhat;
+			[didit,didwhat]=doordestroyer.destroydoor(
+				self,dmg*0.6,dmg*0.2,32,height,
+				angle,pitch);
+			if(didit||!didwhat)invoker.walldamagemeter=0;else
+			invoker.walldamagemeter=int(clamp(1-didwhat,0,1)*100);
+		}
+
+		//actual puff effect if the shot connects
+		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")?"WallChunker":"WallChunker",
+			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
+			offsetz:height-12);
+			
+		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")?"HDSmokeChunk":"BulletPuffSmall",
+			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
+			offsetz:height-12);
+		
+		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")?"HDAxePuff":"HDAxePuff",
+			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
+			offsetz:height-12
+			
+		);
+		
+		setweaponstate("IGOTEM",5);
+
+		if(!punchline.hitactor){
+			HDF.Give(self,"WallChunkAmmo",1);
+			return;
+		}
+		actor punchee=punchline.hitactor;
+
+		//charge!
+		if(invoker.flicked)dmg*=1.5;
+		else dmg+=HDMath.TowardsEachOther(self,punchee)*2;
+
+		//come in swinging
+		let onr=hdplayerpawn(self);
+		if(onr){
+			int iy=max(abs(player.cmd.pitch),abs(player.cmd.yaw));
+			if(iy>0)iy*=100;
+			else if(iy<0)iy*=200;
+			dmg+=min(abs(iy),dmg*2);
+
+			//need to be well grounded
+			if(floorz<pos.z)dmg*=0.5;
+		}
+
+		//shit happens
+		//dmg*=frandom(0.85,1.5);
+		HDBleedingWound.inflict(punchee,int(dmg*=invoker.strength*frandom(0.95,1.5)),frandom(10,12));
+
+
+		//other effects
+		if(
+			onr
+			&&!punchee.bdontthrust
+			&&(
+				punchee.mass<200
+				||(
+					punchee.radius*2<punchee.height
+					&& punchline.hitlocation.z>punchee.pos.z+punchee.height*0.6
+				)
+			)
+		){
+			double iyaw=player.cmd.yaw*(65535./360.);
+			if(abs(iyaw)>(0.5)){
+				punchee.A_SetAngle(punchee.angle-iyaw*100,SPF_INTERPOLATE);
+			}
+			double ipitch=player.cmd.pitch*(65535./360.);
+			if(abs(ipitch)>(0.5*65535/360)){
+				punchee.A_SetPitch(punchee.angle+ipitch*100,SPF_INTERPOLATE);
+			}
+		}
+		//headshot lol
+		if(
+			!punchee.bnopain
+			&&punchee.health>0
+			&&!(punchee is "HDBarrel")
+			&&punchline.hitlocation.z>punchee.pos.z+punchee.height*0.75
+		){
+			if(hd_debug)A_Log("HEAD SHOT");
+			punchee.InStateSequence(curstate,resolvestate("falldown"));
+			dmg*=frandom(2.1,2.3);
+		}
+
+		if(hd_debug){
+			string pch="";
+			if(punchee.player)pch=punchee.player.getusername();
+				else pch=punchee.getclassname();
+			A_Log(string.format("Hit %s for %i damage!",pch,dmg));
+		}
+		
+		
+		//hit sound
+		if(punchee.bnoblood)
+		{
+		if(dmg*2>punchee.health)punchee.A_StartSound("weapons/axewall",CHAN_BODY,0,1.25);
+		}
+		else 
+		{
+		punchee.A_StartSound("weapons/axeflesh",CHAN_BODY,0,0.5);
+		if(dmg*2>punchee.health)punchee.A_StartSound("weapons/axeflesh",CHAN_7,0,1);
+		if(dmg*2>punchee.health)punchee.A_StartSound("weapons/axesplat",CHAN_6,0,1);
+		}
+		
+		hdmobbase.forcepain(punchee);
+		punchee.InStateSequence(curstate,resolvestate("falldown"));
+		//punchee.InStateSequence(curstate,resolvestate("falldown"));
+		
+		if(punchee.health>0)punchee.damagemobj(self,self,int(dmg),"SmallArms3");
+		else punchee.damagemobj(self,self,int(dmg*1.5),"SmallArms3");
+		
+		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")?"HDAxePuff":"HDAxePuff",
+			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
+			offsetz:height-12);
+
+		if(!punchee)invoker.targethealth=0;else{
+			invoker.targethealth=punchee.health;
+			invoker.targetspawnhealth=punchee.spawnhealth();
+			invoker.targettimer=0;
+		}
+	}
+	
+	action void A_Lunge(){
+		hdplayerpawn hdp=hdplayerpawn(self);
+		if(hdp){
+			if(hdp.fatigue>=30||(pos.z>floorz&&!checkmove(pos.xy-angletovector(angle,8),PCM_DROPOFF|PCM_NOACTORS)))
+			{setweaponstate("recoverswing");
+				return;
+			}
+			else hdp.fatigue+=3;
+		}
+		A_Recoil(-3);
+	}
+	static void kick(actor kicker,actor kickee,actor kicking){
+		kickee.A_PlaySound("weapons/smack",CHAN_BODY);
+		bool kzk=kicker.countinv("HDZerk");
+		kickee.damagemobj(kicking,kicker,kzk?random(20,40):random(10,20),"bashing");
+		if(kickee&&!kickee.bnopain&&kickee.health>0&&random(0,4))kickee.setstatelabel("pain");
+		vector3 kickdir=(kickee.pos-kicker.pos).unit();
+		if(kickee)kickee.vel=kickdir*(kzk?10:2);
+		kicker.vel-=kickdir;
+	}
+	override double weaponbulk(){
+		return 165;
+	}
+	override double gunmass(){
+		return 11;
+	}
+	
+	states{
+		select0:
+		FAX0 A 0;
+		goto select0big;
+	deselect0:
+		FAX0 A 0;
+		goto deselect0big;
+	firemode:
+		FAX0 A 1;
+		goto nope;
+	ready:
+		FAX0 A 1{
+			if(invoker.washolding&&pressingfire()){
+				setweaponstate("nope");
+				return;
+			}
+			A_WeaponReady(WRF_ALL);
+			invoker.flicked=false;
+			invoker.washolding=false;
+		}goto readyend;
+	reload:
+		TNT1 A 0 A_Overlay(-999999,"kick",false);
+		FAX1 ABCD 3;
+		FAX1 E 2 HDPunch(20);
+		FAX1 FGHIJ 2;
+		FAX1 KKLLMMM 2;
+		goto readyend;
+	fire:
+	hold:
+	althold:
+		TNT1 A 0;
+	startfire:
+		#### A 0 A_JumpIfInventory("HDZerk",1,"zerkswingstart");
+		FAX0 A 0 A_StartSound("weapons/pocket",CHAN_6);
+		FAX0 A 0;
+		FAX0 BC 3;
+		FAX0 C 0 A_WeaponBusy;
+		FAX0 C 2 offset(25,64);
+		FAX0 C 2 offset(40,86);
+		TNT1 A 4 offset(0,32);
+		goto holdswing;
+	zerkswingstart:
+		FAX0 A 0 A_StartSound("weapons/pocket",CHAN_6);
+		FAX0 A 0;
+		FAX0 BC 1;
+		FAX0 C 0 A_WeaponBusy;
+		FAX0 C 1 offset(25,64);
+		FAX0 C 1 offset(40,86);
+		TNT1 A 2 offset(1,32);
+		goto holdswing;
+	holdswing:
+		TNT1 A 1; //A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH);
+		#### A 0 A_JumpIf(pressingreload(),"recoverswing");
+		#### A 0 A_JumpIf(pressingfire(),"holdswing");
+		TNT1 A 0 A_ReFire("holdswing");
+	goto swing;
+	swingreturn:
+		TNT1 A 7;
+		TNT1 A 5 A_StartSound("weapons/pocket",CHAN_6);
+	goto holdswing;
+	swing:
+		#### A 0 A_JumpIfInventory("HDZerk",1,"zerkswing");
+		FAX0 A 0 A_StartSound("weapons/axeswing",CHAN_7);
+		FAX0 DE 1;
+		#### D 0 A_Overlay(5,"hitcheck",false);
+		#### F 1
+		{
+		if(hdplayerpawn(self))hdplayerpawn(self).fatigue+=4;
+		}
+		#### GH 1;
+		//#### A 0 A_JumpIf(pressingaltfire(),"altfire");
+		TNT1 A 6;
+		#### A 0 A_JumpIf(pressingfire(),"swingreturn");
+		#### A 0 A_JumpIf(pressingaltfire(),"lungealt");
+		TNT1 A 0 A_ReFire("holdswing");
+		FAX0 A 0 A_WeaponBusy;
+		goto recoverswing;
+	recoverswing:
+		FAX0 A 2 offset(10,84);
+		FAX0 A 2 offset(9,72);
+		FAX0 A 2 offset(8,60);
+		FAX0 A 1 offset(7,52);
+		FAX0 A 1 offset(5,42);
+		FAX0 A 1 offset(3,38);
+		FAX0 A 1 offset(3,35);
+		#### A 0 A_JumpIf(pressingfire(),"nope");
+		goto readyend;
+		
+	zerkswing:
+		FAX0 A 0 A_StartSound("weapons/axeswing",CHAN_7);
+		FAX0 DE 1;
+		#### D 0 A_Overlay(5,"hitcheckzerk",false);
+		#### FGH 1;
+		//#### A 0 A_JumpIf(pressingaltfire(),"altfire");
+		TNT1 A 3;
+		#### A 0 A_JumpIf(pressingfire(),"swingreturn");
+		#### A 0 A_JumpIf(pressingaltfire(),"lungealt");
+		TNT1 A 0 A_ReFire("holdswing");
+		FAX0 A 0 A_WeaponBusy;
+		goto recoverswing;
+	altfire:
+		FAX0 A 0 A_StartSound("weapons/pocket",CHAN_6);
+		FAX0 B 3;
+		FAX0 C 0 
+		{
+		A_WeaponBusy();
+		A_Overlay(-999999,"lunge",false);
+		}
+		FAX0 C 3;
+		FAX0 C 2 offset(25,64);
+		FAX0 C 2 offset(40,86);
+		TNT1 A 6 offset(0,32);
+		#### A 0 A_JumpIf(pressingfire(),"holdswing");
+		#### A 0 A_JumpIf(pressingaltfire(),"kickattack");
+		goto swing;
+	lunge:
+		TNT1 A 2 A_CheckFloor("lunge2");
+		stop;
+	lunge2:
+		TNT1 A 0 A_Lunge();
+		TNT1 AA 1{
+			if(countinv("HDZerk"))A_Recoil(-random(12,24));
+		}
+		TNT1 A 1 A_Recoil(-4);
+		stop;
+	lungealt:
+		TNT1 A 3
+		{
+		A_WeaponBusy();
+		A_Overlay(-999999,"lunge",false);
+		}
+		TNT1 A 13;
+		#### A 0 A_JumpIf(pressingfire(),"holdswing");
+		#### A 0 A_JumpIf(pressingaltfire(),"kickattack");
+		goto swing;
+	KickAttack:
+		TNT1 A 0 A_Overlay(-999999,"kick",false);
+		goto recoverswing;
+	kick:
+		TNT1 A 13{
+			if(hdplayerpawn(self))hdplayerpawn(self).fatigue+=2;
+			flinetracedata ktl;
+			LineTrace(angle,radius*1.6,0,offsetz:10,data:ktl);
+			if(ktl.hitactor)invoker.kick(self,ktl.hitactor,invoker);
+			if(countinv("HDZerk"))A_SetTics(8);
+		}
+		stop;
+	
+	unload:
+	YEET:
+		---- A 1
+		{
+		if(player&&hdweapon(player.readyweapon)){
+		 player.cmd.buttons|=BT_ZOOM;
+		 DropInventory(player.readyweapon);
+		}
+		}
+		TNT1 A 0;
+		goto nope;
+	hittarget:
+		FAX0 IJKL 1;
+		TNT1 A 5;
+		#### A 0 A_JumpIf(pressingfire(),"swingreturn");
+		#### A 0 A_JumpIf(pressingaltfire(),"lungealt");
+		TNT1 A 0 A_ReFire("holdswing");
+		FAX0 A 0 A_WeaponBusy;
+		goto recoverswing;
+		
+	hitcheck:
+		TNT1 AA 1 HDPunchAxe(75);
+		TNT1 A 1 HDPunchAxe(70);
+	stop;
+	
+	hitcheckzerk:
+		TNT1 AAA 1 HDPunchAxe(invoker.flicked?340:300);
+	stop;
+	
+	IGOTEM:TNT1 A 1;stop;
+		
+	spawn:
+		FAXP A -1; //faxp
+		stop;
+	}
+}

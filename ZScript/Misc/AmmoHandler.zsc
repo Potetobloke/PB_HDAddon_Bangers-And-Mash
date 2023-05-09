@@ -1,0 +1,76 @@
+// Because purging ammo that you actually want to use is annoying
+// Also, hope you don't mind the coding style inconsistency
+
+class PB_AmmoHandler : EventHandler {
+	// Makes my life more easier
+	void PushItem(Actor T, string item) {
+		let A = HDPickup(T);
+		A.itemsthatusethis.push(item);
+	}
+
+	override void WorldThingSpawned(WorldEvent e) {
+		let T = e.Thing;
+		
+		// Null check for event removal. 
+		if(!T)return;
+		
+		switch (T.GetClassName()) {
+
+		//case 'HD9mMag30':
+		//case 'HDPistolAmmo':
+		//	PushItem(T, "HDMAC11");
+		//	break;
+
+		case 'HDShellAmmo':
+			PushItem(T, "HDUragan5");
+			PushItem(T, "HDStreetSweeper");
+			PushItem(T, "HDTerminatorSG"); // BEST SHOTGUN IN THE WHOLE GAME
+			break;
+
+		case 'FourMilAmmo':
+			PushItem(T, "HDG11Rifle");
+			PushItem(T, "HDG11Rifle_Scoped");
+			break;
+
+		case 'SevenMilAmmo':
+			PushItem(T, "HD_FNFAL");
+			PushItem(T, "HD_PSG1");
+			PushItem(T, "HDMicrogun");
+			break;
+
+		case 'HD50OMGAmmo':
+			PushItem(T, "HD_M2HB");
+			break;
+			
+		case 'HD45ACPAmmo':
+			PushItem(T, "HDMAC10");
+			PushItem(T, "HDMK23SOCOM");
+			break;
+			
+		case 'BrontornisRound':
+			PushItem(T, "HD_ATCDevincenzia");
+			PushItem(T, "HD_ATCKelenken");
+			break;
+			
+		case 'HDRevolverAmmo':
+			PushItem(T, "HDColt355");
+			break;
+			
+	//my main ammo types have now been moved to a fork of bulletlib
+		
+		case 'HD5mm_Ammo':
+			PushItem(T, "HD_M5165");
+			PushItem(T, "HD_Ruger1022");
+			break;
+			
+		case 'HD6mmFlechetteAmmo':
+			PushItem(T, "HD_SteyrACR");
+			break;
+		
+		case 'HD50AM_Ammo':
+			PushItem(T, "HD_AutoMag");
+			PushItem(T, "HD_AutoMag");
+			break;
+		}
+	}
+}

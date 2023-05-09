@@ -1,0 +1,56 @@
+
+class HD_PB_UnarmedWeapon:HDFist{
+	default{
+		+WEAPON.MELEEWEAPON +WEAPON.NOALERT +WEAPON.NO_AUTO_SWITCH
+		+weapon.cheatnotweapon
+		+forcepain
+		attacksound "*";
+		weapon.bobstyle "Alpha";
+		weapon.slotnumber 9;
+		weapon.bobspeed 2.6;
+		weapon.bobrangex 0.1;
+		weapon.bobrangey 0.5;
+	}
+	
+	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
+	override hdweapon GetSpareWeapon(actor newowner,bool reverse,bool doselect){return GetSpareWeaponRegular(newowner,reverse,doselect);}
+	
+	override Inventory CreateTossable (int amt)
+	{
+		// If self actor lacks a SpawnState, don't drop it. (e.g. A base weapon
+		// like the fist can't be dropped because you'll never see it.)
+		if (SpawnState == GetDefaultByType("Actor").SpawnState || SpawnState == NULL)
+		{
+			return NULL;
+		}
+		if (bUndroppable || bUntossable || Owner == NULL || Amount <= 0 || amt == 0)
+		{
+			return NULL;
+		}
+		if (Amount == 1 && !bKeepDepleted)
+		{
+			BecomePickup ();
+			DropTime = 30;
+			bSpecial = bSolid = false;
+			return self;
+		}
+		let copy = Inventory(Spawn (GetClass(), Owner.Pos, NO_REPLACE));
+		if (copy != NULL)
+		{
+			amt = clamp(amt, 1, Amount);
+			
+			copy.MaxAmount = MaxAmount;
+			copy.Amount = amt;
+			copy.DropTime = 30;
+			copy.bSpecial = copy.bSolid = false;
+			Amount -= amt;
+		}
+		return copy;
+	}
+	states{
+	}
+}
+		
+class BabuinFlat:Babuin{default{ //haha flat babuin
+		+wallsprite
+}}

@@ -1,0 +1,107 @@
+const HDLD_NITRORIFLE="NTR"; //hey wait that sounds wrong
+
+const HDLD_767VENATOR="767";
+
+const ENC_767VENATOR=1.75;
+const ENC_767VENATOR_LOADED=1.05;
+
+class HDBullet767V:HDBullet{
+	default{
+		pushfactor 0.225;
+		mass 1444;
+		speed 1600;
+		accuracy 10;
+		woundhealth 23;
+		hdbullet.distantsounder "DoubleDistantRifle";
+	}
+	override void postbeginplay(){
+		HDActor.postbeginplay();
+		Gunsmoke();
+		grav=getgravity();
+	}
+}
+class HDBullet767V_L:HDBullet00b{
+	default{
+		speed 1600;
+		pushfactor 0.225;
+		stamina 1;
+		accuracy -1;
+	}
+	override void postbeginplay(){
+		LongArmWobble();
+		setorigin(pos+(cos(angle-90),sin(angle-90),0)*accuracy,false);
+		angle+=accuracy*0.1;
+
+		actor bb;
+		double p=pushfactor;
+		for(int i=stamina;i;i--){
+			bb=spawn("HDBullet767V",pos,ALLOW_REPLACE);
+			hdbullet(bb).throughthis=target;
+		}
+		destroy();
+	}
+}
+
+class HDBullet767V_R:HDBullet767V_L{
+	default{
+		accuracy 1;
+	}
+}
+
+class HDBullet767V_LR:HDBullet767V_L{
+	override void postbeginplay(){
+		LongArmWobble();
+		for(double i=-1;i<=3;i+=3){
+			setorigin(pos+(cos(angle-90),sin(angle-90),0)*i,false);
+			spawn("DistantShotgun",pos,ALLOW_REPLACE);
+			angle+=i*0.1;
+
+			actor bb;
+			double p=pushfactor;
+			for(int ii=stamina;ii;ii--){
+				bb=spawn("HDBullet767V",pos,ALLOW_REPLACE);
+				hdbullet(bb).throughthis=target;
+			}
+		destroy();
+		}
+	}
+}
+
+class HD767VenatorAmmo:HDAmmo{
+	default{
+		+forcexybillboard +cannotpush
+		+inventory.ignoreskill
+		+hdpickup.multipickup
+		xscale 0.7;yscale 0.7;
+		inventory.pickupmessage "Picked up a .767 Loxodonta Venator round.";
+		hdpickup.refid HDLD_767VENATOR;
+		hdpickup.nicename ".767 Venator";
+		hdpickup.bulk ENC_767VENATOR;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HDNitroExpressRifle");
+	}
+	states{
+	spawn:
+		767A Z -1;
+	}
+}
+
+class HD767VenatorCasing:HDDebris{
+	override void postbeginplay(){
+		super.postbeginplay();
+		//should we just put this in the weapon itself? but right now they're all the same...
+		A_ChangeVelocity(frandom(-0.5,0.5),frandom(-7,-8),frandom(-0.5,0.5),CVF_RELATIVE);
+	}
+	default{
+		bouncesound "misc/casing3";scale 0.7;
+	}
+	states{
+	spawn:
+		767A Y 2 nodelay{
+			A_SetRoll(roll+45,SPF_INTERPOLATE);
+		}loop;
+	death:
+		767A # -1;
+	}
+}

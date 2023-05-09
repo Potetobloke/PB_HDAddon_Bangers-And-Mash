@@ -1,0 +1,39 @@
+// Rifles //
+
+$alias weapons/FALshot weapons/bigrifle
+$alias weapons/FALchamber weapons/libchamber
+$alias weapons/FALchamber2 weapons/libchamber
+
+weapons/FALboltback	Sounds/5mmGuns/A180/BoltBack.ogg
+weapons/FALboltfwd	Sounds/5mmGuns/A180/BoltFwd.ogg
+weapons/FALdrumfin	Sounds/5mmGuns/A180/MagIn.ogg
+weapons/FALdrumin	Sounds/5mmGuns/A180/MagIn.ogg
+weapons/FALdrumout	Sounds/5mmGuns/A180/MagOut.ogg
+
+weapons/levergun/fire1 Sounds/LeverGun/LVGShot1.ogg
+
+weapons/levergun/cock1 Sounds/LeverGun/LVGCock1.ogg
+weapons/levergun/cock2 Sounds/LeverGun/LVGCock2.ogg
+
+weapons/G11fire Sounds/G11/G11Fire.ogg
+weapons/G11fire2 Sounds/G11/G11Supp.ogg
+
+weapons/G11MagOut Sounds/G11/G11MagOut.wav
+weapons/G11MagIn Sounds/G11/G11MagIn.wav
+weapons/G11Click Sounds/G11/G11Click.wav
+weapons/G11Wind Sounds/G11/G11Wind.wav
+ammo/g11break Sounds/G11/G11Break.ogg
+
+weapons/steyracr/fire Sounds/SteyrACR/Fire.ogg
+
+$alias weapons/steyracr/cock1 weapons/libchamber
+$alias weapons/steyracr/cock2 weapons/libchamber
+
+weapons/psg1/fire Sounds/psg1/Fire.ogg
+weapons/psg1/firesd Sounds/psg1/FireSD.ogg
+
+$alias weapons/psg1/cock1 weapons/libchamber
+$alias weapons/psg1/cock2 weapons/libchamber
+
+$alias weapons/psg1/unload weapons/rifleunload
+$alias weapons/psg1/load weapons/rifleload

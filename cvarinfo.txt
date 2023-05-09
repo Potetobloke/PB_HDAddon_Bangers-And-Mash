@@ -1,0 +1,4 @@
+server int PB_HDWeps_ThingSpawnRate = 100;
+server float PB_HDWeps_ThingOverspawn = 0.5;
+
+server bool PB_HDWeps_AllowReplacement = true;

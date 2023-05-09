@@ -1,0 +1,71 @@
+$random weapons/autocannon		{weapons/bronto}
+$random weapons/autocannon2		{weapons/bronto2}
+
+weapons/autocannonping			Sounds/AutoCannon/ACPing.ogg
+weapons/autocannonrevolve		Sounds/AutoCannon/ACRevolve.ogg
+weapons/autocannonload			Sounds/AutoCannon/ACLoad.ogg
+
+weapons/xm556/vulcup dsvulcup
+weapons/xm556/vulcdown dsvulcdn
+
+weapons/xm556microgun/speen Sounds/Microgun/MCRGSpin.wav
+// Big Guns //
+
+weapons/m60/fire Sounds/M60/M60Shot.ogg
+weapons/m60/Open Sounds/M60/M60Open.ogg
+weapons/m60/Close Sounds/M60/M60Close.ogg
+weapons/m60/Cock Sounds/M60/M60BoltPull.ogg
+weapons/m60/BoltFwd Sounds/M60/M60BoltFwd.ogg
+weapons/m60/belt Sounds/M60/M60Belt.ogg
+weapons/m60/boxin Sounds/M60/BoxIn.ogg
+weapons/m60/boxout Sounds/M60/BoxOut.ogg
+
+$volume weapons/m60/boxin 0.3
+$volume weapons/m60/boxout 0.3
+
+weapons/xm556microgun/speenup Sounds/Microgun/MCRGWind1.wav
+weapons/xm556microgun/speendown Sounds/Microgun/MCRGWind2.wav
+weapons/xm556microgun/fire Sounds/Microgun/MCRGfire.wav
+
+weapons/smartgun/beep Sounds/SmartGun/Beep.ogg
+
+$volume weapons/xm556microgun/speen 0.5
+$volume weapons/xm556microgun/speenup 0.5
+$volume weapons/xm556microgun/speendown 0.5
+
+weapons/devincenzia/fire Sounds/CobraCannon/Fire.ogg
+weapons/devincenzia/back Sounds/CobraCannon/BoltBack.ogg
+weapons/devincenzia/fwd Sounds/CobraCannon/BoltFwd.ogg
+
+weapons/devimagout Sounds/CobraCannon/MagOut.ogg
+weapons/devimagin Sounds/CobraCannon/MagIn.ogg
+weapons/devimaghit Sounds/CobraCannon/MagBump.ogg
+
+weapons/kelenken/fire Sounds/Kelenken/Fire.ogg
+weapons/kelenken/magout Sounds/Kelenken/BoxOut.ogg
+weapons/kelenken/magin Sounds/Kelenken/BoxIn.ogg
+
+weapons/50calMG/fire1		 Sounds/50calMG/Fire1.ogg
+weapons/50calMG/fire2		 Sounds/50calMG/Fire2.ogg
+weapons/50calMG/fire3		 Sounds/50calMG/Fire3.ogg
+
+$random weapons/50calMG/fire {weapons/50calMG/fire1 weapons/50calMG/fire2 weapons/50calMG/fire3}
+
+weapons/50calMG/open Sounds/50calMG/Open.ogg
+weapons/50calMG/close Sounds/50calMG/close.ogg
+weapons/50calMG/cock1 Sounds/50calMG/BoltPull.ogg
+weapons/50calMG/cock2 Sounds/50calMG/BoltPush.ogg
+weapons/50calMG/boxout Sounds/50calMG/boxout.ogg
+weapons/50calMG/boxin Sounds/50calMG/boxin.ogg
+
+weapons/gau/killeverything Sounds/GAU/Fire.ogg
+
+weapons/pwrailgun/fire Sounds/Railgun/Fire.ogg
+weapons/pwrailgun/fail Sounds/Railgun/Fail.ogg
+weapons/pwrailgun/charge Sounds/Railgun/Charge.ogg
+
+$alias weapons/pwrailgun/cock1 weapons/psg1/cock1
+$alias weapons/pwrailgun/cock2 weapons/psg1/cock2
+
+weapons/pwrailgun/wind Sounds/Railgun/Turn.ogg
+weapons/pwrailgun/windfail Sounds/Railgun/TurnFail.ogg

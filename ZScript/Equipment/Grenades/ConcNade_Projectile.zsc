@@ -1,0 +1,94 @@
+class HDConcussionGrenadeRoller:HDActor{
+	int fuze;
+	vector3 keeprolling;
+	default{
+		-noextremedeath -floorclip +shootable +noblood +forcexybillboard
+		+activatemcross -noteleport +noblockmonst
+		+missile +bounceonactors +usebouncestate 
+			bouncetype "doom";bouncesound "misc/fragknock";
+		radius 2;height 2;damagetype "none";
+		scale 0.3;
+		obituary "%o was fragged by %k.";
+		radiusdamagefactor 0.04;pushfactor 1.4;maxstepheight 2;mass 30;
+	}
+	override bool used(actor user){
+		angle=user.angle;
+		A_StartSound(bouncesound);
+		if(hdplayerpawn(user)&&hdplayerpawn(user).incapacitated)A_ChangeVelocity(4,0,1,CVF_RELATIVE);
+		else A_ChangeVelocity(12,0,4,CVF_RELATIVE);
+		return true;
+	}
+	states{
+	spawn:
+		FRAG A 0 nodelay{
+			HDMobAI.Frighten(self,512);
+		}
+	spawn2:
+		#### BCD 2{
+			if(abs(vel.z-keeprolling.z)>10)A_StartSound("misc/fragknock",CHAN_BODY);
+			else if(floorz>=pos.z)A_StartSound("misc/fragroll");
+			keeprolling=vel;
+			if(abs(vel.x)<0.4 && abs(vel.y)<0.4) setstatelabel("death");
+		}loop;
+	bounce:
+		---- A 0{
+			bmissile=false;
+			vel*=0.3;
+		}goto spawn2;
+	death:
+		---- A 2{
+			if(abs(vel.z-keeprolling.z)>3){
+				A_StartSound("misc/fragknock",CHAN_BODY);
+				keeprolling=vel;
+			}
+			if(abs(vel.x)>0.4 || abs(vel.y)>0.4) setstatelabel("spawn");
+		}wait;
+	destroy:
+		TNT1 A 1{
+			bsolid=false;bpushable=false;bmissile=false;bnointeraction=false;bshootable=false;
+			A_HDBlast(
+				blastradius:256,blastdamage:15,fullblastradius:256,
+				pushradius:256,pushamount:512,fullpushradius:128,
+				pushmass:255
+			);
+			A_Blast(BF_AFFECTBOSSES,255,256,40);
+			DistantQuaker.Quake(self,4,35,512,10);
+			A_StartSound("world/explode",CHAN_AUTO);
+			A_AlertMonsters();
+			actor xpl=spawn("WallChunker",self.pos-(0,0,1),ALLOW_REPLACE);
+				xpl.target=target;xpl.master=master;xpl.stamina=stamina;
+			distantnoise.make(self,"world/rocketfar");
+		}
+		stop;
+	}
+	override void tick(){
+		if(isfrozen())return;
+		else if(bnointeraction){
+			//nexttic
+			if(CheckNoDelay()){
+				if(tics>0)tics--;  
+				while(!tics){
+					if(!SetState(CurState.NextState)){
+						return;
+					}
+				}
+			}
+			return;
+		}else{
+			fuze++;
+			if(fuze>=140 && !bnointeraction){
+				setstatelabel("destroy");
+				//nexttic
+				if(CheckNoDelay()){
+					if(tics>0)tics--;  
+					while(!tics){
+						if(!SetState(CurState.NextState)){
+							return;
+						}
+					}
+				}
+				return;
+			}else super.tick();
+		}
+	}
+}

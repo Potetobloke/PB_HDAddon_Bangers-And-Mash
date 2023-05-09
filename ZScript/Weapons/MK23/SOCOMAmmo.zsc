@@ -1,0 +1,38 @@
+// ------------------------------------------------------------
+// deez nuts joke
+// ------------------------------------------------------------
+
+const HDLD_MK23SOCOM_MAG="m2m";
+const ENC_MK23_45ACP_LOADED=ENC_M10_45ACP_LOADED*1;
+const ENC_MK23_MAG_EMPTY=ENC_9MAG_EMPTY*1.056; //heavier than standard 9mm pistol mags
+const ENC_MK23_MAG=ENC_MK23_MAG_EMPTY+ENC_M10_45ACP_LOADED*12;
+const ENC_MK23_MAG_LOADED=ENC_MK23_MAG_EMPTY*0.1;
+
+class HDMK23SOCOM_Mag:HDMagAmmo{
+	default{
+
+		scale 0.63;
+		hdmagammo.maxperunit 12;
+		hdmagammo.roundtype "HD45ACPAmmo";
+		hdmagammo.roundbulk ENC_MK23_45ACP_LOADED;
+		hdmagammo.magbulk ENC_MK23_MAG_EMPTY;
+		tag "Mk.45 Service Handgun Magazine";
+		inventory.pickupmessage "Picked up a Mk.45 magazine.";
+		hdpickup.refid HDLD_MK23SOCOM_MAG;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"MK2MNORM":"MK2MEMPTY";
+		return magsprite,"45RNA0","HD45ACPAmmo",2.;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HDMK23SOCOM");
+	}
+	states{
+	spawn:
+		M2SP E -1;
+		stop;
+	spawnempty:
+		M2SP F -1 A_SpawnEmpty();
+		stop;
+	}
+}

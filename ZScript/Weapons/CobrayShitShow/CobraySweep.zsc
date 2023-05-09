@@ -1,0 +1,567 @@
+const HDLD_STREETSWEEPER="swg";
+
+class HDSpentShell_Sweeper:HDSpentShell{
+	default{
+		+noblockmap -solid -shootable +notrigger +cannotpush +thruactors
+		seesound "misc/casing2";scale 0.3;height 2;radius 2;
+	}
+	override void postbeginplay(){
+		super.postbeginplay();
+		if(vel==(0,0,0))A_ChangeVelocity(0.0001,0,-0.1,CVF_RELATIVE);
+	}
+	states{
+	spawn:
+		ESHL ABCDEFGH 2;
+		loop;
+	death:
+		ESHL A -1{
+			bmissile=false;
+			frame=randompick(0,0,0,0,4,4,4,4,2,2,5);
+		}stop;
+	}
+}
+
+class HDStreetSweeper:HDWeapon{
+	bool loadinggateopen; //don't use weaponstatus since it shouldn't be saved anyway
+	bool justfired; 
+	default{
+		//$Category "Weapons/Hideous Destructor"
+		//$Title "Raycob City Killer"
+		//$Sprite "SWPPA0"
+
+		//+hdweapon.fitsinbackpack
+		scale 0.73;
+		weapon.selectionorder 49;
+		weapon.slotnumber 3;
+		weapon.slotpriority 0.75;
+		weapon.kickback 30;
+		weapon.bobrangex 0.41;
+		weapon.bobrangey 0.86;
+		obituary "%o was destroyed by %k's registered (citation needed) ''destructive device''.";
+		inventory.pickupmessage "You got the Raycob Urban Destroyer!"; //No longer City Killer, thanks to oofman1 on the HDest Discord
+		tag "Raycob Urban Destroyer";
+		hdweapon.refid HDLD_STREETSWEEPER;
+		hdweapon.barrelsize 25,0.7,1.2;
+		//inventory.maxamount 3;
+		
+			hdweapon.loadoutcodes "
+			\cutype - 0-1, Standard / CQB
+			\cuStandard - Full length model, although it has no
+			\cu            automatic ejection system.
+			\cuCQB      - Automatic casing ejection, although
+			\cu            lacks a stock, wider pellet spread, 
+			\cu            and has a heavier trigger pull.";
+	}
+	
+	override void postbeginplay(){
+		super.postbeginplay();
+			//barrellength=45;
+		if(weaponstatus[SSWP_AUTOEJECT]==1){
+			barrellength=20.5;
+			barrelwidth=0.7;
+			barreldepth=1.2;
+		}else{
+			barrellength=27.5;
+			barrelwidth=0.9;
+			barreldepth=1.2;
+		}
+	}
+	
+		double shotpower;
+	static clearscope double getshotpower(){return frandom(0.9,1.05);}
+	
+			//returns the power of the load just fired
+	static double Fire(actor caller,int type=0){
+		double spread=6.;
+		double speedfactor=1.;
+		let sss=HDStreetSweeper(caller.findinventory("HDStreetSweeper"));
+		if(sss)type=sss.weaponstatus[SSWP_AUTOEJECT];
+
+		type=clamp(type,0,1);
+
+		spread=6.5+6.25*type;
+		speedfactor=1.035-0.011*type;
+
+		double shotpower=getshotpower();
+		spread*=shotpower;
+		speedfactor*=shotpower;
+		HDBulletActor.FireBullet(caller,"HDB_wad");
+		let p=HDBulletActor.FireBullet(caller,"HDB_00",
+			spread:spread,speedfactor:speedfactor,amount:10
+		);
+		distantnoise.make(p,"world/shotgunfar");
+		caller.A_StartSound("weapons/sweepershot1",CHAN_WEAPON,CHANF_OVERLAP);
+		return shotpower;
+	}
+	
+	const SSWP_MINSHOTPOWER=0.931; //very inconsistent gas ejection
+	action void A_FireSweeper(){
+	int cyl=invoker.weaponstatus[SSWP_CYL1];
+		if(
+			cyl!=SSWP_SHELL
+		)return;
+		invoker.weaponstatus[SSWP_CYL1]--;
+		invoker.justfired=true;
+		bool shotshell=cyl==SSWP_SHELL;	
+		
+		double shotpower=invoker.Fire(self);
+		A_GunFlash();
+		vector2 shotrecoil=(randompick(-1,1),-2.6);
+		A_MuzzleClimb(0,0,shotrecoil.x,shotrecoil.y,randompick(-1,1)*shotpower,-0.3*shotpower);
+		invoker.shotpower=shotpower;
+	}
+	
+	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
+	override hdweapon GetSpareWeapon(actor newowner,bool reverse){return GetSpareWeaponRegular(newowner,reverse);}
+	
+	override double gunmass(){
+		double blk=0;
+		for(int i=SSWP_CYL1;i<=SSWP_CYL12;i++){
+			int wi=weaponstatus[i];
+			if(wi==SSWP_SHELL)blk+=0.35;
+		}
+		return blk+9;
+	}
+	override double weaponbulk(){
+		//double blk=0;
+		double blk=(weaponstatus[1]&SSWP_AUTOEJECT)?105:120;
+		for(int i=SSWP_CYL1;i<=SSWP_CYL12;i++){
+			int wi=weaponstatus[i];
+			if(wi==SSWP_SHELL)blk+=ENC_SHELLLOADED;
+		}
+		return blk+120;
+	}
+	
+	//override string,double getpickupsprite(){
+	//return weaponstatus[0]&SSWP_AUTOEJECT?"SWPPB0":"SWPPA0",1.;
+	//}
+	
+	override string,double getpickupsprite(){
+		return "SWPP"..((weaponstatus[SSWP_AUTOEJECT]>0)?"B":"A").."0",1.;
+	}
+
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+	if(hd_debug)sb.drawwepnum(hpl.player.getpsprite(PSP_WEAPON).frame,int.MAX,-26,-40,true);
+		if(sb.hudlevel == 1){
+			sb.drawimage("SHL1A0",(-47,-10),basestatusbar.DI_SCREEN_CENTER_BOTTOM);
+			sb.drawnum(hpl.countinv("HDShellAmmo"),-46,-8,
+				basestatusbar.DI_SCREEN_CENTER_BOTTOM
+			);
+			//sb.DrawNum(hdw.weaponstatus[SSWP_WINDUP], -16, -22, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_RIGHT, Font.CR_RED);
+			sb.drawwepnum(hdw.weaponstatus[SSWP_WINDUP],12,posy:-2);
+		}
+		int plf=hpl.player.getpsprite(PSP_WEAPON).frame;
+		for(int i=SSWP_CYL1;i<=SSWP_CYL12;i++){ //"DRKGRNPX"
+			string which=(hdw.weaponstatus[i]>0)?"YELOPXL":"DRKGRNPX";
+
+			double drawangle=-i*(360./12.);
+			if(
+				plf!=1
+				&&plf!=4
+			)drawangle-=(360./16.);
+			vector2 cylpos;
+			if(plf==2){
+				drawangle-=37.5;
+				cylpos=(-27,-13);
+			}else if(loadinggateopen){
+				drawangle-=37.5;
+				cylpos=(-28,-11);
+			}else if(plf==6){
+				drawangle-=17.5;
+				cylpos=(-26,-16);
+			}
+			else if(plf==7){
+				drawangle-=17.5;
+				cylpos=(-28,-11);
+			}else{
+				drawangle-=37.5;
+				cylpos=(-26,-16);
+			}
+			vector2 drawpos=cylpos+(cos(drawangle),sin(drawangle))*8;
+			sb.drawimage(
+				which,drawpos,
+				sb.DI_SCREEN_CENTER_BOTTOM|sb.DI_TRANSLATABLE|sb.DI_ITEM_RIGHT,
+				1,scale:(2.5,2.5)
+			);
+		}
+	}
+	override string gethelptext(){
+		if(loadinggateopen)return
+		WEPHELP_FIRE.." Close loading gate\n"
+		..WEPHELP_ALTFIRE.." Cycle cylinder \(Hold "..WEPHELP_ZOOM.." to reverse\)\n"
+		..WEPHELP_UNLOAD.." Eject Round \(double-tap to eject live rounds\)\n"
+		..WEPHELP_RELOAD.." Load round\n"
+		//..WEPHELP_ALTRELOAD.." Wind-Up Cylinder for half a revolution\n"
+		;
+		return
+		WEPHELP_FIRE.."  Hold to shoot\n"
+		..WEPHELP_ALTFIRE.." Cycle cylinder with winding lever \(Hold "..WEPHELP_ZOOM.." to reverse\)\n"
+		..WEPHELP_UNLOAD.."/"..WEPHELP_RELOAD.." Open loading gate\n"
+		//..WEPHELP_ALTRELOAD.." Wind-Up Cylinder\n"
+		;
+	}
+	override void DrawSightPicture(
+		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
+		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
+	){
+		int cx,cy,cw,ch;
+		[cx,cy,cw,ch]=screen.GetClipRect();
+		sb.SetClipRect(
+			-16+bob.x,-4+bob.y,32,16,
+			sb.DI_SCREEN_CENTER
+		);
+		vector2 bobb=bob*3;
+		bobb.y=clamp(bobb.y,-8,8);
+		sb.drawimage(
+			"frntsite",(0,0)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+			alpha:0.9
+		);
+		sb.SetClipRect(cx,cy,cw,ch);
+		sb.drawimage(
+			"swprsite",(0,0)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP
+		);
+	}
+	override void DropOneAmmo(int amt){
+		if(owner){
+			amt=clamp(amt,18,60);
+			if(owner.countinv("HDShellAmmo"))owner.A_DropInventory("HDShellAmmo",amt);
+		}
+	}
+	override void initializewepstats(bool idfa){
+		weaponspecial = 1337;
+
+		weaponstatus[SSWP_CYL1]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL2]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL3]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL4]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL5]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL6]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL7]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL8]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL9]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL10]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL11]=SSWP_SHELL;
+		weaponstatus[SSWP_CYL12]=SSWP_SHELL;
+		weaponstatus[SSWP_WINDUP]=12;
+	}
+
+	action void A_RotateCylinder(bool clockwise=true){
+		invoker.RotateCylinder(clockwise);
+		A_StartSound("weapons/sweepercyl",5);
+	}
+	void RotateCylinder(bool clockwise=true){
+		if(clockwise){
+			int cylbak=weaponstatus[SSWP_CYL1];
+			weaponstatus[SSWP_CYL1]=weaponstatus[SSWP_CYL12];
+			weaponstatus[SSWP_CYL12]=weaponstatus[SSWP_CYL11];
+			weaponstatus[SSWP_CYL11]=weaponstatus[SSWP_CYL10];
+			weaponstatus[SSWP_CYL10]=weaponstatus[SSWP_CYL9];
+			weaponstatus[SSWP_CYL9]=weaponstatus[SSWP_CYL8];
+			weaponstatus[SSWP_CYL8]=weaponstatus[SSWP_CYL7];
+			weaponstatus[SSWP_CYL7]=weaponstatus[SSWP_CYL6];
+			weaponstatus[SSWP_CYL6]=weaponstatus[SSWP_CYL5];
+			weaponstatus[SSWP_CYL5]=weaponstatus[SSWP_CYL4];
+			weaponstatus[SSWP_CYL4]=weaponstatus[SSWP_CYL3];
+			weaponstatus[SSWP_CYL3]=weaponstatus[SSWP_CYL2];
+			weaponstatus[SSWP_CYL2]=cylbak;
+			//weaponstatus[SSWP_WINDUP]++;
+		}else{
+			int cylbak=weaponstatus[SSWP_CYL1];
+			weaponstatus[SSWP_CYL1]=weaponstatus[SSWP_CYL2];
+			weaponstatus[SSWP_CYL2]=weaponstatus[SSWP_CYL3];
+			weaponstatus[SSWP_CYL3]=weaponstatus[SSWP_CYL4];
+			weaponstatus[SSWP_CYL4]=weaponstatus[SSWP_CYL5];
+			weaponstatus[SSWP_CYL5]=weaponstatus[SSWP_CYL6];
+			weaponstatus[SSWP_CYL6]=weaponstatus[SSWP_CYL7];
+			weaponstatus[SSWP_CYL7]=weaponstatus[SSWP_CYL8];
+			weaponstatus[SSWP_CYL8]=weaponstatus[SSWP_CYL9];
+			weaponstatus[SSWP_CYL9]=weaponstatus[SSWP_CYL10];
+			weaponstatus[SSWP_CYL10]=weaponstatus[SSWP_CYL11];
+			weaponstatus[SSWP_CYL11]=weaponstatus[SSWP_CYL12];
+			weaponstatus[SSWP_CYL12]=cylbak;
+			//weaponstatus[SSWP_WINDUP]--;
+		}
+		
+		if(clockwise){weaponstatus[SSWP_WINDUP]++;}
+		else{weaponstatus[SSWP_WINDUP]--;}
+	}
+	action void A_LoadRound(){
+		if(invoker.weaponstatus[SSWP_CYL12]>0)return;
+		if(!countinv("HDShellAmmo"))return;
+		class<inventory>ammotype="HDShellAmmo";
+		A_TakeInventory("HDShellAmmo",1,TIF_NOTAKEINFINITE);
+		invoker.weaponstatus[SSWP_CYL12]=SSWP_SHELL;
+		A_StartSound("weapons/sweeperload",CHAN_7);
+	}
+	
+	action void A_OpenGate(){
+		A_StartSound("weapons/sweeperopen",CHAN_7);
+		invoker.loadinggateopen=true;
+		A_SetHelpText();
+	}
+	action void A_CloseGate(){
+		A_StartSound("weapons/sweeperclose",CHAN_7);
+		invoker.loadinggateopen=false;
+		A_SetHelpText();
+	}
+	
+	action void A_HitExtractor(){
+		double cosp=cos(pitch);
+		for(int i=SSWP_CYL12;i<=SSWP_CYL12;i++){
+			int thischamber=invoker.weaponstatus[i];
+			if(thischamber<1)continue;
+			if(
+				thischamber==SSWP_SHELLSPENT
+			){
+				actor aaa=spawn("HDSpentShell_Sweeper",
+					(pos.xy,pos.z+height-30)
+					+(cosp*cos(angle),cosp*sin(angle),sin(pitch))*7,
+					ALLOW_REPLACE
+				);
+				aaa.vel=vel+(frandom(-1,1),frandom(-1,1),-1);
+				if(thischamber==SSWP_SHELLSPENT)
+				invoker.weaponstatus[i]=0;
+			}
+		}
+		A_StartSound("weapons/sweepereject",CHAN_7);
+	}
+	
+	action void A_ExtractAll(){
+		double cosp=cos(pitch);
+		bool gotany=false;
+		for(int i=SSWP_CYL12;i<=SSWP_CYL12;i++){
+			int thischamber=invoker.weaponstatus[i];
+			if(thischamber<1)continue;
+			if(
+				thischamber==SSWP_SHELLSPENT
+			){
+				actor aaa=spawn("HDSpentShell_Sweeper",
+					(pos.xy,pos.z+height-14)
+					+(cosp*cos(angle),cosp*sin(angle),sin(pitch)-2)*3,
+					ALLOW_REPLACE
+				);
+				aaa.vel=vel+(frandom(-0.3,0.3),frandom(-0.3,0.3),-1);
+				if(thischamber==SSWP_SHELLSPENT)
+				invoker.weaponstatus[i]=0;
+			}else{
+				class<inventory>ammotype=
+					thischamber==SSWP_SHELL?
+					"HDShellAmmo":"HDShellAmmo";
+				if(A_JumpIfInventory(ammotype,0,"null")){
+					actor aaa=spawn(ammotype,
+						(pos.xy,pos.z+height-14)
+						+(cosp*cos(angle),cosp*sin(angle),sin(pitch)-2)*3,
+						ALLOW_REPLACE
+					);
+					aaa.vel=vel+(frandom(-1,1),frandom(-1,1),-1);
+				}else{
+					A_GiveInventory(ammotype,1);
+					gotany=true;
+				}
+				invoker.weaponstatus[i]=0;
+			}
+		}
+		if(gotany)A_StartSound("weapons/pocket",CHAN_7);
+	}
+	int cooldown;
+	action void A_ReadyOpen(){
+		A_WeaponReady(WRF_NOFIRE|WRF_ALLOWUSER3);
+		if(justpressed(BT_ALTATTACK))setweaponstate("open_rotatecylinder");
+		else if(justpressed(BT_RELOAD)){
+			if(
+				invoker.weaponstatus[SSWP_CYL1]>0
+				&&invoker.weaponstatus[SSWP_CYL2]>0
+				&&invoker.weaponstatus[SSWP_CYL3]>0
+				&&invoker.weaponstatus[SSWP_CYL4]>0
+				&&invoker.weaponstatus[SSWP_CYL5]>0
+				&&invoker.weaponstatus[SSWP_CYL6]>0
+				&&invoker.weaponstatus[SSWP_CYL7]>0
+				&&invoker.weaponstatus[SSWP_CYL8]>0
+				&&invoker.weaponstatus[SSWP_CYL9]>0
+				&&invoker.weaponstatus[SSWP_CYL10]>0
+				&&invoker.weaponstatus[SSWP_CYL11]>0
+				&&invoker.weaponstatus[SSWP_CYL12]>0
+			)setweaponstate("open_closecylinder");
+			else setweaponstate("open_loadround");
+		}else if(justpressed(BT_ATTACK))setweaponstate("open_closecylinder");
+		else if(justpressed(BT_UNLOAD)){
+			if(!invoker.cooldown){
+				setweaponstate("open_dumpchamber");
+				invoker.cooldown=8;
+			}else{
+				setweaponstate("open_dumpchamber_live");
+			}
+		}
+		if(invoker.cooldown>0)invoker.cooldown--;
+	}
+	states{
+	select0:
+		SWPG A 0;
+		SWPG A 0{invoker.loadinggateopen=false;invoker.justfired=false;}
+		goto select0big;
+	deselect0:
+		SWPG F 2 A_JumpIf(invoker.loadinggateopen==false,"deselect0big");
+		SWPG C 2;
+		SWPG A 0 A_CloseGate();
+		goto deselect0big;
+	ready:
+		SWPG A 0 A_JumpIf(invoker.loadinggateopen,"readyopen");
+		SWPG A 1 A_WeaponReady(WRF_ALLOWRELOAD|WRF_ALLOWUSER1|WRF_ALLOWUSER2|WRF_ALLOWUSER3|WRF_ALLOWUSER4);
+		goto readyend;
+	fire:
+		SWPG A 0 {if(invoker.weaponstatus[SSWP_AUTOEJECT]==1)A_SetTics(3);}
+		SWPG A 1
+		{
+			if(
+				invoker.weaponstatus[SSWP_WINDUP]>0
+			){setweaponstate("hammertime");}
+		}
+		goto readyend;
+	hammertime:
+		SWPG A 1 A_FireSweeper();
+		SWPG F 2 ;
+	cylhold:
+		SWPG G 1;
+		SWPG G 0 {if(invoker.weaponstatus[SSWP_AUTOEJECT]==0)A_Refire("cylhold");}
+	cylcycle:
+		SWPG A 1 A_RotateCylinder(false);
+		SWPG A 0
+			{
+				if(invoker.shotpower>SSWP_MINSHOTPOWER&&invoker.weaponstatus[SSWP_AUTOEJECT]==1&&invoker.justfired==true)
+				{A_HitExtractor();}
+				invoker.justfired=false;
+			}
+		SWPG A 1 {A_ClearRefire();}
+		goto nope;
+		
+	flash:
+		SWPF A 1 bright;
+		TNT1 A 0 {if(invoker.weaponstatus[SSWP_AUTOEJECT]==1)A_MuzzleClimb(-0.6,-2.9,-0.6,-2.9);}
+		stop;
+		
+	altfire:
+		SWPG A 1;
+		SWPG A 0
+		{
+			if(pressingzoom()&&invoker.weaponstatus[SSWP_WINDUP]>0)
+			{setweaponstate("cyl_clockwise");}
+			else if(!pressingzoom()&&invoker.weaponstatus[SSWP_WINDUP]<12)
+			{setweaponstate("cyl_counterclockwise");}
+		}
+		SWPG A 2;
+		goto nope;
+	cyl_clockwise:
+		SWPG A 1 offset(0,36);
+		SWPG A 1 offset(0,38);
+		SWPG A 2 offset(0,36);
+		SWPG A 2 offset(0,34);
+		SWPG A 3 offset(0,36);
+		SWPG G 3 offset(0,40) A_RotateCylinder(false);
+		SWPG A 2 offset(0,36);
+		SWPG A 2 offset(0,32);
+		SWPG A 2 A_JumpIf(!pressingaltfire(),"readyend");
+		goto readyend;
+	cyl_counterclockwise:
+		SWPG A 1 offset(0,36);
+		SWPG A 1 offset(0,38);
+		SWPG A 2 offset(0,36);
+		SWPG A 2 offset(0,34);
+		SWPG A 3 offset(0,36);
+		SWPG B 3 offset(0,40) A_RotateCylinder(true);
+		SWPG A 2 offset(0,36);
+		SWPG A 2 offset(0,32);
+		SWPG A 2 A_JumpIf(!pressingaltfire(),"readyend");
+		goto readyend;
+		
+	reload:
+	unload:
+		SWPG C 3 A_OpenGate();
+		goto readyopen;
+	readyopen:
+		SWPG D 1 A_ReadyOpen();
+		goto readyend;
+	open_rotatecylinder:
+		SWPG D 3;
+		SWPG D 2 offset(0,36);
+		SWPG D 1
+		{
+			if(pressingzoom()&&invoker.weaponstatus[SSWP_WINDUP]>0)
+			{setweaponstate("open_clockwise");}
+			else if(!pressingzoom()&&invoker.weaponstatus[SSWP_WINDUP]<12)
+			{setweaponstate("open_counterclockwise");}
+		}
+	goto readyopen;
+	open_clockwise:
+		SWPG H 2 A_RotateCylinder(false);
+		SWPG D 0 A_JumpIf(!pressingaltfire(),"readyopen");
+		goto readyopen;
+	open_counterclockwise:
+		SWPG E 2 A_RotateCylinder(true);
+		SWPG D 0 A_JumpIf(!pressingaltfire(),"readyopen");
+		goto readyopen;
+	open_loadround:
+		SWPG D 1 offset(0,36) A_JumpIf(invoker.weaponstatus[SSWP_CYL12]>0,"open_rotatecylinder");
+		SWPG D 1 offset(0,38);
+		SWPG D 2 offset(0,36) A_StartSound("weapons/pocket",CHAN_WEAPON,0,0.4);
+		SWPG D 2 offset(0,34);
+		SWPG D 3 offset(0,36);
+		SWPG D 2 offset(0,40);
+		SWPG D 2 offset(0,36);
+		SWPG D 1 offset(0,32);
+		SWPG D 1 A_LoadRound();
+		SWPG D 4;
+		goto open_rotatecylinder;
+	open_closecylinder:
+		SWPG C 2;
+		SWPG A 0 A_CloseGate();
+		goto nope;
+	open_dumpchamber:
+		SWPG D 3 A_HitExtractor();
+		goto readyopen;
+	open_dumpchamber_live:
+		SWPG D 1 offset(0,34);
+		SWPG D 1 offset(0,42);
+		SWPG D 1 offset(0,54);
+		SWPG D 1 offset(0,68);
+		TNT1 D 6 A_ExtractAll();
+		SWPG D 1 offset(0,68);
+		SWPG D 1 offset(0,54);
+		SWPG D 1 offset(0,42);
+		SWPG D 1 offset(0,34);
+		goto readyopen;
+		
+		spawn:
+		SWPP AB -1 nodelay{
+			if(invoker.weaponstatus[SSWP_AUTOEJECT]==1)frame=1;
+		}
+		stop;
+	}
+	override void loadoutconfigure(string input){
+		int type=getloadoutvar(input,"type",1);
+		if(type>0)weaponstatus[SSWP_AUTOEJECT]=clamp(type,0,1);
+	}
+}
+
+enum StreetSweeperStats{ //this is the most weapon statuses I've put in a single gun
+
+	//SSWP_STATUS=0,
+	//chamber 1 is the shooty one, chamber 12 is the loady one
+	SSWP_CYL1=1,
+	SSWP_CYL2=2,
+	SSWP_CYL3=3,
+	SSWP_CYL4=4,
+	SSWP_CYL5=5,
+	SSWP_CYL6=6,
+	SSWP_CYL7=7,
+	SSWP_CYL8=8,
+	SSWP_CYL9=9,
+	SSWP_CYL10=10,
+	SSWP_CYL11=11,
+	SSWP_CYL12=12,
+
+	//odd means spent
+	SSWP_SHELLSPENT=1,
+	SSWP_SHELL=2,
+	SSWP_AUTOEJECT=15,
+	SSWP_WINDUP=24,
+}

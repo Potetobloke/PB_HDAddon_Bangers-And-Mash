@@ -1,0 +1,58 @@
+// ------------------------------------------------------------
+// Magazine
+// ------------------------------------------------------------
+
+const HDLD_Panty_and_Stocking_with_Garterbelt="psg";
+const HDLD_PSG1_MAG="psm";
+
+const ENC_PSG1_MAG=ENC_776MAG*0.42;
+const ENC_PSG1_MAG_EMPTY=ENC_PSG1_MAG*0.4;
+const ENC_PSG1_MAG_LOADED=ENC_STEYRACR_MAG_EMPTY*0.25;
+
+class PB_PSG1_MAG:HDMagAmmo{
+	default{
+
+		hdmagammo.maxperunit 10;
+		hdmagammo.roundtype "SevenMilAmmo"; //Might change this to .308 or something
+		hdmagammo.roundbulk ENC_776_LOADED;
+		hdmagammo.magbulk ENC_PSG1_MAG_EMPTY;
+		tag "H&M PSG Magazine";
+		inventory.pickupmessage "Picked up a semi-auto sniper rifle magazine.";
+		hdpickup.refid HDLD_PSG1_MAG;
+		scale 0.57;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"PSGMNORM":"PSGMEMPTY";
+		return magsprite,"RBRSA3A7","SevenMilAmmo",1.7;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_PSG1");
+	}
+	
+	
+	/*override bool Insert(){
+		SyncAmount();
+		int mindex=mags.size()-1;
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]>=maxperunit
+			||!owner.countinv(roundtype)
+		)return false;
+		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
+		owner.A_PlaySound("weapons/rifleclick2",CHAN_WEAPON);
+		mags[mags.size()-1]++;
+		
+			inserttime=12;
+
+		return true;
+	}*/
+	
+	states{
+	spawn:
+		PSGM A -1;
+		stop;
+	spawnempty:
+		PSGM B -1 A_SpawnEmpty();
+		stop;
+	}
+}

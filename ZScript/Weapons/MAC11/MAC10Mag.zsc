@@ -1,0 +1,45 @@
+const HDLD_MAC10_MAG="m1m";
+const ENC_M10_45ACP_LOADED=0.52;
+const ENC_M10_MAG_EMPTY=ENC_9MAG30_EMPTY*1.064; //just a little bulkier than standard SMG mags
+const ENC_M10_MAG=ENC_M10_MAG_EMPTY+ENC_M10_45ACP_LOADED*32;
+const ENC_M10_MAG_LOADED=ENC_M10_MAG_EMPTY*0.55; //inside almost half the gun
+
+class HDMAC10_Mag:HD9mMag15{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "SMG Magazine"
+		//$Sprite "CLP3A0"
+		
+		scale 0.60;
+		hdmagammo.roundtype "HD45ACPAmmo";
+		hdmagammo.roundbulk ENC_M10_45ACP_LOADED;
+		hdmagammo.maxperunit 32;
+		hdmagammo.magbulk ENC_M10_MAG_EMPTY;
+		tag "RAC-10/45 32 Round Magazine";
+		inventory.pickupmessage "Picked up an RAC-10/45 magazine.";
+		hdpickup.refid HDLD_MAC10_MAG;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"MC1PI0":"MC1PJ0";
+		return magsprite,"45RNA0","HD45ACPAmmo",2.;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HDMAC10");
+	}
+	states{
+	spawn:
+		MC1P I -1;
+		stop;
+	spawnempty:
+		MC1P J -1 A_SpawnEmpty();
+		stop;
+	}
+}
+
+class HDMAC10_Mag_Empty:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HDMAC10_Mag",0);
+		destroy();
+	}
+}

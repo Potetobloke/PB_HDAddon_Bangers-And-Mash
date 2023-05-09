@@ -1,0 +1,22 @@
+// generally any gun that uses 12 gauge //
+
+$random weapons/uragan5shot {weapons/slayersingle}
+
+$limit weapons/uragan5shot 0
+
+weapons/sweepershot1 	Sounds/Cobray/SWPFire1.ogg
+weapons/sweepereject 	Sounds/Cobray/SWPEject.wav
+weapons/sweepercyl 		Sounds/Cobray/SWPCyl.ogg
+weapons/sweeperopen 	Sounds/Cobray/SWPOpen.ogg
+weapons/sweeperload 	Sounds/Cobray/SWPLoad.ogg
+weapons/sweeperclose 	Sounds/Cobray/SWPClose.ogg
+
+weapons/terminatoropen 	Sounds/Cobray/TRMOpen.ogg
+weapons/terminatorfwd 	Sounds/Cobray/TRMFwd.ogg
+weapons/terminatorfire 	Sounds/Cobray/TRMFire1.ogg
+
+weapons/cawsshot 		Sounds/CAWS/Shot.ogg
+weapons/cawsboltback	Sounds/CAWS/BoltBack.ogg
+weapons/cawsboltfwd		Sounds/CAWS/BoltFwd.ogg
+weapons/cawsmagin		Sounds/CAWS/MagIn.ogg	$volume weapons/cawsmagin 0.5
+weapons/cawsmagout		Sounds/CAWS/MagOut.ogg	$volume weapons/cawsmagout 0.5

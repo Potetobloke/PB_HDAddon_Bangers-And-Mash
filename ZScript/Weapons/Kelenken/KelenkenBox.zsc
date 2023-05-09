@@ -1,0 +1,193 @@
+const HDLD_35MM_BELTBOX="hwb";
+const HDLD_35MMBELTLINK="hwl";
+
+const ENC_35MMBELTBOX_EMPTY=15;
+const ENC_35MMBELTBOX_LOADED=9;
+
+class HD_PB_35mmBeltBox:HDMagAmmo{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "35mm Bolt Box"
+		//$Sprite "RMAGA0"
+
+		hdmagammo.maxperunit 15;
+		hdmagammo.roundtype "BrontornisRound";
+		hdmagammo.roundbulk ENC_BRONTOSHELLLOADED;
+		hdmagammo.magbulk ENC_35MMBELTBOX_EMPTY;
+		hdpickup.refid HDLD_35MM_BELTBOX;
+		tag "35mm Bolt Box";
+		inventory.pickupmessage "Picked up a 35mm Bolt box.";
+		scale 0.7;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"HW0BA0":"HW0BB0";
+		return magsprite,"BROCA0","BrontornisRound",1.7;
+	}
+	
+	override void DrawRoundCount(HDStatusBar sb,HDPlayerPawn hpl,name roundsprite,double scl,int offx,int offy){
+		bool helptext=cvar.getcvar("hd_helptext",hpl.player).getbool();
+		offx+=40;
+		scl=1.6;
+		sb.drawstring(
+			sb.pSmallFont,sb.FormatNumber(hpl.countinv(roundtype)),
+			(offx+2,offy),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
+			font.CR_BROWN
+		);
+		sb.drawimage(roundsprite,(offx,offy),
+			sb.DI_SCREEN_CENTER|sb.DI_ITEM_RIGHT_TOP,
+			scale:(scl,scl)
+		);
+		
+		sb.drawstring(
+			sb.pSmallFont,sb.FormatNumber(hpl.countinv("HD_35mmBeltLink")),
+			(offx+9,offy+9),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
+			font.CR_BROWN
+		);
+		sb.drawimage("HW0LA0",(offx+2,offy+10),
+			sb.DI_SCREEN_CENTER|sb.DI_ITEM_RIGHT_TOP,
+			scale:(scl,scl)
+		);
+		
+		sb.DrawString(
+			sb.psmallfont,string.format("\cuDrop excess belt links\n with the \cqpickup manager\cu."),
+			(offx-32,offy+20),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
+			wrapwidth:smallfont.StringWidth("m")*80
+		);
+		
+	}
+	
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_ATCKelenken");
+	}
+	
+	override bool Insert(){
+		SyncAmount();
+		int mindex=mags.size()-1;
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]>=maxperunit
+			||!owner.countinv(roundtype)
+			||!owner.countinv("HD_35mmBeltLink")
+		)return false;
+		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
+		owner.A_TakeInventory("HD_35mmBeltLink",1,TIF_NOTAKEINFINITE);
+		owner.A_PlaySound("weapons/rifleclick2",CHAN_WEAPON);
+		mags[mags.size()-1]++;
+		
+			inserttime=25;
+
+		return true;
+	}
+	
+	override bool Extract(){
+		SyncAmount();
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]<1
+		)return false;
+		//Ammo Type 1
+		if
+		(HDPickup.MaxGive(owner,roundtype,roundbulk)>=1)
+		{HDF.Give(owner,roundtype,1);}
+		else 
+		{HDPickup.DropItem(owner,roundtype,1);}
+		//Ammo Type 2
+		if(
+		HDPickup.MaxGive(owner,"HD_35mmBeltLink",ENC_35MMBELTLINK)>=1)
+		{HDF.Give(owner,"HD_35mmBeltLink",1);}
+		else 
+		{HDPickup.DropItem(owner,"HD_35mmBeltLink",1);}
+		
+		owner.A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
+		mags[mags.size()-1]--;
+		
+		extracttime=2;
+		
+		return true;
+	}
+	
+	states{
+	spawn:
+		HW0B A -1;
+		stop;
+	spawnempty:
+		HW0B B -1{
+			brollsprite=true;brollcenter=true;
+			roll=randompick(0,0,0,0,2,2,2,2,1,3)*90;
+		}stop;
+	}
+}
+
+//belt links
+
+const ENC_35MMBELTLINK=0.01;
+
+class HD_35mmBeltLink : HDRoundAmmo{
+	default{
+		+inventory.ignoreskill +forcexybillboard +cannotpush
+		+hdpickup.multipickup
+		+hdpickup.cheatnogive
+		+rollsprite +rollcenter
+		height 16;radius 8;
+		tag "35mm Belt Link";
+		hdpickup.refid HDLD_35MMBELTLINK;
+		hdpickup.bulk ENC_35MMBELTLINK;
+		scale 0.3;
+		inventory.pickupmessage "Picked up some belt links for 35mm Bolts.";
+	}
+	override void SplitPickup(){
+		SplitPickupBoxableRound(7,70,"PB_35mmBeltLinkPile","HW1LA0","HW0LA0");
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_ATCKelenken");
+	}
+	states{
+	spawn:
+		HW0L A -1;
+		HW1L A -1;
+		stop;
+	}
+}
+
+class PB_35mmBeltLinkPile:HDUPK{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Pile of 7.76 Belt Links"
+		//$Sprite "BLT0B0"
+
+		scale 0.3;
+		hdupk.amount 70;
+		hdupk.pickupsound "weapons/pocket";
+		hdupk.pickupmessage "Picked up a pile of 35mm belt links.";
+		hdupk.pickuptype "HD_35mmBeltLink";
+	}
+	states{
+	spawn:
+		HW0L B -1;
+	}
+}
+
+class HD35MMFlyingBeltLink:HDSpent50AM{ //why does it inherit from the .50 AM casings? i dunno im lazy
+	override void postbeginplay(){
+		HDDebris.postbeginplay();
+	}
+	default{
+		scale 0.3;
+		bouncefactor 0.1;
+		bouncesound "there is no sound";
+	}
+	states{
+		spawn:
+		HW0L A 0 nodelay{
+			A_SetRoll(roll+frandom(0,180));
+		}
+		HW0L A 1{
+			A_SetRoll(roll+45,SPF_INTERPOLATE);
+		}wait;
+	death:
+		TNT1 A 1{
+			actor a=spawn("HD_35mmBeltLink",self.pos,ALLOW_REPLACE);
+			a.roll=self.roll;a.vel=self.vel;
+		}stop;
+	}
+}

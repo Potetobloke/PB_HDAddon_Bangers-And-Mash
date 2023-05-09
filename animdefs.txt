@@ -1,0 +1,8 @@
+//bandage solution
+cameratexture HDXHCAM1_PB 64 56
+cameratexture HDXHCAM2_PB 142 142
+cameratexture HDXHCAM3_PB 181 181
+cameratexture HDXHCAM4_PB 300 200
+cameratexture HDXHCAM5_PB 100 161
+cameratexture HDXHCAM6_PB 120 193
+cameratexture HDXHCAM7_PB 128 112

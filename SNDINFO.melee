@@ -1,0 +1,26 @@
+weapons/axeswing Sounds/MeleeStuff/HDSwingHeavy1.ogg
+weapons/axewall Sounds/MeleeStuff/HDHitWall1.ogg
+weapons/axeflesh Sounds/MeleeStuff/HDMeatHit1.ogg
+weapons/axesplat Sounds/MeleeStuff/HDSplatHit1.ogg
+
+weapons/sledgeswing Sounds/MeleeStuff/HDSwingHeavy2.ogg
+weapons/sledgewall Sounds/MeleeStuff/HDHitwall2.ogg
+weapons/sledgeflesh Sounds/MeleeStuff/HDSplatHit2.ogg
+
+$random weapons/kharonswing {Kharon/SW1 Kharon/SW2 Kharon/SW3}
+Kharon/SW1 Sounds/MeleeStuff/Kharon1.wav
+Kharon/SW2 Sounds/MeleeStuff/Kharon2.wav
+Kharon/SW3 Sounds/MeleeStuff/Kharon3.wav
+
+$random weapons/kharonwall {Kharon/WL1 Kharon/WL2}
+Kharon/WL1 Sounds/MeleeStuff/KharonWall1.wav
+Kharon/WL2 Sounds/MeleeStuff/KharonWall2.wav
+
+$random weapons/kharonflesh {Kharon/HT1 Kharon/HT2}
+Kharon/HT1 Sounds/MeleeStuff/KharonFlesh1.wav
+Kharon/HT2 Sounds/MeleeStuff/KharonFlesh2.wav
+
+$limit weapons/swing 0
+$limit weapons/axewall 0
+$limit weapons/axeflesh 0
+$limit weapons/axesplat 0

@@ -1,0 +1,80 @@
+const HDLD_COBRACANNON_WP = "cac";
+const HDLD_COBRACANNON_MAG = "cm5";
+
+const ENC_COBRACANNON_MAG_EMPTY = 20;
+
+const ENC_COBRACANNON_MAG_LOADED = 8;
+
+class HDDevincenziaMag : HDMagAmmo
+{
+	default
+	{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Arkoudi XM35 ''Devincenzia'' Magazine"
+		//$Sprite "OM10A0"
+
+		hdmagammo.maxperunit 5;
+		hdmagammo.roundtype "BrontornisRound";
+		hdmagammo.roundbulk ENC_BRONTOSHELLLOADED;
+		hdmagammo.magbulk ENC_COBRACANNON_MAG_EMPTY;
+		hdpickup.refid HDLD_COBRACANNON_MAG;
+		tag "XM135 ''Devincenzia'' Magazine";
+		inventory.pickupmessage "Picked up a Devincenzia magazine.";
+		scale 0.8;
+	}
+	override string,string,name,double getmagsprite(int thismagamt)
+	{
+		string magsprite=(thismagamt>0)?"ATCMA0":"ATCMB0";
+		return magsprite,"BROCA0","BrontornisRound",1.7;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_ATCDevincenzia");
+	}
+	
+				override bool Insert(){
+		SyncAmount();
+		int mindex=mags.size()-1;
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]>=maxperunit
+			||!owner.countinv(roundtype)
+		)return false;
+		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
+		owner.A_StartSound("weapons/rifleclick2",CHAN_WEAPON);
+		owner.A_StartSound("weapons/grenreload",CHAN_7);
+		mags[mags.size()-1]++;
+		
+			inserttime=21;
+
+		return true;
+	}
+	
+	override bool Extract(){
+		SyncAmount();
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]<1
+		)return false;
+		if
+		(HDPickup.MaxGive(owner,roundtype,roundbulk)>=1)
+		{HDF.Give(owner,roundtype,1);}
+		else 
+		{HDPickup.DropItem(owner,roundtype,1);}
+		
+		owner.A_StartSound("weapons/rifleclick",8,CHANF_OVERLAP);
+		mags[mags.size()-1]--;
+		
+		extracttime=10;
+		
+		return true;
+	}
+	
+	states{
+	spawn:
+		ATCM A -1;
+		stop;
+	spawnempty:
+		ATCM B -1 A_SpawnEmpty();
+		stop;
+	}
+}

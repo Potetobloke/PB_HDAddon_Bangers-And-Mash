@@ -1,0 +1,135 @@
+class PB_HDWeapon_Spawner : EventHandler {
+	double SpawnFactor;
+	//double OverspawnFactor;
+	actor spawneditem;
+
+	override void OnRegister() {
+		SpawnFactor = double(PB_HDWeps_ThingSpawnRate) / 100.0;
+		//OverspawnFactor = PB_HDWeps_ThingOverspawn + 1.0;
+	}
+
+	override void WorldTick() {
+		if(level.maptime != 0) { return; }
+
+		EntityRemover('HDCasingBits', 1.00 - SpawnFactor);
+		EntityRemover('ShellRandom', 1.15 - SpawnFactor);
+		EntityRemover('ShellBoxRandom', 1.15 - SpawnFactor);
+		EntityRemover('RiShellBoxRandom', 1.15 - SpawnFactor);
+		EntityRemover('ClipMagPickup', 1.15 - SpawnFactor);
+		EntityRemover('RiClipMagPickup', 1.15 - SpawnFactor);
+		EntityRemover('CellRandom', 1.20 - SpawnFactor);
+		EntityRemover('CellPackRandom', 1.20 - SpawnFactor);
+		EntityRemover('ShotgunReplaces', 1.35 - SpawnFactor);
+		EntityRemover('BossbergShotgunReplaces', 1.35 - SpawnFactor);
+		EntityRemover('SSGReplaces', 1.15 - SpawnFactor);
+		EntityRemover('BossbergSSGReplacer', 1.15 - SpawnFactor);
+		EntityRemover('ChaingunReplaces', 1.25 - SpawnFactor);
+		EntityRemover('HDAmBox', 1.15 - SpawnFactor);
+		EntityRemover('HDAmBoxUnarmed', 1.15 - SpawnFactor);
+		EntityRemover('Lumberjack', 1.45 - SpawnFactor);
+		EntityRemover('ClipBoxPickup', 1.00 - SpawnFactor);
+		EntityRemover('RiClipBoxPickup', 1.00 - SpawnFactor);
+		EntityRemover('ClipBoxPickup1', 1.00 - SpawnFactor);
+		EntityRemover('ClipBoxPickup2', 1.00 - SpawnFactor);
+		EntityRemover('PB_IDontExist', 1.00 - SpawnFactor);
+	}
+
+	//Remover function which counts all of an item then only removes a set percentage
+	void EntityRemover(name checkClass, double targetPercent) {
+		array<Actor> thingArray;
+		Actor nextThing;
+		let thingCounter = ThinkerIterator.Create(CheckClass, Thinker.STAT_DEFAULT);
+		while(nextThing = Actor(thingCounter.Next(true))) {
+			if(nextThing.GetClassName() == CheckClass) { thingArray.Push(nextThing); }
+		}
+
+		int originalcount = thingArray.Size();
+
+		int targetAmount = thingArray.Size() * targetPercent;
+		while(thingArray.Size() > targetAmount) {
+			int index = random(0, thingArray.Size()-1);
+			//actor mo = thingArray[index];
+			DoReplacement(thingArray[index]);
+			thingArray[index].destroy();
+			thingArray.Delete(index);
+		}
+	}
+
+	void DoReplacement(actor targetActor) {
+		//Replacer routines for ammo items
+				switch(targetActor.GetClassName()) {
+			case 'PB_IDontExist': //just to show that it works even if the class doesn't exist
+				PB_ThingSpawner.SpawnStuff('HDFireAxe', 1, targetActor.pos, false);
+				break;
+			//Loose ammunition
+			case 'HDCasingBits':
+				PB_ThingSpawner.SpawnStuff('PB_HDLooseAmmoSpawn', 1, targetActor.pos, false);
+				break;
+			//Single mags
+			case 'ClipMagPickup':
+				PB_ThingSpawner.SpawnStuff('PB_NormalMagPickup', 1, targetActor.pos, false);
+				break;
+			case 'RiClipMagPickup':
+				PB_ThingSpawner.SpawnStuff('PB_NormalMagPickup', 1, targetActor.pos, false);
+				break;
+			//Shells
+			case 'ShellRandom':
+				PB_ThingSpawner.SpawnStuff('PB_ShellRandom', 1, targetActor.pos, false);
+				break;
+			case 'ShellBoxRandom':
+				PB_ThingSpawner.SpawnStuff('PB_ShellBoxRandom', 1, targetActor.pos, false);
+				break;
+			case 'RiShellBoxRandom':
+				PB_ThingSpawner.SpawnStuff('PB_ShellBoxRandom', 1, targetActor.pos, false);
+				break;
+			//Cell Packs
+			case 'CellRandom':
+				PB_ThingSpawner.SpawnStuff('PB_CellRandom', 1, targetActor.pos, false);
+				break;
+			case 'CellPackRandom':
+				PB_ThingSpawner.SpawnStuff('PB_CellPackRandom', 1, targetActor.pos, false);
+				break;
+			//Ammo Box
+			case 'HDAmBox':
+				PB_ThingSpawner.SpawnStuff('PB_HDAB_NewAmmo', 1, targetActor.pos, false);
+				break;
+			case 'HDAmBoxUnarmed':
+				PB_ThingSpawner.SpawnStuff('PB_HDAB_NewAmmo', 1, targetActor.pos, false);
+				break;
+			case 'ClipBoxPickup':
+				PB_ThingSpawner.SpawnStuff('PB_AmmoBoxRep', 1, targetActor.pos, false);
+				break;
+			case 'RiClipBoxPickup':
+				PB_ThingSpawner.SpawnStuff('PB_AmmoBoxRep', 1, targetActor.pos, false);
+				break;
+			case 'ClipBoxPickup1':
+				PB_ThingSpawner.SpawnStuff('PB_AmmoBoxRep', 1, targetActor.pos, false);
+				break;
+			case 'ClipBoxPickup2':
+				PB_ThingSpawner.SpawnStuff('PB_AmmoBoxRep', 1, targetActor.pos, false);
+				break;
+			//Shotty Spawn
+			case 'ShotgunReplaces':
+				PB_ThingSpawner.SpawnStuff('PB_HDHunterRep', 1, targetActor.pos, false);
+				break;
+			case 'BossbergShotgunReplaces':
+				PB_ThingSpawner.SpawnStuff('PB_HDBossbergRep', 1, targetActor.pos, false);
+				break;
+			//Super Shotty Spawn
+			case 'SSGReplaces':
+				PB_ThingSpawner.SpawnStuff('PB_HDSlayerRep', 1, targetActor.pos, false);
+				break;
+			case 'BossbergSSGReplacer':
+				PB_ThingSpawner.SpawnStuff('PB_HDBossbergRep2', 1, targetActor.pos, false);
+				break;
+			//Chaingun spawn
+			case 'ChaingunReplaces':
+				PB_ThingSpawner.SpawnStuff('PB_VulcanetteRep', 1, targetActor.pos, false);
+				break;
+			//Chainsaw Spawn
+			case 'Lumberjack':
+				PB_ThingSpawner.SpawnStuff('PB_HDChainsawRep', 1, targetActor.pos, false);
+				break;
+				}
+		}
+}

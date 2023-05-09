@@ -1,0 +1,77 @@
+// ------------------------------------------------------------
+// XM29 OICW
+// ------------------------------------------------------------
+
+const HDLD_OICW_NORM="ocw";
+
+class HD_OICWScopeHaver:HDWeapon{
+	ui void ShowOICWScope(
+		int zoomamt,
+		actor hpc,
+		HDStatusBar sb,
+		int scaledyoffset,
+		vector2 bob
+	){
+		double degree=(zoomamt)*0.1;
+
+		int scaledwidth=57;
+		int cx,cy,cw,ch;
+		[cx,cy,cw,ch]=screen.GetClipRect();
+		sb.SetClipRect(
+			-28+bob.x,19+bob.y,scaledwidth,scaledwidth,
+			sb.DI_SCREEN_CENTER
+		);
+
+		sb.fill(color(255,0,0,0),
+			bob.x-27,scaledyoffset+bob.y-27,
+			54,54,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER
+		);
+
+		texman.setcameratotexture(hpc,"HDXCAM_ZM66",degree);
+		let cam  = texman.CheckForTexture("HDXCAM_ZM66",TexMan.Type_Any);
+		sb.DrawCircle(cam,(0,scaledyoffset)+bob*3,.075,usePixelRatio:true);
+
+		//This can only work if the hole texture could be offset,
+		//and even then the scope picture would not be looking in the right direction.
+		//let hole = texman.CheckForTexture("scophole",TexMan.Type_Any);
+		//let holeScale = double(texman.GetSize(cam)) / double(texman.GetSize(hole));
+		//sb.DrawCircle(hole, (0, scaledyoffset)+bob, .31*holeScale, bob*2, .78);
+
+
+		sb.SetClipRect(cx,cy,cw,ch);
+
+		sb.drawimage(
+			"OICW_RT1",(0,scaledyoffset)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+			scale:(0.82,0.82)
+		);
+		sb.drawimage(
+			"rlscop",(0,scaledyoffset)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+			scale:(0.82,0.82)
+		);
+				
+		sb.drawstring(
+			sb.mAmountFont,string.format("%.1f",degree),
+			(6+bob.x,74+bob.y),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_RIGHT,
+			Font.CR_BLACK
+		);
+	}
+}
+
+enum xm29oicwstatus{
+	OICWF_JUSTUNLOAD=1,
+	OICWF_GRENADELOADED=4,
+	OICWF_GLMODE=8,
+	OICWF_GLROCKET=16,
+
+	OICWS_FLAGS=0,
+	OICWS_MAG=1,
+	OICWS_CHAMBER=2,	//0 empty, 1 spent, 2 loaded
+	OICWS_AUTO=3,		//0 semi, 1 burst, 2 auto
+	OICWS_RATCHET=4,
+	OICWS_ZOOM=5,
+	OICWS_HEAT=6,
+	OICWS_GLMAG=7,
+	OICWS_GLCHAMBER=8,
+	OICWS_GLZOOM=9,
+	OICWS_AIRBURST=10,
+};

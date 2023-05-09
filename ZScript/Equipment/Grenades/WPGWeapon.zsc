@@ -1,0 +1,196 @@
+// ------------------------------------------------------------
+// White Phosphorus / Incendiary Grenades
+// ------------------------------------------------------------
+const HDLD_GRE_WHITEPHOSPHORUS="wpg";
+const ENC_WPGRENADE=ENC_FRAG*1.175;
+
+class HDWhitePhosphorusGrenades:HDGrenadethrower{
+	default{
+		weapon.selectionorder 1020;
+		weapon.slotpriority 1;
+		weapon.slotnumber 0;
+		tag "White Phosphorus Grenades";
+		hdgrenadethrower.ammotype "HDWilliePeteGrenadeAmmo";
+		hdgrenadethrower.throwtype "HDWilliePeteGrenadeThrown";
+		hdgrenadethrower.spoontype "HDWilliePeteGrenadeSpoon";
+		hdgrenadethrower.wiretype "WhitePhosphorusTripwireFrag";
+		inventory.icon "WPG0Z0";
+	}
+
+	override string gethelptext(){
+		if(weaponstatus[0]&FRAGF_SPOONOFF)return
+		WEPHELP_FIRE.."  Wind up, release to throw\n(\cxSTOP READING AND DO THIS"..WEPHELP_RGCOL..")";
+		return
+		WEPHELP_FIRE.."  Pull pin/wind up (release to throw)\n"
+		..WEPHELP_ALTFIRE.."  Pull pin, again to drop spoon\n"
+		..WEPHELP_RELOAD.."  Abort/replace pin\n"
+		..WEPHELP_ZOOM.."  Start planting tripwire traps"
+		;
+	}
+	
+	override string,double getpickupsprite(){return "WPG0Z0",0.7;}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel==1){
+			sb.drawimage(
+				(weaponstatus[0]&FRAGF_PINOUT)?"WPG0Y0":"WPG0Z0",
+				(-52,-4),sb.DI_SCREEN_CENTER_BOTTOM,scale:(0.7,0.7)
+			);
+			sb.drawnum(hpl.countinv("HDWilliePeteGrenadeAmmo"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+		}
+		sb.drawwepnum(
+			hpl.countinv("HDWilliePeteGrenadeAmmo"),
+			(HDCONST_MAXPOCKETSPACE/ENC_FRAG)
+		);
+		sb.drawwepnum(hdw.weaponstatus[FRAGS_FORCE],50,posy:-10,alwaysprecise:true);
+		if(!(hdw.weaponstatus[0]&FRAGF_SPOONOFF)){
+			sb.drawrect(-21,-19,5,4);
+			if(!(hdw.weaponstatus[0]&FRAGF_PINOUT))sb.drawrect(-25,-18,3,2);
+		}else{
+			int timer=hdw.weaponstatus[FRAGS_TIMER];
+			if(timer%3)sb.drawwepnum(140-timer,140,posy:-15,alwaysprecise:true);
+		}
+	}
+	
+	override void ForceBasicAmmo(){
+		owner.A_SetInventory("HDWilliePeteGrenadeAmmo",1);
+	}
+	
+	states
+	{
+		deselectinstant:
+			TNT1 A -1 A_TakeInventory("HDWhitePhosphorusGrenades", 1);
+			stop;
+	}
+}
+
+class WhitePhosphorusTripwireFrag:Tripwire{
+	default{
+		weapon.selectionorder 1021;
+		tripwire.ammotype "HDWilliePeteGrenadeAmmo";
+		tripwire.throwtype "WhitePhosphorusTrippingFrag";
+		tripwire.spoontype "HDWilliePeteGrenadeSpoon";
+		tripwire.weptype "HDWhitePhosphorusGrenades";
+	}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel==1){
+			sb.drawimage("WPG0Z0",(-52,-4),sb.DI_SCREEN_CENTER_BOTTOM,scale:(0.7,0.7));
+			sb.drawnum(hpl.countinv("HDWilliePeteGrenadeAmmo"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+		}
+		sb.drawwepnum(
+			hpl.countinv("HDWilliePeteGrenadeAmmo"),
+			(ENC_FRAG/HDCONST_MAXPOCKETSPACE)
+		);
+		sb.drawwepnum(hdw.weaponstatus[FRAGS_FORCE],50,posy:-10,alwaysprecise:true);
+		if(!(hdw.weaponstatus[0]&FRAGF_SPOONOFF)){
+			sb.drawrect(-21,-19,5,4);
+			if(!(hdw.weaponstatus[0]&FRAGF_PINOUT))sb.drawrect(-25,-18,3,2);
+		}else{
+			int timer=hdw.weaponstatus[FRAGS_TIMER];
+			if(timer%3)sb.drawwepnum(140-timer,140,posy:-15,alwaysprecise:true);
+		}
+	}
+}
+
+class HDWhitePhosphorusGrenade:HDFragGrenade{
+	default{
+		+ROLLSPRITE
+		+ROLLCENTER
+		scale 0.425;
+		obituary "%o was smoked by %k.";
+		hdfraggrenade.rollertype "HDWilliePeteGrenadeRoller";
+	}
+	states
+	{
+	spawn:
+		GGR3 ABCDEFGH 2 A_SetRoll(frandom(-15.5, 15.5));
+		loop;
+	}
+}
+
+class WhitePhosphorusTrippingFrag:TrippingGrenade{
+	default{
+		//$Category "Misc/Hideous Destructor/Traps"
+		//$Title "Tripwire Grenade"
+		//$Sprite "FRAGA0"
+
+		scale 0.425;
+		trippinggrenade.rollertype "HDWilliePeteGrenadeRoller";
+		trippinggrenade.spoontype "HDWilliePeteGrenadeSpoon";
+		trippinggrenade.droptype "HDWilliePeteGrenadeAmmo";
+		hdupk.pickuptype "HDWilliePeteGrenadeAmmo";
+	}
+	override void postbeginplay(){
+		super.postbeginplay();
+		pickupmessage=getdefaultbytype("HDWilliePeteGrenadeAmmo").pickupmessage();
+	}
+	states{
+	spawn:
+		WPG0 Z 1 nodelay A_TrackStuckHeight();
+		wait;
+	}
+}
+
+class HDWilliePeteGrenadeAmmo:HDAmmo{
+	default{
+		//+forcexybillboard
+		inventory.icon "WPG0Z0";
+		inventory.amount 1;
+		scale 0.35;
+		inventory.maxamount 50;
+		inventory.pickupmessage "Picked up a White Phosphorus Grenade.";
+		inventory.pickupsound "weapons/pocket";
+		tag "M70 White Phosphorus Grenades";
+		hdpickup.refid HDLD_GRE_WHITEPHOSPHORUS;
+		hdpickup.bulk ENC_WPGRENADE;
+		+INVENTORY.KEEPDEPLETED
+	}
+	override bool IsUsed(){return true;}
+	override void AttachToOwner(Actor user)
+	{
+		user.GiveInventory("HDWhitePhosphorusGrenades", 1);
+		super.AttachToOwner(user);
+	}
+	override void DetachFromOwner()
+	{
+		if(!(owner.player.ReadyWeapon is "HDWhitePhosphorusGrenades"))
+		{
+			TakeInventory("HDWhitePhosphorusGrenades", 1);
+		}
+		super.DetachFromOwner();
+	}
+	states{
+	spawn:
+		WPG0 Z -1;stop;
+	}
+}
+
+class HDWilliePeteGrenadeP:HDUPK{
+	default{
+		scale 0.35;height 3;radius 3;
+		hdupk.amount 1;
+		hdupk.pickuptype "HDWilliePeteGrenadeAmmo";
+		hdupk.pickupmessage "Picked up a White Phosphorus Grenade.";
+		hdupk.pickupsound "weapons/rifleclick2";
+		stamina 1;
+	}
+	override void postbeginplay(){
+		super.postbeginplay();
+		pickupmessage=getdefaultbytype(pickuptype).pickupmessage();
+	}
+	states{
+	spawn:
+		WPG0 Z -1;stop;
+	}
+}
+
+
+class HDWilliePeteGrenadePickup:HDWilliePeteGrenadeP{
+	override void postbeginplay(){
+		super.postbeginplay();
+		A_SpawnItemEx("HDWilliePeteGrenadeP",-4,0,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDWilliePeteGrenadeP",-4,4,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDWilliePeteGrenadeP",0,4,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDWilliePeteGrenadeP",4,0,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDWilliePeteGrenadeP",4,4,flags:SXF_NOCHECKPOSITION);
+	}
+}

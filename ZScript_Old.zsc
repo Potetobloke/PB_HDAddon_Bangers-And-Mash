@@ -1,0 +1,127 @@
+version "4.6"
+
+//Main
+
+//Melee Weapons
+#include "ZScript/Weapons/Melee/HDGrossHack.zsc"
+#include "ZScript/Weapons/Melee/HDFireAxe.zsc"
+#include "ZScript/Weapons/Melee/HDSledge.zsc"
+#include "ZScript/Weapons/Melee/HDKnife.zsc"
+#include "ZScript/Weapons/Melee/HDKharon.zsc"
+//#include "ZScript/Weapons/Melee/RiotShield.zsc" //fuck this, its bad
+
+//Volt M35A1 High Power Carbine
+#include "ZScript/Weapons/ColtCarbine/ColtCarbine.zsc"
+
+//Arkoudi M165/5c Sub-Machinegun
+#include "ZScript/Weapons/5mmGuns/5mmAmmo.zsc"
+#include "ZScript/Weapons/5mmGuns/A180/A180Magazine.zsc"
+#include "ZScript/Weapons/5mmGuns/A180/A180.zsc"
+
+//Arkoudi M165/5c Sub-Machinegun
+#include "ZScript/Weapons/5mmGuns/Ruger1022/Ruger1022.zsc"
+
+//Cobray Shit Show
+#include "ZScript/Weapons/CobrayShitShow/CobrayTermi.zsc"
+#include "ZScript/Weapons/CobrayShitShow/CobraySweep.zsc"
+
+//Raycob RAC-13/9 Machine Pistol
+#include "ZScript/Weapons/MAC11/MAC10.zsc"
+#include "ZScript/Weapons/MAC11/MAC10Mag.zsc"
+
+//Heckler & Mok G26A1 Automatic Rifle
+#include "ZScript/Weapons/G11/G11.zsc"
+#include "ZScript/Weapons/G11/G11_Alt.zsc"
+#include "ZScript/Weapons/G11/G11Ammo.zsc"
+
+//Heckler & Mok HSG-71 Marksman Rifle
+#include "ZScript/Weapons/PSG1/PSG1.zsc"
+#include "ZScript/Weapons/PSG1/PSGMag.zsc"
+
+//Austere M17 Flechette Rifle
+#include "ZScript/Weapons/SteyrACR/SteyrGun.zsc"
+#include "ZScript/Weapons/SteyrACR/SteyrAmmo.zsc"
+
+//mk23 socom
+#include "ZScript/Weapons/MK23/SOCOM.zsc"
+#include "ZScript/Weapons/MK23/SOCOMAmmo.zsc"
+
+//Chives Herstal SP-50 Automag
+#include "ZScript/Weapons/50AMPistol/50AMAmmo.zsc"
+#include "ZScript/Weapons/50AMPistol/MegaClass.zsc"
+
+//Chives Herstal MG77 "Defender" Light Support Weapon
+#include "ZScript/Weapons/FAL/FALRifleOld.zsc"
+#include "ZScript/Weapons/FAL/FALAmmo.zsc"
+
+//PS-20
+#include "ZScript/Weapons/PS20/PS20Wep.zsc"
+
+//Arkoudi M5/12 Shotgun Pistol
+#include "ZScript/Weapons/Uragan 5/Uragan5Wep.zsc"
+
+//LEVER GAT
+#include "ZScript/Weapons/LeverGun/Levergat.zsc"
+
+//Ma Deuce
+#include "ZScript/Weapons/M2HB/M2HBGun.zsc"
+#include "ZScript/Weapons/M2HB/M2HBBox.zsc"
+#include "ZScript/Weapons/M2HB/M2HB_AP.zsc"
+
+
+//Disposable big boys
+#include "ZScript/Weapons/AT-4/AT4.zsc"
+#include "ZScript/Weapons/AT-4/CGM25.zsc"
+//#include "ZScript/Weapons/AT-4/RPO.zsc"
+//Big MG
+#include "ZScript/Weapons/Microgun/BigBoy.zsc"
+#include "ZScript/Weapons/Microgun/BeltBox.zsc"
+//#include "ZScript/Weapons/Microgun/WeirdMG.zsc"
+
+//yuge grenade
+#include "ZScript/Equipment/Grenades/WPGrenade_Projectile.zsc"
+#include "ZScript/Equipment/Grenades/WPGWeapon.zsc"
+#include "ZScript/Equipment/Grenades/GasGrenade_Projectile.zsc"
+#include "ZScript/Equipment/Grenades/GasWeapon.zsc"
+
+#include "ZScript/Equipment/Grenades/ConcNade_Projectile.zsc"
+
+//Flamer
+//#include "ZScript/Weapons/Flamer/HDFlamer.zsc"
+//#include "ZScript/Weapons/Flamer/HDMancCannon.zsc"
+//#include "ZScript/Weapons/Flamer/HDGasoline.zsc"
+
+//Fire Extinguisher
+#include "ZScript/Weapons/FireExtinguisher/AntiFlameDevice.zsc"
+
+//VLK TBV-12 Demolition Rifle
+//#include "ZScript/Weapons/ShAK-12/ShAK12_Ammo.zsc"
+
+//Berlinghoff XM35 "Devincenzia"
+#include "ZScript/Weapons/Cobra Assault Cannon/CobraMag.zsc"
+#include "ZScript/Weapons/Cobra Assault Cannon/CobraCannon.zsc"
+
+#include "ZScript/Weapons/Kelenken/Kelenken.zsc"
+#include "ZScript/Weapons/Kelenken/KelenkenBox.zsc"
+
+//Replacers
+#include "ZScript/Misc/ItemReplacer.zsc"
+#include "ZScript/Misc/ItemSpawns.zsc"
+//#include "ZScript/Misc/MysteryBox.zsc"
+//#include "ZScript/Weapons/GAU-19/GAU19.zsc"
+
+
+
+
+/* broken dreams
+class PB_PS451_Handler : EventHandler
+{
+	override void PlayerEntered(PlayerEvent e)
+	{
+		players[e.PlayerNumber].mo.A_GiveInventory ("PB_PS20_IncapShooter",1);
+	}
+}
+*/
+
+// AmmoHandler
+#include "ZScript/Misc/AmmoHandler.zsc"

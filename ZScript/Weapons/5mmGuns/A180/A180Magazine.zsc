@@ -1,0 +1,116 @@
+// ------------------------------------------------------------
+// 5mm Mags
+// ------------------------------------------------------------
+
+const HDLD_M165_MAG="amg";
+
+const HDLD_M165N="a18";
+
+const ENC_M165_MAG=20;
+
+const ENC_M165_MAG_EMPTY=15.25;
+const ENC_M165_MAG_LOADED=7.5;
+
+/*
+const HDLD_M165="A18";
+
+const HDLD_5MM="5MR";
+
+const ENC_M165_MAG=4.23;
+
+const ENC_M165_MAG_EMPTY=3.25;
+const ENC_M165_MAG_LOADED=0.05;
+
+const ENC_5MM=0.025;
+const ENC_5MM_Loaded=0.032;*/
+
+class HD_M165Mag:HDMagAmmo{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Drum SMG Magazine"
+		//$Sprite "A18MA0"
+		hdmagammo.maxperunit 165;
+		hdmagammo.roundtype "HD5MM_Ammo";
+		hdmagammo.roundbulk ENC_5MM_LOADED;
+		hdmagammo.magbulk ENC_M165_MAG_EMPTY;
+		tag "M5/165c Drum";
+		inventory.pickupmessage "Picked up an M5/165c Magazine.";
+		hdpickup.refid HDLD_M165_MAG;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_M5165");
+	}
+	
+		override bool Insert(){
+		SyncAmount();
+		int mindex=mags.size()-1;
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]>=maxperunit
+			||!owner.countinv(roundtype)
+		)return false;
+		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
+		owner.A_StartSound("weapons/rifleclick2",CHAN_WEAPON);
+		mags[mags.size()-1]++;
+		
+			inserttime=6;
+
+		return true;
+	}
+	
+	override bool Extract(){
+		SyncAmount();
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]<1
+		)return false;
+		if(HDPickup.MaxGive(owner,roundtype,roundbulk)>=1)HDF.Give(owner,roundtype,1);
+		else HDPickup.DropItem(owner,roundtype,1);
+		owner.A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
+		mags[mags.size()-1]--;
+		return true;
+
+			extracttime=1;
+
+		return true;
+	}
+		override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite;
+		double fmag=10;
+		for(int i=thismagamt;i>0;i--){
+		fmag++;
+		if(fmag>3)fmag=0;
+		}
+		if(thismagamt==0)magsprite="A18ME0";
+		else if(fmag==0)magsprite="A18MB0";
+		else if(fmag==1)magsprite="A18MC0";
+		else if(fmag==2)magsprite="A18MD0";
+		else if(fmag==3)magsprite="A18ME0";
+		else magsprite="A18MV0";
+		return magsprite,"5MMRY0","HD5MM_Ammo",1.5;
+	}
+	states{
+	spawn:
+		A18M Y -1;
+		stop;
+	spawnempty:
+		A18M Z -1;
+		stop;
+	}
+}
+
+class HDM165Mag_Empty:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HD_M165Mag",1);
+		destroy();
+	}
+}
+
+class HDM165Mag_Used:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HD_M165Mag",random(25,90));
+		destroy();
+	}
+}

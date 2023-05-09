@@ -1,0 +1,20 @@
+// Submachine Guns and Pistol Caliber Carbines //
+
+weapons/a18boltback	Sounds/5mmGuns/A180/BoltBack.ogg
+weapons/a18boltfwd	Sounds/5mmGuns/A180/BoltFwd.ogg
+weapons/a18drumfin	Sounds/5mmGuns/A180/MagIn.ogg
+weapons/a18drumin	Sounds/5mmGuns/A180/MagIn.ogg
+weapons/a18drumout	Sounds/5mmGuns/A180/MagOut.ogg
+weapons/a18shot1		Sounds/5mmGuns/A180/Fire1.ogg
+weapons/a18shot2		Sounds/5mmGuns/A180/Fire2.ogg
+weapons/a18shot3		Sounds/5mmGuns/A180/Fire3.ogg
+
+$random weapons/a18shot {weapons/a18shot1 weapons/a18shot2 weapons/a18shot3}
+
+weapons/ruger1022/fire Sounds/5mmGuns/Ruger1022/Fire.ogg
+weapons/ruger1022/cock Sounds/Colt9mm/Colt9mmCock.ogg
+weapons/ruger1022/fwd Sounds/Colt9mm/Colt9mmFwd.ogg
+
+weapons/smg/355 Sounds/Colt9mm/Colt9mmFire.ogg
+weapons/smg/355/cock Sounds/Colt9mm/Colt9mmCock.ogg
+weapons/smg/355/fwd Sounds/Colt9mm/Colt9mmFwd.ogg

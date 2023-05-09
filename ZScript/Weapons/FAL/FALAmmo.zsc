@@ -1,0 +1,88 @@
+const ENC_FAL35RND_EMPTY=ENC_776MAG_EMPTY*1.1;
+const ENC_FAL35RND_FILLED=ENC_776MAG_EMPTY+ENC_776_LOADED*35;
+const ENC_FAL35RND_LOADED=ENC_FAL35RND_FILLED*0.65;
+
+const ENC_776DRUM_EMPTY=ENC_FAL35RND_EMPTY*2.01;
+const ENC_776DRUM_FILLED=ENC_776DRUM_EMPTY+ENC_776_LOADED*75;
+const ENC_776DRUM_LOADED=ENC_776DRUM_FILLED*0.85;
+
+const HDLD_FAL75RND_MAG="fdm";
+const HDLD_FAL35RND_MAG="f35";
+
+class HD_FALMag:HD7mMag{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Defender Magazine"
+		//$Sprite "FALMB0"
+
+		hdmagammo.maxperunit 7575;
+		hdmagammo.roundtype "SevenMilAmmo";
+		hdmagammo.roundbulk ENC_776_LOADED;
+		hdmagammo.magbulk ENC_776DRUM_EMPTY;
+		hdpickup.refid HDLD_FAL75RND_MAG;
+		tag "L7A1 Drum Magazine";
+		inventory.pickupmessage "Picked up a drum magazine for the L7A1.";
+		scale 0.55;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"FALMD0":"FALMC0";
+		return magsprite,"RBRSA3A7","SevenMilAmmo",1.7;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_FNFAL");
+	}
+	states{
+	spawn:
+		FALM D -1;
+		stop;
+	spawnempty:
+		FALM C -1;
+		stop;
+	}
+}
+
+/* putting this on hold
+class HD_FALBoxMag:HDMagAmmo{
+	default{
+
+		hdmagammo.maxperunit 35;
+		hdmagammo.roundtype "SevenMilAmmo";
+		hdmagammo.roundbulk ENC_776_LOADED;
+		hdmagammo.magbulk ENC_FAL35RND_EMPTY;
+		hdpickup.refid HDLD_FAL35RND_MAG;
+		tag "L7A1 Box Magazine";
+		inventory.pickupmessage "Picked up a box magazine for the L7A1.";
+		scale 0.55;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"FALMF0":"FALME0";
+		return magsprite,"RBRSA3A7","SevenMilAmmo",1.7;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_FNFAL");
+	}
+	states{
+	spawn:
+		FALM F -1;
+		stop;
+	spawnempty:
+		FALM E -1;
+		stop;
+	}
+}*/
+
+class HD_FALMag_Half:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HD_FALMag",35);
+		destroy();
+	}
+}
+
+class HD_FALMag_Empty:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HD_FALMag",0);
+		destroy();
+	}
+}

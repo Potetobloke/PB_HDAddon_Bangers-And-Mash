@@ -1,0 +1,32 @@
+class HDRugerMagMk2:HDMagAmmo{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Pistol Magazine"
+		//$Sprite "RGPMA0"
+
+		hdmagammo.maxperunit 15;
+		hdmagammo.roundtype "HD5MM_Ammo";
+		hdmagammo.roundbulk ENC_5MM_LOADED;
+		hdmagammo.magbulk ENC_9MAG_EMPTY;
+		hdpickup.nicename "Buger P-5/10 Magazine";
+		inventory.pickupmessage "Picked up a 5mm pistol magazine.";
+		hdpickup.refid HDLD_RUGERMk2Mag;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"RGPMA0":"RGPMB0";
+		return magsprite,"PBRSA0","HD5MM_Ammo",2.;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HDRugerMk2");
+	}
+	states{
+	spawn:
+		RGPM A -1;
+		stop;
+	spawnempty:
+		RGPM B -1{
+			brollsprite=true;brollcenter=true;
+			roll=randompick(0,0,0,0,2,2,2,2,1,3)*90;
+		}stop;
+	}
+}

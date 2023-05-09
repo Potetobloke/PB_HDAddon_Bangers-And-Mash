@@ -1,0 +1,214 @@
+// ------------------------------------------------------------
+// Toxic Gas Grenade
+// ------------------------------------------------------------
+const HDLD_GRE_GAS="tgg";
+const ENC_GASGRENADE=ENC_FRAG*1.23;
+
+class HDGasGrenades:HDGrenadethrower{
+	default{
+		weapon.selectionorder 1020;
+		weapon.slotpriority 1;
+		weapon.slotnumber 0;
+		tag "''Roller'' Toxic Gas Grenades";
+		hdgrenadethrower.ammotype "HDGasGrenadeAmmo";
+		hdgrenadethrower.throwtype "HDGasGrenadeThrown";
+		hdgrenadethrower.spoontype "HDGasGrenadeSpoon";
+		hdgrenadethrower.wiretype "GasTripwireFrag";
+		inventory.icon "GGR2A0";
+	}
+
+	override string gethelptext(){
+		if(weaponstatus[0]&FRAGF_SPOONOFF)return
+		WEPHELP_FIRE.."  Wind up, release to throw\n(\cxSTOP READING AND DO THIS"..WEPHELP_RGCOL..")";
+		return
+		WEPHELP_FIRE.."  Pull pin/wind up (release to throw)\n"
+		..WEPHELP_ALTFIRE.."  Pull pin, again to drop spoon\n"
+		..WEPHELP_RELOAD.."  Abort/replace pin\n"
+		..WEPHELP_ZOOM.."  Start planting tripwire traps"
+		;
+	}
+	
+	override string,double getpickupsprite(){return "GGR2A0",0.7;}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel==1){
+			sb.drawimage(
+				(weaponstatus[0]&FRAGF_PINOUT)?"GGR2B0":"GGR2A0",
+				(-52,-4),sb.DI_SCREEN_CENTER_BOTTOM,scale:(0.7,0.7)
+			);
+			sb.drawnum(hpl.countinv("HDGasGrenadeAmmo"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+		}
+		sb.drawwepnum(
+			hpl.countinv("HDGasGrenadeAmmo"),
+			(HDCONST_MAXPOCKETSPACE/ENC_FRAG)
+		);
+		sb.drawwepnum(hdw.weaponstatus[FRAGS_FORCE],50,posy:-10,alwaysprecise:true);
+		if(!(hdw.weaponstatus[0]&FRAGF_SPOONOFF)){
+			sb.drawrect(-21,-19,5,4);
+			if(!(hdw.weaponstatus[0]&FRAGF_PINOUT))sb.drawrect(-25,-18,3,2);
+		}else{
+			int timer=hdw.weaponstatus[FRAGS_TIMER];
+			if(timer%3)sb.drawwepnum(140-timer,140,posy:-15,alwaysprecise:true);
+		}
+	}
+	
+	override void ForceBasicAmmo(){
+		owner.A_SetInventory("HDGasGrenadeAmmo",1);
+	}
+	
+	states
+	{
+		deselectinstant:
+			TNT1 A -1 A_TakeInventory("HDGasGrenades", 1);
+			stop;
+	}
+}
+
+class GasTripwireFrag:Tripwire{
+	default{
+		weapon.selectionorder 1021;
+		tripwire.ammotype "HDGasGrenadeAmmo";
+		tripwire.throwtype "GasTrippingFrag";
+		tripwire.spoontype "HDGasGrenadeSpoon";
+		tripwire.weptype "HDGasGrenades";
+	}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel==1){
+			sb.drawimage("GGR2A0",(-52,-4),sb.DI_SCREEN_CENTER_BOTTOM,scale:(0.7,0.7));
+			sb.drawnum(hpl.countinv("HDGasGrenadeAmmo"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+		}
+		sb.drawwepnum(
+			hpl.countinv("HDGasGrenadeAmmo"),
+			(ENC_FRAG/HDCONST_MAXPOCKETSPACE)
+		);
+		sb.drawwepnum(hdw.weaponstatus[FRAGS_FORCE],50,posy:-10,alwaysprecise:true);
+		if(!(hdw.weaponstatus[0]&FRAGF_SPOONOFF)){
+			sb.drawrect(-21,-19,5,4);
+			if(!(hdw.weaponstatus[0]&FRAGF_PINOUT))sb.drawrect(-25,-18,3,2);
+		}else{
+			int timer=hdw.weaponstatus[FRAGS_TIMER];
+			if(timer%3)sb.drawwepnum(140-timer,140,posy:-15,alwaysprecise:true);
+		}
+	}
+}
+
+class HDGasGrenade:HDFragGrenade{
+	default{
+		+ROLLSPRITE
+		+ROLLCENTER
+		scale 0.35;
+		obituary "%o was smoked by %k.";
+		hdfraggrenade.rollertype "HDGasGrenadeRoller";
+	}
+	states
+	{
+	spawn:
+		GGR3 ABCDEFGH 2 A_SetRoll(frandom(-15.5, 15.5));
+		loop;
+	}
+}
+
+class GasTrippingFrag:TrippingGrenade{
+	default{
+		//$Category "Misc/Hideous Destructor/Traps"
+		//$Title "Tripwire Grenade"
+		//$Sprite "FRAGA0"
+
+		scale 0.35;
+		trippinggrenade.rollertype "HDGasGrenadeRoller";
+		trippinggrenade.spoontype "HDGasGrenadeSpoon";
+		trippinggrenade.droptype "HDGasGrenadeAmmo";
+		hdupk.pickuptype "HDGasGrenadeAmmo";
+	}
+	override void postbeginplay(){
+		super.postbeginplay();
+		pickupmessage=getdefaultbytype("HDGasGrenadeAmmo").pickupmessage();
+	}
+	states{
+	spawn:
+		GGR2 A 1 nodelay A_TrackStuckHeight();
+		wait;
+	}
+}
+
+class HDGasGrenadeAmmo:HDAmmo{
+	default{
+		//+forcexybillboard
+		inventory.icon "GGR2A0";
+		inventory.amount 1;
+		scale 0.35;
+		inventory.maxamount 50;
+		inventory.pickupmessage "Picked up a ''Roller'' Toxic Gas Grenade.";
+		inventory.pickupsound "weapons/pocket";
+		tag "''Roller'' Toxic Gas Grenades";
+		hdpickup.refid HDLD_GRE_GAS;
+		hdpickup.bulk ENC_GASGRENADE;
+		+INVENTORY.KEEPDEPLETED
+	}
+	override bool IsUsed(){return true;}
+	override void AttachToOwner(Actor user)
+	{
+		user.GiveInventory("HDGasGrenades", 1);
+		super.AttachToOwner(user);
+	}
+	override void DetachFromOwner()
+	{
+		if(!(owner.player.ReadyWeapon is "HDGasGrenades"))
+		{
+			TakeInventory("HDGasGrenades", 1);
+		}
+		super.DetachFromOwner();
+	}
+	states{
+	spawn:
+		GGR2 A -1;stop;
+	}
+}
+
+class HDGasGrenadeP:HDUPK{
+	default{
+		//+forceybillboard
+		scale 0.35;height 3;radius 3;
+		hdupk.amount 1;
+		hdupk.pickuptype "HDGasGrenadeAmmo";
+		hdupk.pickupmessage "Picked up a ''Roller'' Toxic Gas Grenade.";
+		hdupk.pickupsound "weapons/rifleclick2";
+		stamina 1;
+	}
+	override void postbeginplay(){
+		super.postbeginplay();
+		pickupmessage=getdefaultbytype(pickuptype).pickupmessage();
+	}
+	states{
+	spawn:
+		GGR2 A -1;stop;
+	}
+}
+
+class HDGasGrenadePickup:HDGasGrenadeP{
+	override void postbeginplay(){
+		super.postbeginplay();
+		A_SpawnItemEx("HDGasGrenadeP",-4,0,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDGasGrenadeP",-4,4,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDGasGrenadeP",0,4,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDGasGrenadeP",4,0,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDGasGrenadeP",4,4,flags:SXF_NOCHECKPOSITION);
+	}
+}
+
+
+class HDGasGrenadeSpoon:HDDebris{
+	default{
+		scale 0.35;bouncefactor 0.6;
+		bouncesound "misc/casing4";
+	}
+	override void postbeginplay(){
+		super.postbeginplay();
+		A_StartSound("weapons/grenopen",CHAN_VOICE);
+	}
+	states{
+	spawn:
+		GGR2 C 2{roll+=40;}wait;
+	death:
+		GGR2 C -1;
+	}
+}

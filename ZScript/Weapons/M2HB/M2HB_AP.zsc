@@ -1,0 +1,23 @@
+class HDB_50TD : HDBulletActor
+{
+	override void HitGeometry(line hitline, sector hitsector, int hitside, int hitpart, vector3 vu, double lastdist)
+	{
+		A_SprayDecal(speed > 400 ? "BulletChipLarge" : "BulletChip", 4);
+		super.HitGeometry(hitline, hitsector, hitside, hitpart, vu, lastdist);
+		angle -= 180;
+		A_SprayDecal(speed > 400 ? "BulletChipLarge" : "BulletChip", 4);
+		angle += 180;
+	}
+
+	Default
+	{
+		PushFactor 0.05;
+		Mass 460;
+		Speed HDCONST_MPSTODUPT * 840;
+		Accuracy 600;
+		Stamina 1270;
+		WoundHealth 2;
+		HDBulletActor.Hardness 4;
+		HDBulletActor.DistantSound "world/riflefar";
+	}
+}
