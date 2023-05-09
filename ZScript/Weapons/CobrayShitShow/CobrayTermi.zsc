@@ -79,7 +79,10 @@ class HDTerminatorSG:HDWeapon{
 	}
 	override string,double getpickupsprite(){
 		string spr;
-		if(weaponstatus[TRMI_COCKED]<1){
+		if(weaponstatus[TRMI_BROKEN]>0){
+			spr="C";
+		}
+		else if(weaponstatus[TRMI_COCKED]<1){
 			spr="B";
 		}else{
 			spr="A";
@@ -456,7 +459,7 @@ class HDTerminatorSG:HDWeapon{
 			//if(invoker.weaponstatus[TRMI_CHAMBER]>=1)setweaponstate("recock");
 		//}
 		goto ready;
-	
+	//thank you a1337spy this is an amazing feature
 		whoopsie.50:
 		TRMG D 1;
 		TRMG I 1
