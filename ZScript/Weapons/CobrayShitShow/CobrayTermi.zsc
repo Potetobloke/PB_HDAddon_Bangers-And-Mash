@@ -17,7 +17,7 @@ class HDTerminatorSG:HDWeapon{
 		weapon.bobspeed 2.5;
 		weapon.bobstyle "normal";
 		obituary "%o died an embarrassing death, caused by %k.";
-		inventory.pickupmessage "You got the Raycob Exterminator!";
+		inventory.pickupmessage "You got the Raycob Exterminator.";
 		tag "Raycob Exterminator";
 		hdweapon.refid HDLD_TERMINATOR;
 		hdweapon.barrelsize 21,0.3,0.5;
@@ -28,8 +28,9 @@ class HDTerminatorSG:HDWeapon{
 		
 	}
 	
-		override string pickupmessage(){
-		if(weaponstatus[TRMI_ALTPIN]>0)return string.format("%s The striker seems to be replaced with a screw.",super.pickupmessage());
+	override string pickupmessage(){
+		if(weaponstatus[TRMI_BROKEN]>0)return string.format("Oh.",super.pickupmessage());
+		else if(weaponstatus[TRMI_ALTPIN]>0)return string.format("%s The striker seems to be replaced with a screw.",super.pickupmessage());
 		//else return string.format("%s ",super.pickupmessage());
 		return super.pickupmessage();
 	}
@@ -130,7 +131,7 @@ class HDTerminatorSG:HDWeapon{
 			bobb.y=clamp(bobb.y,-16,16);
 		}
 		sb.drawimage(
-			"ctrmsite",(0,0)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+			((weaponstatus[TRMI_BROKEN]>0)?"TNT1A0":"ctrmsite"),(0,0)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
 			alpha:0.9,scale:scc
 		);
 		sb.SetClipRect(cx,cy,cw,ch);
@@ -156,7 +157,18 @@ class HDTerminatorSG:HDWeapon{
 				invoker.weaponstatus[TRMI_COCKED]>0&&(
 					pitch<-60
 				)
-			){
+			)
+			
+			//This is a surprise tool that will help us later
+			if(invoker.weaponstatus[TRMI_CHAMBER]>2)
+			{
+				actor shl=spawn("HDLoose50OMG",pos+(cos(angle)*10,sin(angle)*10,height*0.80),ALLOW_REPLACE);
+				shl.angle=angle;shl.A_ChangeVelocity(1,2,1,CVF_RELATIVE);
+				
+				shl.A_StartSound(shl.bouncesound,volume:0.3);
+				invoker.weaponstatus[TRMI_CHAMBER]=0;
+			}
+			else{
 				class<actor>which=invoker.weaponstatus[TRMI_CHAMBER]>1?"HDFumblingShell":"HDSpentShell";
 				actor shl=spawn(which,pos+(cos(angle)*10,sin(angle)*10,height*0.80),ALLOW_REPLACE);
 				shl.angle=angle;shl.A_ChangeVelocity(1,2,1,CVF_RELATIVE);
@@ -167,6 +179,7 @@ class HDTerminatorSG:HDWeapon{
 		}wait;
 	
 	select0:
+		TRMG I 0 A_JumpIf(invoker.weaponstatus[TRMI_BROKEN]>0,3);
 		TRMG A 0 A_JumpIf(invoker.weaponstatus[TRMI_COCKED]>0,2);
 		TRMG B 0;
 		---- # 1 A_Raise();
@@ -176,6 +189,7 @@ class HDTerminatorSG:HDWeapon{
 		---- # 1 A_Raise(18);
 		wait;
 	deselect0:
+		TRMG I 0 A_JumpIf(invoker.weaponstatus[TRMI_BROKEN]>0,3);
 		TRMG A 0 A_JumpIf(invoker.weaponstatus[TRMI_COCKED]>0,2);
 		TRMG B 0;
 		---- ### 1 A_Lower();
@@ -184,6 +198,7 @@ class HDTerminatorSG:HDWeapon{
 		---- # 1 A_Lower(30);
 		wait;
 	ready:
+		TRMG I 0 A_JumpIf(invoker.weaponstatus[TRMI_BROKEN]==1,3);
 		TRMG A 0 A_JumpIf(invoker.weaponstatus[TRMI_COCKED]>0,2);
 		TRMG B 0;
 		TRMG # 1{
@@ -195,6 +210,7 @@ class HDTerminatorSG:HDWeapon{
 	firemode:
 		goto nope;
 	altfire:
+		---- A 1 A_JumpIf(invoker.weaponstatus[TRMI_BROKEN]>0,"nope");
 		---- A 0 A_JumpIf(invoker.weaponstatus[TRMI_COCKED]>0,"nope");
 		TRMG B 3 A_WeaponBusy();
 		TRMG B 0 A_Refire("cock");
@@ -222,6 +238,7 @@ class HDTerminatorSG:HDWeapon{
 	hold:
 		goto nope;
 	fire:
+		---- A 1 A_JumpIf(invoker.weaponstatus[TRMI_BROKEN]>0,"nope");
 		---- A 0{
 			invoker.weaponstatus[0]&=~TRMF_JUSTUNLOAD;
 			if(invoker.weaponstatus[TRMI_COCKED]>0)setweaponstate("shoot");
@@ -231,6 +248,11 @@ class HDTerminatorSG:HDWeapon{
 		TRMG A 0 A_JumpIf(invoker.weaponstatus[TRMI_ALTPIN]>0,"shootforreal");
 		TRMG B 0 A_Jump(98,"dontfire");
 	shootforreal:
+		TRMG B 0
+		{
+			if(invoker.weaponstatus[TRMI_CHAMBER]==3)
+			SetWeaponState("whoopsie.50");
+		}
 		TRMG B 1{
             if(invoker.weaponstatus[TRMI_CHAMBER]==2)
             A_FireTerminator();
@@ -314,7 +336,7 @@ class HDTerminatorSG:HDWeapon{
 				invoker.weaponstatus[TRMI_CHAMBER]=0;
 				
 				// Masks all of the reloading booleans together. 
-				bool reloadkey = pressingunload() || pressingreload() || pressingaltreload();
+				bool reloadkey = pressingunload() || pressingreload();
 				
 				// Here we check to see if the player is holding unload.
 				// if not the shell is fumbled. 
@@ -363,19 +385,98 @@ class HDTerminatorSG:HDWeapon{
 		goto ready;
 		
 	reload:
+		#### # 0 A_JumpIf(invoker.weaponstatus[TRMI_BROKEN]>0,"nope");
 		---- A 0{
 			invoker.weaponstatus[0]&=~TRMF_JUSTUNLOAD;
 			if(invoker.weaponstatus[TRMI_CHAMBER]>=1)setweaponstate("nope");
 			else if(countinv("HDShellAmmo"))setweaponstate("loadchamber");
+			else if(countinv("HD50OMGAmmo"))setweaponstate("loadchamber.50");
 			else setweaponstate("nope");
 		}
 		goto nope;
+		
+	//cloning because I'm lazy
+	altreload:
+		#### # 0 A_JumpIf(invoker.weaponstatus[TRMI_BROKEN]>0,"nope");
+		---- A 0{
+			invoker.weaponstatus[0]&=~TRMF_JUSTUNLOAD;
+			if(invoker.weaponstatus[TRMI_CHAMBER]>=1)setweaponstate("nope");
+			else if(countinv("HD50OMGAmmo"))setweaponstate("loadchamber.50");
+			else setweaponstate("nope");
+		}
+		goto nope;
+		
+		loadchamber.50:
+		---- B 0{
+			if(
+				!(invoker.weaponstatus[0]&TRMF_JUSTUNLOAD)
+				&&(
+					invoker.weaponstatus[TRMI_COCKED]<1
+				)
+			)setweaponstate("nope");
+		}
+		---- "#" 1 offset(2,36) {A_ClearRefire();A_ClearOverlays(2,2);}
+		---- "#" 1 offset(3,38);
+		---- "#" 1 offset(5,42);
+		---- "#" 1 offset(8,48) A_StartSound("weapons/pocket",CHAN_WEAPON);
+		---- "#" 1 offset(9,52) A_MuzzleClimb(frandom(-0.2,0.2),0.2,frandom(-0.2,0.2),0.2,frandom(-0.2,0.2),0.2);
+		---- "#" 2 offset(8,60);
+		---- "#" 2 offset(7,72);
+		---- "#" 6 offset(6,79);
+		---- "#" 4; //A_StartSound("weapons/terminatoropen",CHAN_WEAPON);
+		---- "#" 9 offset(8,75) A_StartSound("weapons/pocket",CHAN_WEAPON);
+		---- "#" 6 offset(8,77){
+			A_StartSound("weapons/bossload",CHAN_WEAPON,0,0.7);
+			if(invoker.weaponstatus[0]&TRMF_JUSTUNLOAD){
+
+				// Grabs the chamber's value. 
+				int chm=invoker.weaponstatus[TRMI_CHAMBER];
+				
+				// Resets chamber.
+				invoker.weaponstatus[TRMI_CHAMBER]=0;
+				
+				// Masks all of the reloading booleans together. 
+				bool reloadkey = pressingunload() || pressingreload();
+			}else
+			{
+				A_TakeInventory("HD50OMGAmmo",1,TIF_NOTAKEINFINITE);
+				invoker.weaponstatus[TRMI_CHAMBER]=3;
+			}
+		} 
+		TRMG "#" 0{
+			if(invoker.weaponstatus[TRMI_CHAMBER]<=1)setweaponstate("emptyraise");
+		}
+		TRMG "#" 2 offset(7,72);
+		---- "#" 2 offset(8,60);
+		---- "#" 1 offset(7,52);
+		---- "#" 1 offset(5,42);
+		---- "#" 1 offset(3,38);
+		---- "#" 1 offset(3,35);
+		---- "#" 0;//{
+			//if(invoker.weaponstatus[TRMI_CHAMBER]>=1)setweaponstate("recock");
+		//}
+		goto ready;
+	
+		whoopsie.50:
+		TRMG D 1;
+		TRMG I 1
+		{
+			
+			invoker.weaponstatus[TRMI_BROKEN]++;
+			invoker.weaponstatus[TRMI_CHAMBER]=0;
+			//the shooting
+		
+				vector3 gpos=pos+gunpos((11,0,-getdefaultbytype("HDTerminatorExplosion").height*0.6));
+				let ggg=HDFlamerProjectile(spawn("HDTerminatorExplosion",gpos,ALLOW_REPLACE));
+		}
+		goto ready;
+		
 	spawn:
-		TRMP AB -1 nodelay{
-			if(invoker.weaponstatus[TRMI_COCKED]<1){
+		TRMP ABC -1 nodelay{
+			if(invoker.weaponstatus[TRMI_BROKEN]>0){
+				frame=2;
+			}else if(invoker.weaponstatus[TRMI_COCKED]<1){
 				frame=1;
-			}else{
-				frame=0;
 			}
 		}stop;
 	}
@@ -413,7 +514,39 @@ enum terminatorstatus{
 
 	TRMI_FLAGS=0,
 	TRMI_MAG=1,
-	TRMI_CHAMBER=2, //0 empty, 1 spent, 2 loaded
+	TRMI_CHAMBER=2, //0 empty, 1 spent, 2 loaded, 3 super
 	TRMI_ALTPIN=3,
 	TRMI_COCKED=4,
+	TRMI_BROKEN=5,
 };
+
+class HDTerminatorExplosion:HDActor{
+	default{
+		-noextremedeath -floorclip +noblood +forcexybillboard
+		-noteleport +noblockmonst +explodeonwater
+		+missile
+			bouncetype "doom";bouncesound "misc/fragknock";
+		radius 2;height 2;damagetype "none";
+		scale 0.3;
+		obituary "%o had a mishap.";
+		radiusdamagefactor 0.04;pushfactor 1.4;maxstepheight 2;mass 30;
+		}
+	
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			HDMobAI.Frighten(self,512);
+		}
+	destroy:
+		TNT1 A 1{
+			bsolid=false;bpushable=false;bmissile=false;bnointeraction=true;bshootable=false;
+			HDFragGrenade.FragBlast(self);
+			actor xpl=spawn("WallChunker",self.pos-(0,0,1),ALLOW_REPLACE);
+				xpl.target=target;xpl.master=master;xpl.stamina=stamina;
+			xpl=spawn("HDExplosion",self.pos-(0,0,1),ALLOW_REPLACE);
+				xpl.target=target;xpl.master=master;xpl.stamina=stamina;
+			A_SpawnChunks("BigWallChunk",14,4,12);
+		}
+		stop;
+	}
+}
