@@ -6,6 +6,8 @@ I'm not particularly active in HDest at the moment, but if you ping me on the HD
 
 CREDITS TO EVERYTHING
 
+Mohl - Maintaining and fixing the weapon pack during my absence
+
 ---ZScript---
 Spawners = Caligari87
 Most of the firearms = MatthewTheGlutton
