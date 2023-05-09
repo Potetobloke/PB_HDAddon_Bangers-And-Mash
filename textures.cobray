@@ -126,6 +126,14 @@ Sprite "TRMCH0", 210, 113
 	Patch "TRMH_001", 85, 15
 }
 
+Sprite "TRMGI0", 65, 113
+{
+	XScale 0.900
+	YScale 0.900
+	Offset -107, -81
+	Patch "TRMH_BRK", 1, 1
+}
+
 Graphic "YELOSPNT", 1, 1
 {
 	Patch "YELOPXL", 0, 0
