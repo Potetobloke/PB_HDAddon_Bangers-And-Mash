@@ -13,6 +13,7 @@ class HD_M60:HDWeapon{
 		//$Title "Kelenken"
 		//$Sprite "M2DRP0"
 		-hdweapon.fitsinbackpack
+		+hdweapon.hinderlegs
 		obituary "%k didn't lead %o as much.";
 		weapon.selectionorder 10;
 		weapon.slotpriority 1;
