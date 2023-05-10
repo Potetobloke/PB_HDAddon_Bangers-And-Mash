@@ -59,7 +59,8 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 	
 	
 	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("HD_M2HB");
+		itemsthatusethis.push("HD_M60");
+		itemsthatusethis.push("HDMicrogun");
 	}
 	
 	override bool Insert(){
@@ -139,7 +140,7 @@ class HD_776BeltLink:HDRoundAmmo{
 		SplitPickupBoxableRound(30,300,"PB_776BeltLinkPile","SBKYA0","SBKZA0");
 	}
 	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("PB_HDM60Pig");
+		itemsthatusethis.push("HD_M60");
 		itemsthatusethis.push("HDMicrogun");
 	}
 	states{
