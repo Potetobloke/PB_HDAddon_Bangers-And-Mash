@@ -55,7 +55,7 @@ class HD_M5165:HDWeapon{
 		}
 	}
 	override string,double getpickupsprite(){
-		return "A18P"..((weaponstatus[M165_MAG]<0)?"B":"A").."0";
+		return "A18P"..((weaponstatus[M165_MAG]<0)?"B":"A").."0",1.;
 	}
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel == 1){
