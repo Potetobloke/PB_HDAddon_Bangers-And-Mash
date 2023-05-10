@@ -45,8 +45,9 @@ class HD_CAWSGUN:HDShotgun{
 			else {owner.A_DropInventory("HD_CAWSMag",amt);}
 		}
 	}
+	
 	override string,double getpickupsprite(){
-	return "CWSP"..((weaponstatus[CAWSG_MAG]<0)?"B":"A").."0";
+		return "CWSP"..((weaponstatus[CAWSG_MAG]<0)?"B":"A").."0",1.;
 	}
 		override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel == 1){
