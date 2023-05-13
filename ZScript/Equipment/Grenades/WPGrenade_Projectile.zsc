@@ -50,7 +50,7 @@ class HDWilliePeteGrenadeRoller:HDFragGrenadeRoller{
 				xpl.target=target;xpl.master=master;xpl.stamina=stamina;
 			xpl=spawn("HDExplosionWP",self.pos-(0,0,1),ALLOW_REPLACE);
 				xpl.target=target;xpl.master=master;xpl.stamina=stamina;
-				xpl.scalex=2.3;xpl.scaley=2.3;
+				xpl.scale.x=2.3;xpl.scale.y=2.3;
 			A_SpawnChunks("BigWallChunk",16,4,12);
 			//A_SpawnChunks("HDWPSmokeChunk",21,6,20);
 			//A_SpawnChunksFrags();
