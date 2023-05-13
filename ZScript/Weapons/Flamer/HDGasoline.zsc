@@ -101,11 +101,6 @@ class HDFlamerProjectile:HDFireball{
 		inittangle=tracer.angle;
 		inittz=tracer.pos.z;
 		}
-/*	override void tick(){
-	scalex+=0.15;
-	scaley+=0.15;
-	super.tick();
-	}*/
 
 	states{
 	spawn:
@@ -117,8 +112,8 @@ class HDFlamerProjectile:HDFireball{
 		}
 		FLMP AA 1
 		{
-		scalex+=0.08;
-		scaley+=0.08;
+		scale.x+=0.08;
+		scale.y+=0.08;
 		
 		A_SpawnItemEx ("PB_FlamerFX",frandom (-0.2,0.2),
 		frandom (-0.2,0.2),flags:SXF_TRANSFERSPRITEFRAME
@@ -126,8 +121,8 @@ class HDFlamerProjectile:HDFireball{
 		}
 		FLMP BBCCDDEE 1
 		{
-		scalex+=0.08;
-		scaley+=0.08;
+		scale.x+=0.08;
+		scale.y+=0.08;
 			A_HDBlast(
 				32,3,16,"hot",
 				immolateradius:32,random(20,30),128
@@ -147,8 +142,8 @@ class HDFlamerProjectile:HDFireball{
 		//A_SpawnItemEx("HDSmoke",flags:SXF_NOCHECKPOSITION);
 		FLMP FFGG 1
 		{
-		scalex+=0.08;
-		scaley+=0.08;
+		scale.x+=0.08;
+		scale.y+=0.08;
 		
 		A_SpawnItemEx ("PB_FlamerFX",frandom (-0.2,0.2),
 		frandom (-0.2,0.2),flags:SXF_TRANSFERSPRITEFRAME
@@ -201,8 +196,8 @@ class HDFlamerProjectile:HDFireball{
 		FLMP ACEG 1
 		{
 			A_ImpSquirt();
-			scalex+=0.11;
-			scaley+=0.11;
+			scale.x+=0.11;
+			scale.y+=0.11;
 			
 			A_SpawnItemEx ("PB_FlamerFX",frandom (-0.2,0.2),
 			frandom (-0.2,0.2),flags:SXF_TRANSFERSPRITEFRAME
@@ -314,13 +309,13 @@ class PB_FlamerFX : hdactor{
 		}
 		FLMP "#" 1 BRIGHT
 		{
-		scalex+=frandom(0.05,0.075);
-		scaley+=frandom(0.05,0.075);
+		scale.x+=frandom(0.05,0.075);
+		scale.y+=frandom(0.05,0.075);
 		}
 		"####" "#" 1 BRIGHT
 		{
-		scalex+=frandom(0.05,0.075);
-		scaley+=frandom(0.05,0.075);
+		scale.x+=frandom(0.05,0.075);
+		scale.y+=frandom(0.05,0.075);
 		A_FadeOut(0.4);
 		}
 		wait;
