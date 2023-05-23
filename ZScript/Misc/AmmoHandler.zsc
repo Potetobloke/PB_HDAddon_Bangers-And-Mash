@@ -73,6 +73,11 @@ class PB_AmmoHandler : EventHandler {
 			PushItem(T, "HD_AutoMag");
 			PushItem(T, "HDLeverGun");
 			break;
+		
+		//GetItemsThatUseThis doesn't work properly for some reason?????
+		case 'PB_HDSteyrACRMag':
+			PushItem(T, "HD_SteyrACR");
+			break;
 		}
 	}
 }
