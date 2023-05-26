@@ -299,6 +299,20 @@ class PB_SteyrACR_Spawn:IdleDummy{
 		}
 	}
 
+class PB_Colt9mm_Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDColt355(spawn("HDColt355",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HD355BoxPickup",pos+(8,0,2),ALLOW_REPLACE);
+				spawn("HD355BoxPickup",pos+(2,0,1),ALLOW_REPLACE);
+				spawn("HD355BoxPickup",pos+(-3,3,1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
 
 class PB_HKCAWS_Spawn:IdleDummy{
 	states{
@@ -601,7 +615,7 @@ class PB_VulcanetteRep:HDInvRandomSpawner{
 	dropitem "PB_G11Spawn_Scoped", 256, 7;
 	dropitem "HD_M5165", 256, 6;
 	dropitem "HD_FNFAL", 256, 3;
-	dropitem "HDColt355", 256, 5;
+	dropitem "PB_Colt9mm_Spawn", 256, 5;
 	dropitem "HD_SteyrACR", 256, 4;
 	dropitem "HD_CAWSGUN", 256, 3;
 	}
