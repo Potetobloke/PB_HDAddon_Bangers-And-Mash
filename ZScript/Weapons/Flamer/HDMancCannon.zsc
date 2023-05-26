@@ -5,7 +5,6 @@ class HDMancCannon:HDWeapon{
 		//$Category "Weapons/Hideous Destructor"
 		//$Title "burn thingy"
 		//$Sprite "CSAWA0"
-		+hdweapon.fitsinbackpack
 		weapon.selectionorder 20;
 		weapon.slotpriority 0.4;
 		weapon.slotnumber 5;
