@@ -191,12 +191,24 @@ class PB_G11Spawn_Scoped:IdleDummy{
 	}
 
 
-class PB_TerminatorSpawn:ShellBoxPickup{
+/*class PB_TerminatorSpawn:ShellBoxPickup{
 	override void postbeginplay(){
 		super.postbeginplay();
 		spawn("TerminatorRandom",pos,ALLOW_REPLACE);
 	}
-}
+}*/
+
+class PB_TerminatorSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDTerminatorSG(spawn("HDTerminatorSG",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("ShellBoxPickup",pos+(10,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
 
 
 /*class PB_MAC11Spawn:PB_MAC10_Mag{
