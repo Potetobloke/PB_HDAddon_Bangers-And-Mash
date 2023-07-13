@@ -110,7 +110,7 @@ class HD_PB_50OMGBeltBox:HDMagAmmo{
 		)return false;
 		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
 		owner.A_TakeInventory("HD_12MMBeltLink",1,TIF_NOTAKEINFINITE);
-		owner.A_PlaySound("weapons/rifleclick2",CHAN_WEAPON);
+		owner.A_StartSound("weapons/rifleclick2",CHAN_WEAPON);
 		mags[mags.size()-1]++;
 		
 			inserttime=11;
