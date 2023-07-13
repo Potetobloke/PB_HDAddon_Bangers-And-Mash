@@ -93,7 +93,7 @@ class HD_SteyrACR:HDWeapon{
 		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
 		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
 	){
-		int scaledyoffset=41.9;
+		float scaledyoffset=41.9;
 		if(hdw.weaponstatus[0]&ZM66F_GLMODE)sb.drawgrenadeladder(hdw.airburst,bob);
 		else{
 		vector2 bobb=bob*1.25;
