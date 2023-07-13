@@ -214,18 +214,18 @@ class HDFireAxe:HD_PB_UnarmedWeapon{
 		}
 
 		//actual puff effect if the shot connects
-		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
-			countinv("HDZerk")?"WallChunker":"WallChunker",
+		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")>HDZERK_COOLOFF?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")>HDZERK_COOLOFF?"WallChunker":"WallChunker",
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12);
 			
-		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
-			countinv("HDZerk")?"HDSmokeChunk":"BulletPuffSmall",
+		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")>HDZERK_COOLOFF?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")>HDZERK_COOLOFF?"HDSmokeChunk":"BulletPuffSmall",
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12);
 		
-		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
-			countinv("HDZerk")?"HDAxePuff":"HDAxePuff",
+		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")>HDZERK_COOLOFF?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")>HDZERK_COOLOFF?"HDAxePuff":"HDAxePuff",
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12
 			
@@ -320,8 +320,8 @@ class HDFireAxe:HD_PB_UnarmedWeapon{
 		if(punchee.health>0)punchee.damagemobj(self,self,int(dmg),"SmallArms3");
 		else punchee.damagemobj(self,self,int(dmg*1.5),"SmallArms3");
 		
-		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
-			countinv("HDZerk")?"HDAxePuff":"HDAxePuff",
+		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")>HDZERK_COOLOFF?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")>HDZERK_COOLOFF?"HDAxePuff":"HDAxePuff",
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12);
 
