@@ -186,7 +186,7 @@ class HD_CAWSGUN:HDShotgun{
 		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
 		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
 	){
-		int scaledyoffset=41.9;
+		float scaledyoffset=41.9;
 
 		{
 		vector2 bobb=bob*1.25;

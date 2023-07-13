@@ -141,8 +141,9 @@ class PB_HDAutoMagSpawn_FA:IdleDummy{
 	states{
 	spawn:
 		TNT1 A 0 nodelay{
-			let www=HD_AutoMagFA(spawn("HD_AutoMagFA",pos,ALLOW_REPLACE));
+			HD_AutoMag www=HD_AutoMag(spawn("HD_AutoMag",pos,ALLOW_REPLACE));
 			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+			if(www)www.weaponstatus[0]|=PI5F_SELECTFIRE;
 
 				spawn("HD50AM_Mag",pos+(10,0,0),ALLOW_REPLACE);
 				spawn("HD50AM_Mag",pos+(8,0,0),ALLOW_REPLACE);

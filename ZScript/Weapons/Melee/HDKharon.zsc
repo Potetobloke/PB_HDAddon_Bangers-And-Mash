@@ -243,17 +243,17 @@ class HDKharon:HD_PB_UnarmedWeapon{
 		);
 		
 		//actual puff effect if the shot connects
-		/*LineAttack(angle+pb_angle,pb_range,pitch+pb_pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
-			countinv("HDZerk")?"WallChunker":"WallChunker",
+		/*LineAttack(angle+pb_angle,pb_range,pitch+pb_pitch,punchline.hitline?(countinv("HDZerk")>PBZERK_COOLOFF?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")>PBZERK_COOLOFF?"WallChunker":"WallChunker",
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12);
 			
-		LineAttack(angle+pb_angle,pb_range,pitch+pb_pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
-			countinv("HDZerk")?"HDSmokeChunk":"BulletPuffSmall",
+		LineAttack(angle+pb_angle,pb_range,pitch+pb_pitch,punchline.hitline?(countinv("HDZerk")>PBZERK_COOLOFF?random(50,120):random(5,15)):0,"none",
+			countinv("HDZerk")>PBZERK_COOLOFF?"HDSmokeChunk":"BulletPuffSmall",
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12);*/
 		
-		LineAttack(angle+pb_angle,75,pitch+pb_pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
+		LineAttack(angle+pb_angle,75,pitch+pb_pitch,punchline.hitline?(countinv("HDZerk")>PBZERK_COOLOFF?random(50,120):random(5,15)):0,"none",
 			pb_pufftype,
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12
@@ -261,7 +261,7 @@ class HDKharon:HD_PB_UnarmedWeapon{
 		
 		//pb_pufftype.roll=45;
 		
-		LineAttack(angle+pb_angle,75,pitch+pb_pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
+		LineAttack(angle+pb_angle,75,pitch+pb_pitch,punchline.hitline?(countinv("HDZerk")>PBZERK_COOLOFF?random(50,120):random(5,15)):0,"none",
 			"HDKharonPuff",
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12
@@ -357,7 +357,7 @@ class HDKharon:HD_PB_UnarmedWeapon{
 		if(punchee.health>0)punchee.damagemobj(self,self,int(dmg),"SmallArms3");
 		//else HDF.Give(punchee,"SawGib",dmg*0.2);
 		
-		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
+		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")>PBZERK_COOLOFF?random(50,120):random(5,15)):0,"none",
 			pb_pufftype,
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12);
@@ -527,7 +527,7 @@ class HDKharon:HD_PB_UnarmedWeapon{
 		TNT1 A 0;
 		KRN5 BCD 2;
 	startfire:
-		#### A 0 A_JumpIfInventory("HDZerk",1,"zerkswingstart");
+		#### A 0 A_JumpIfInventory("HDZerk",PBZERK_COOLOFF,"zerkswingstart");
 		KRN3 A 0 A_StartSound("weapons/pocket",CHAN_6);
 		KRN3 FEDCBA 2;
 		KRN3 C 0 A_WeaponBusy;
@@ -554,7 +554,7 @@ class HDKharon:HD_PB_UnarmedWeapon{
 		TNT1 A 2 A_StartSound("weapons/pocket",CHAN_6);
 	goto holdswing;
 	swinghard:
-		#### A 0 A_JumpIfInventory("HDZerk",1,"zerkswinghard");
+		#### A 0 A_JumpIfInventory("HDZerk",PBZERK_COOLOFF,"zerkswinghard");
 		KRN3 BDF 1;
 		TNT1 A 3;
 		#### A 0 A_Overlay(5,"hitcheck",false);
