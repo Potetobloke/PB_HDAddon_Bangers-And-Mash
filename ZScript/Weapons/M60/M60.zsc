@@ -2,8 +2,6 @@
 // AutoCannon
 // ------------------------------------------------------------
 
-const HDLD_M60PIG="m60";
-
 class HD_M60:HDWeapon{
 
 	int shotcount;

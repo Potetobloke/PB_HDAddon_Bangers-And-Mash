@@ -1,5 +1,3 @@
-const PBZERK_COOLOFF=10500; //for zerk checks
-
 class HD_PB_UnarmedWeapon:HDFist{
 	default{
 		+WEAPON.MELEEWEAPON +WEAPON.NOALERT +WEAPON.NO_AUTO_SWITCH

@@ -1,9 +1,3 @@
-const HDLD_MAC10_MAG="m1m";
-const ENC_M10_45ACP_LOADED=0.52;
-const ENC_M10_MAG_EMPTY=ENC_9MAG30_EMPTY*1.064; //just a little bulkier than standard SMG mags
-const ENC_M10_MAG=ENC_M10_MAG_EMPTY+ENC_M10_45ACP_LOADED*32;
-const ENC_M10_MAG_LOADED=ENC_M10_MAG_EMPTY*0.55; //inside almost half the gun
-
 class HDMAC10_Mag:HD9mMag15{
 	default{
 		//$Category "Ammo/Hideous Destructor/"

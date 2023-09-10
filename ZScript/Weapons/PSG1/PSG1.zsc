@@ -16,7 +16,7 @@ class HD_PSG1:HDWeapon{
 		weapon.bobrangey 1.1;
 		inventory.pickupMessage "You got the semi-auto sniper rifle!";
 		//hdweapon.barrelsize 45,1,2;
-		hdweapon.refid HDLD_Panty_and_Stocking_with_Garterbelt;
+		hdweapon.refid HDLD_PSG1_RIFLE;
 		tag "H&M PSG2A1 Sniper Rifle";
 		hdweapon.loadoutcodes "
 			\cusuppressor - 0/1, whether to reduce shot noise for less power

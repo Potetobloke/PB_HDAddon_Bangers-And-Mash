@@ -2,10 +2,6 @@
 // napalm!!!!
 // ------------------------------------------------------------
 
-const HDLD_NAPALMTANK="npt";
-const ENC_NAPALMTANK=20;
-const ENC_NAPALM=0.05;
-
 class HDNapalmTank:HDMagAmmo{
 	int cap;
 	default{

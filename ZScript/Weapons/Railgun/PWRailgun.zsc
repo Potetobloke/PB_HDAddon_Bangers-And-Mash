@@ -2,8 +2,6 @@
 // this shit is supposed to be mounted on vehicles
 // ------------------------------------------------------------
 
-const HDLD_PWRAILGUN="4tn";
-
 class HDFortuneRailgun:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"

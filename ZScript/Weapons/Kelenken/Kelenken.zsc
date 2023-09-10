@@ -2,8 +2,6 @@
 // AutoCannon
 // ------------------------------------------------------------
 
-const HDLD_KELENKEN_WP="hwz";
-
 class HD_ATCKelenken:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"

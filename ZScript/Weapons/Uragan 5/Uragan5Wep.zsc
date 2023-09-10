@@ -2,8 +2,6 @@
 // Revolver
 // ------------------------------------------------------------
 
-const HDLD_URAGAN5="ura";//URA URA URA URA
-
 class HDUragan5:HDHandgun{
 	bool cylinderopen; //don't use weaponstatus since it shouldn't be saved anyway
 	default{

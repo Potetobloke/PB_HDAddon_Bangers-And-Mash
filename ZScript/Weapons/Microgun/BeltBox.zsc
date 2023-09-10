@@ -1,10 +1,3 @@
-const HDLD_776_BELTBOX="7bx";
-const HDLD_776BELTLINK="7lk";
-
-
-const ENC_776BELTBOX_EMPTY=11.5;
-const ENC_776BELTBOX_FILLED=11.5+250*ENC_776_LOADED;
-
 class HD_PB_7mmBeltBox:HDMagAmmo{
 	default{
 		//$Category "Ammo/Hideous Destructor/"

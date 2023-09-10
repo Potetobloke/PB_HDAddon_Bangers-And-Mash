@@ -2,9 +2,6 @@
 // SMG
 // ------------------------------------------------------------
 
-const HDLD_COLT9MM_NORM="c9c";
-const HDLD_COLT9MM_MAG="c9m";
-
 class HDColt355:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"

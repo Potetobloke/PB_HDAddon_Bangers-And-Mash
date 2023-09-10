@@ -1,13 +1,3 @@
-
-const HDLD_RUGER1022="r2g";
-const HDLD_RUGER1022_MAG="r2m";
-
-const ENC_RUGER1022_MAG_EMPTY=4.25;
-const ENC_RUGER1022_MAG_LOADED=0.2;
-
-const ENC_RUGER1022_EXMAG_EMPTY=10.1;
-const ENC_RUGER1022_EXMAG_LOADED=4.11;
-
 // ------------------------------------------------------------
 // Buger M22 Magazine
 // ------------------------------------------------------------

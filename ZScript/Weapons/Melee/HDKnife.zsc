@@ -8,8 +8,6 @@ class HDStabber:IdleDummy{
 	}
 }
 
-const HDLD_KNIFE="knf";
-
 class HDCombatKnife:HD_PB_UnarmedWeapon{
 	int targettimer;
 	int targethealth;

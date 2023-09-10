@@ -55,8 +55,6 @@ class HDSledgePuff:HDBulletPuff{
 	}
 }
 	
-const HDLD_SLEDGEHAMMER="slh";
-
 class HDSledgehammer:HD_PB_UnarmedWeapon{
 	int targettimer;
 	int targethealth;

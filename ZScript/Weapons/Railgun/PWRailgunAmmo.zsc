@@ -2,9 +2,6 @@
 // railgun ammo 
 // ------------------------------------------------------------
 
-const ENC_ELECTROMAG_AMMO=ENC_776*0.95;
-const HDLD_PWRAILGUNAMMO="4ta";
-
 class HD8mmElectroMagnetic:HDRoundAmmo{
 	default{
 		+inventory.ignoreskill

@@ -1,9 +1,3 @@
-
-const HDLD_CAWSMAG="cwm";
-
-const ENC_CAWS_MAG=ENC_426MAG*1.2;
-const ENC_CAWS_MAG_LOADED=ENC_CAWS_MAG*0.6;
-
 class HD_CAWSMag:HDMagAmmo{
 	default{
 		//$Category "Ammo/Hideous Destructor/"

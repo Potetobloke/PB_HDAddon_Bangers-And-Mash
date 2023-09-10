@@ -1,7 +1,3 @@
-const ENC_FIREEXTINGUISHER=20;
-
-const HDLD_FIREEXTINGUISHER="fxt";
-
 class HDFireExtinguisher:HDWeaponGrabber{
 	int targettimer;
 	int targethealth;

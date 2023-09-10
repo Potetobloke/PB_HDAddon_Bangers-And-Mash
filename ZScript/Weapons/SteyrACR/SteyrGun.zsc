@@ -2,8 +2,6 @@
 // 6x42mm Sabot Cased Flechette
 // ------------------------------------------------------------
 
-
-
 class HD_SteyrACR:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"

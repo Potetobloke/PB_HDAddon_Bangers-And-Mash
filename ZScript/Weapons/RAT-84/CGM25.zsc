@@ -13,8 +13,6 @@ states
 	}
 }
 
-const HDLD_CGM25="CGM";
-
 class HDCGM25_WEP:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"

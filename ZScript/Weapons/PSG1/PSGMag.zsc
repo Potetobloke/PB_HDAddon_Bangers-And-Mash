@@ -2,13 +2,6 @@
 // Magazine
 // ------------------------------------------------------------
 
-const HDLD_Panty_and_Stocking_with_Garterbelt="psg";
-const HDLD_PSG1_MAG="psm";
-
-const ENC_PSG1_MAG=ENC_776MAG*0.42;
-const ENC_PSG1_MAG_EMPTY=ENC_PSG1_MAG*0.4;
-const ENC_PSG1_MAG_LOADED=ENC_STEYRACR_MAG_EMPTY*0.25;
-
 class PB_PSG1_MAG:HDMagAmmo{
 	default{
 

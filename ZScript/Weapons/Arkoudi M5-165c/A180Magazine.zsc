@@ -2,15 +2,6 @@
 // 5mm Mags
 // ------------------------------------------------------------
 
-const HDLD_M165_MAG="amg";
-
-const HDLD_M165N="a18";
-
-const ENC_M165_MAG=20;
-
-const ENC_M165_MAG_EMPTY=15.25;
-const ENC_M165_MAG_LOADED=7.5;
-
 /*
 const HDLD_M165="A18";
 

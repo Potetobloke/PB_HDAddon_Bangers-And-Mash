@@ -1,8 +1,6 @@
 // ------------------------------------------------------------
 // 7.76mm LMG
 // ------------------------------------------------------------
-const HDLD_FNFAL="fal";
-
 class HD_FNFAL:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"

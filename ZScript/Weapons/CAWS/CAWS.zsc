@@ -2,8 +2,6 @@
 // Heckler & Mok Close Range Offense Weapon System
 // ------------------------------------------------------------
 
-const HDLD_CAWSGUN="cws";
-
 class HD_CAWSGUN:HDShotgun{
 	default{
 		//$Category "Weapons/Hideous Destructor"
@@ -119,8 +117,6 @@ class HD_CAWSGUN:HDShotgun{
 		caller.A_StartSound("weapons/cawsshot",CHAN_WEAPON,CHANF_OVERLAP,pitch:1.05);
 		return shotpower;
 	}
-
-	const CAWS_MINSHOTPOWER=0.910;
 
 	action void A_FireCROWS(){
 		double shotpower=invoker.weaponstatus[0]&CAWSF_SLUG?invoker.FireSlug(self):invoker.FireShell(self);

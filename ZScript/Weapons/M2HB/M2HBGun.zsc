@@ -2,8 +2,6 @@
 // AutoCannon
 // ------------------------------------------------------------
 
-const HDLD_MADEUCE_MAIN="m2h";
-
 class HD_M2HB:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"

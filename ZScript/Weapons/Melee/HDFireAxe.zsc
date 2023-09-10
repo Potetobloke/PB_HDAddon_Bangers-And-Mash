@@ -61,8 +61,6 @@ class HDAxePuff:HDBulletPuff{
 		stop;
 	}
 }
-	
-const HDLD_FAXE="axe";
 
 class HDFireAxe:HD_PB_UnarmedWeapon{
 	int targettimer;

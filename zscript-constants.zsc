@@ -1,0 +1,173 @@
+// Constants. For organization.
+
+// Arkoudi M5/165c
+const HDLD_M165_MAG="amg";
+const HDLD_M165N="a18";
+
+const ENC_M165_MAG=20;
+const ENC_M165_MAG_EMPTY=15.25;
+const ENC_M165_MAG_LOADED=7.5;
+
+// Buger M22 Target Rifle
+const HDLD_RUGER1022="r2g";
+const HDLD_RUGER1022_MAG="r2m";
+
+const ENC_RUGER1022_MAG_EMPTY=4.25;
+const ENC_RUGER1022_MAG_LOADED=0.2;
+
+const ENC_RUGER1022_EXMAG_EMPTY=10.1;
+const ENC_RUGER1022_EXMAG_LOADED=4.11;
+
+// SP-50 Mega-Class Magnum
+const HDLD_50PSTL="5ps";
+const HDLD_50PSTLA="5pa";
+const HDLD_50AM_MAG="5mg";
+
+const ENC_50AMMAG=ENC_9MAG*1.3; //heavy steel mags
+const ENC_50AMMAG_EMPTY=ENC_50AMMAG*0.4;
+const ENC_50AMMAG_LOADED=ENC_50AMMAG_EMPTY*0.1;
+
+// RAT-84
+const HDLD_AT4="AT4";
+
+// DLAaM ATCM-35
+const HDLD_CGM25="CGM";
+
+// Austere M17
+const HDLD_STEYRACR="acr";
+const HDLD_STEYRACRMAG="6fm";
+
+const ENC_STEYRACR_MAG=ENC_426MAG*1.28;
+const ENC_STEYRACR_MAG_EMPTY=ENC_STEYRACR_MAG*0.4;
+const ENC_STEYRACR_MAG_LOADED=ENC_STEYRACR_MAG_EMPTY*0.6;
+
+// Railgun
+// I'm proud of you PB for putting these ones roughly where they belong originally. - [Ted]
+const ENC_ELECTROMAG_AMMO=ENC_776*0.95;
+const HDLD_PWRAILGUNAMMO="4ta";
+const HDLD_PWRAILGUN="4tn";
+const HDLD_PW_RAILGUNDYNAMO="4td";
+
+// H&M PSG2A1 Sniper Rifle
+// I'm not proud of you PB for calling one of these "HDLD_Panty_and_Stocking_with_Garterbelt". - [Ted]
+const HDLD_PSG1_RIFLE="ps1";
+const HDLD_PSG1_MAG="psm";
+
+const ENC_PSG1_MAG=ENC_776MAG*0.42;
+const ENC_PSG1_MAG_EMPTY=ENC_PSG1_MAG*0.4;
+const ENC_PSG1_MAG_LOADED=ENC_STEYRACR_MAG_EMPTY*0.25;
+
+// Denton Light Arms and Munitions PS-451
+const HDLD_PS20="ps2";
+
+// Mk. 23 SOCOM
+const HDLD_MK23SOCOM_MAG="m2m";
+const ENC_MK23_45ACP_LOADED=ENC_M10_45ACP_LOADED*1;
+const ENC_MK23_MAG_EMPTY=ENC_9MAG_EMPTY*1.056; //heavier than standard 9mm pistol mags
+const ENC_MK23_MAG=ENC_MK23_MAG_EMPTY+ENC_M10_45ACP_LOADED*12;
+const ENC_MK23_MAG_LOADED=ENC_MK23_MAG_EMPTY*0.1;
+
+const HDLD_MK23SOCOM_WEAPON="m23";
+
+// Smartgun
+const HDLD_SMARTGUN="smr";
+const HDLD_776_BELTBOX="7bx";
+const HDLD_776BELTLINK="7lk";
+
+const ENC_776BELTBOX_EMPTY=11.5;
+const ENC_776BELTBOX_FILLED=11.5+250*ENC_776_LOADED;
+
+// Melees
+const HDLD_SLEDGEHAMMER="slh";
+const HDLD_KNIFE="knf";
+const HDLD_KHARON="krn";
+const HDLD_FAXE="axe";
+const PBZERK_COOLOFF=10500; //for zerk checks
+
+// MAC-10
+const HDLD_MAC10="m10";
+const HDLD_MAC10_MAG="m1m";
+const ENC_M10_45ACP_LOADED=0.52;
+const ENC_M10_MAG_EMPTY=ENC_9MAG30_EMPTY*1.064; //just a little bulkier than standard SMG mags
+const ENC_M10_MAG=ENC_M10_MAG_EMPTY+ENC_M10_45ACP_LOADED*32;
+const ENC_M10_MAG_LOADED=ENC_M10_MAG_EMPTY*0.55; //inside almost half the gun
+
+// USGI M60E1
+const HDLD_M60PIG="m60";
+
+// AM-HMG50
+const HDLD_MADEUCE_MAIN="m2h";
+const HDLD_M2HB_BELTBOX="5bx";
+const ENC_M2HBBELTBOX_EMPTY=11;
+const ENC_12MMBELTLINK=0.008;
+const HDLD_12MMBELTLINK="5lk";
+
+// Lever Gat
+const HDLD_LEVERRIFLE="LR1";
+
+// Kelenken
+const HDLD_KELENKEN_WP="hwz";
+const HDLD_35MM_BELTBOX="hwb";
+const HDLD_35MMBELTLINK="hwl";
+const ENC_35MMBELTBOX_EMPTY=15;
+const ENC_35MMBELTBOX_LOADED=9;
+
+// G-11
+const ENC_G11MAG_EMPTY=7.45; //Literally a polymer stick
+const ENC_G11MAG=ENC_G11MAG_EMPTY+ENC_426_LOADED*45; //16.14
+const ENC_G11MAG_LOADED=ENC_G11MAG*0.1;
+const ENC_G11MAG_E_LOADED=ENC_G11MAG_EMPTY*0.1;
+
+const HDLD_G11="g11";
+const HDLD_G11_SCOPED="g1s";
+const HDLD_G11MAG="g1m";
+
+// Mancubus Cannon
+const HDLD_MANCUGUNWEAPON="mnc";
+const HDLD_NAPALMTANK="npt";
+const ENC_NAPALMTANK=20;
+const ENC_NAPALM=0.05;
+
+// Fire Extinguisher
+const ENC_FIREEXTINGUISHER=20;
+const HDLD_FIREEXTINGUISHER="fxt";
+
+// L7A1 Defender
+const HDLD_FNFAL="fal";
+const ENC_FAL35RND_EMPTY=ENC_776MAG_EMPTY*1.1;
+const ENC_FAL35RND_FILLED=ENC_776MAG_EMPTY+ENC_776_LOADED*35;
+const ENC_FAL35RND_LOADED=ENC_FAL35RND_FILLED*0.65;
+
+const ENC_776DRUM_EMPTY=ENC_FAL35RND_EMPTY*2.01;
+const ENC_776DRUM_FILLED=ENC_776DRUM_EMPTY+ENC_776_LOADED*75;
+const ENC_776DRUM_LOADED=ENC_776DRUM_FILLED*0.85;
+
+const HDLD_FAL75RND_MAG="fdm";
+const HDLD_FAL35RND_MAG="f35";
+
+// .355 Colt Carbine
+const HDLD_COLT9MM_NORM="c9c";
+const HDLD_COLT9MM_MAG="c9m";
+
+// Raycob Exterminator
+const HDLD_TERMINATOR="trs";
+
+// Raycob Urban Destroyer
+const HDLD_STREETSWEEPER="swg";
+const SSWP_MINSHOTPOWER=0.931; //very inconsistent gas ejection
+
+// Devincenzia
+const HDLD_COBRACANNON_WP = "cac";
+const HDLD_COBRACANNON_MAG = "cm5";
+const ENC_COBRACANNON_MAG_EMPTY = 20;
+const ENC_COBRACANNON_MAG_LOADED = 8;
+
+// H&M CROWS Presslufthämmer
+const HDLD_CAWSMAG="cwm";
+const HDLD_CAWSGUN="cws";
+const ENC_CAWS_MAG=ENC_426MAG*1.2;
+const ENC_CAWS_MAG_LOADED=ENC_CAWS_MAG*0.6;
+const CAWS_MINSHOTPOWER=0.910;
+
+// M12/5
+const HDLD_URAGAN5="ura";//URA URA URA URA

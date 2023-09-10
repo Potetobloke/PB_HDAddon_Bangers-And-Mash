@@ -4,6 +4,9 @@ version "4.10"
 
 // TODO: Organize these by slot and ammo type. This currently is a mess and I don't want to deal with it any longer. - [Ted]
 
+// Constants. Puts them in here to keep them organized. - [Ted]
+#include "zscript-constants.zsc"
+
 //Melee Weapons
 #include "ZScript/Weapons/Melee/HDGrossHack.zsc"
 #include "ZScript/Weapons/Melee/HDFireAxe.zsc"
@@ -15,14 +18,16 @@ version "4.10"
 #include "ZScript/Weapons/ColtCarbine/ColtCarbine.zsc"
 
 //Arkoudi M165/5c Sub-Machinegun
-#include "ZScript/Weapons/5mmGuns/A180/A180Magazine.zsc"
-#include "ZScript/Weapons/5mmGuns/A180/A180.zsc"
+#include "ZScript/Weapons/A180/A180Magazine.zsc"
+#include "ZScript/Weapons/A180/A180.zsc"
 
-//Arkoudi M165/5c Sub-Machinegun
-#include "ZScript/Weapons/5mmGuns/Ruger1022/Ruger1022.zsc"
+// Buger M22 Target Rifle
+#include "ZScript/Weapons/Ruger1022/Ruger1022.zsc"
 
 //Cobray Shit Show
 #include "ZScript/Weapons/CobrayShitShow/CobrayTermi.zsc"
+
+// Cobray Street Sweeper
 #include "ZScript/Weapons/CobrayShitShow/CobraySweep.zsc"
 
 //Raycob RAC-13/9 Machine Pistol
@@ -51,7 +56,7 @@ version "4.10"
 #include "ZScript/Weapons/50AMPistol/MegaClass.zsc"
 
 //Chives Herstal MG77 "Defender" Light Support Weapon
-#include "ZScript/Weapons/FAL/FALRifleOld.zsc"
+#include "ZScript/Weapons/FAL/FALRifle.zsc"
 #include "ZScript/Weapons/FAL/FALAmmo.zsc"
 
 //PS-20

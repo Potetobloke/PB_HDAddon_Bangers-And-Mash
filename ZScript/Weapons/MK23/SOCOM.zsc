@@ -2,8 +2,6 @@
 // socom my dick lmao
 // ------------------------------------------------------------
 
-const HDLD_MK23SOCOM_WEAPON="m23";
-
 class HDMK23SOCOM:HDHandgun{
 	default{
 		+hdweapon.fitsinbackpack

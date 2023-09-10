@@ -1,5 +1,3 @@
-const HDLD_SMARTGUN="smr";
-
 class HDMicrogun:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"

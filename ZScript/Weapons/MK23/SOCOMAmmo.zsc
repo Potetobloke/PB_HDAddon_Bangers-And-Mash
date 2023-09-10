@@ -2,12 +2,6 @@
 // deez nuts joke
 // ------------------------------------------------------------
 
-const HDLD_MK23SOCOM_MAG="m2m";
-const ENC_MK23_45ACP_LOADED=ENC_M10_45ACP_LOADED*1;
-const ENC_MK23_MAG_EMPTY=ENC_9MAG_EMPTY*1.056; //heavier than standard 9mm pistol mags
-const ENC_MK23_MAG=ENC_MK23_MAG_EMPTY+ENC_M10_45ACP_LOADED*12;
-const ENC_MK23_MAG_LOADED=ENC_MK23_MAG_EMPTY*0.1;
-
 class HDMK23SOCOM_Mag:HDMagAmmo{
 	default{
 

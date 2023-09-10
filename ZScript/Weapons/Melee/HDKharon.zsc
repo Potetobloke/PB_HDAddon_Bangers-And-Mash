@@ -102,8 +102,6 @@ class HDKharonSparkV:HDKharonSpark
 		stop;
 	}
 }
-	
-const HDLD_KHARON="krn";
 
 class HDKharon:HD_PB_UnarmedWeapon{
 	int targettimer;

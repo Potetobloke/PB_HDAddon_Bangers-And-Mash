@@ -1,5 +1,3 @@
-const HDLD_STREETSWEEPER="swg";
-
 class HDSpentShell_Sweeper:HDSpentShell{
 	default{
 		+noblockmap -solid -shootable +notrigger +cannotpush +thruactors
@@ -94,7 +92,6 @@ class HDStreetSweeper:HDWeapon{
 		return shotpower;
 	}
 	
-	const SSWP_MINSHOTPOWER=0.931; //very inconsistent gas ejection
 	action void A_FireSweeper(){
 	int cyl=invoker.weaponstatus[SSWP_CYL1];
 		if(

@@ -2,8 +2,6 @@
 // charger for the railgun's internal battery
 // ------------------------------------------------------------
 
-const HDLD_PW_RAILGUNDYNAMO="4td";
-
 class HDRailgunDynamoPW:HDWeapon{
 	default{
 		-hdweapon.fitsinbackpack
