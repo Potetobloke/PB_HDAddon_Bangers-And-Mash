@@ -1,12 +1,132 @@
 version "4.10"
 
-//Main
-
-// TODO: Organize these by slot and ammo type. This currently is a mess and I don't want to deal with it any longer. - [Ted]
-
 // Constants. Puts them in here to keep them organized. - [Ted]
 #include "zscript-constants.zsc"
 
+// Current item spawners. To be replaced by something better and configurable in the future. - [Ted]
+#include "zscript/misc/AmmoHandler.zsc"
+#include "zscript/misc/ItemReplacer.zsc"
+#include "zscript/misc/ItemSpawns.zsc"
+
+//-----------------
+// Magazines
+//-----------------
+
+// 4mm EC Magazines
+#include "zscript/Magazines/4mm EC Magazines/PWRailgunAmmo.zsc"
+#include "zscript/Magazines/4mm EC Magazines/PWRailgunShots.zsc"
+
+// 4mm Magazines
+#include "zscript/Magazines/4mm Magazines/G11Ammo.zsc"
+
+// 5mm Magazines
+#include "zscript/Magazines/5mm Magazines/Arkoudi M5-165c Magazine.zsc"
+#include "zscript/Magazines/5mm Magazines/Buger M22 Magazine.zsc"
+
+// 6mm Magazines
+#include "zscript/Magazines/6mm Magazines/SteyrAmmo.zsc"
+
+// 7mm Magazines
+#include "zscript/Magazines/7mm Magazines/BeltBox.zsc"
+#include "zscript/Magazines/7mm Magazines/FALAmmo.zsc"
+#include "zscript/Magazines/7mm Magazines/PSGMag.zsc"
+
+// 12-Gauge Magazines
+#include "zscript/Magazines/12-Gauge Magazines/CAWSMag.zsc"
+
+// 35mm Magazines
+#include "zscript/Magazines/35mm Magazines/CobraMag.zsc"
+#include "zscript/Magazines/35mm Magazines/KelekenBox.zsc"
+
+// 45 ACP Magazines
+#include "zscript/Magazines/45 ACP Magazines/MAC10Mag.zsc"
+#include "zscript/Magazines/45 ACP Magazines/SOCOMAmmo.zsc"
+
+// 50 AM Magazines
+#include "zscript/Magazines/50 AM Magazines/50AMAmmo.zsc"
+
+// 50 OMG Magazines
+#include "zscript/Magazines/50 OMG Magazines/M2HB_AP.zsc"
+#include "zscript/Magazines/50 OMG Magazines/M2HBBox.zsc"
+
+// Napalm
+#include "zscript/Magazines/Napalm/HDGasoline.zsc"
+
+//-----------------
+// Weapons
+//-----------------
+
+// 4mm Firearms
+#include "zscript/Weapons/4mm Firearms/G11_Alt.zsc"
+#include "zscript/Weapons/4mm Firearms/G11.zsc"
+
+// 5mm Firearms
+#include "zscript/Weapons/5mm Firearms/Arkoudi M5-165c.zsc"
+#include "zscript/Weapons/5mm Firearms/Buger M22 Target Rifle.zsc"
+
+// 6mm Firearms
+#include "zscript/Weapons/6mm Firearms/SteyrGun.zsc"
+
+// 7mm Firearms
+#include "zscript/Weapons/7mm Firearms/HS76A1 SmartGun.zsc"
+#include "zscript/Weapons/7mm Firearms/M60.zsc"
+#include "zscript/Weapons/7mm Firearms/PSG2A1.zssc"
+#include "zscript/Weapons/7mm Firearms/UN-AF L7A1.zsc"
+
+// 12-Gauge Firearms
+#include "zscript/Weapons/12-Gauge Firearms/Arkoudi M12-5.zsc"
+#include "zscript/Weapons/12-Gauge Firearms/H&M CROWS Presslufthämmer.zsc"
+#include "zscript/Weapons/12-Gauge Firearms/Raycob Exterminator.zsc"
+#include "zscript/Weapons/12-Gauge Firearms/Raycob Urban Destroyer.zsc"
+
+// 35mm Firearms
+#include "zscript/Weapons/35mm Firearms/CobraCannon.zsc"
+#include "zscript/Weapons/35mm Firearms/Kelenken.zsc"
+
+// 45 ACP Firearms
+#include "zscript/Weapons/45 ACP Firearms/MAC10.zsc"
+#include "zscript/Weapons/45 ACP Firearms/SOCOM.zsc"
+
+// 50 AM Firearms
+#include "zscript/Weapons/50 AM Firearms/Sawyer LR37 "Big Boy".zsc"
+#include "zscript/Weapons/50 AM Firearms/SP-50 Mega Class Magnum.zsc"
+
+// 50 OMG Firearms
+#include "zscript/Weapons/50 OMG Firearms/M2HBGun.zsc"
+
+// 355 Firearms
+#include "zscript/weapons/355 Firearms/M35A1 HPC.zsc"
+
+// Melee Weapons
+#include "zscript/Weapons/Melee Weapons/HDGrossHack.zsc"
+#include "zscript/Weapons/Melee Weapons/HDKnife.zsc"
+#include "zscript/Weapons/Melee Weapons/HDFireAxe.zsc"
+#include "zscript/Weapons/Melee Weapons/HDKharon.zsc"
+#include "zscript/Weapons/Melee Weapons/HDSledge.zsc"
+
+// Rocket Launchers
+#include "zscript/Weapons/Rocket Launchers/DLAaM ATCM-35.zsc"
+#include "zscript/Weapons/Rocket Launchers/RAT-84.zsc"
+
+// Unique Firearms
+#include "zscript/Weapons/Unique Firearms/Mancubus Cannon.zsc"
+#include "zscript/Weapons/Unique Firearms/AntiFlameDevice.zsc"
+#include "zscript/Weapons/Unique Firearms/PS-451.zsc"
+#include "zscript/Weapons/Unique Firearms/PWDynamo.zsc"
+#include "zscript/Weapons/Unique Firearms/PWRailgun.zsc"
+
+//-----------------
+// Miscellaneous
+//-----------------
+
+// Grenades
+#include "zscript/Misc/Grenades/ConcNade_Projectile.zsc"
+#include "zscript/Misc/Grenades/GasGrenade_Projectile.zsc"
+#include "zscript/Misc/Grenades/GasWeapon.zsc"
+#include "zscript/Misc/Grenades/WPGrenade_Projectile.zsc"
+#include "zscript/Misc/Grenades/WPGWeapon.zsc"
+
+/*
 //Melee Weapons
 #include "ZScript/Weapons/Melee/HDGrossHack.zsc"
 #include "ZScript/Weapons/Melee/HDFireAxe.zsc"
