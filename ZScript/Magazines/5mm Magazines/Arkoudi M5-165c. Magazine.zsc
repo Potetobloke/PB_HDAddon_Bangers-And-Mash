@@ -2,19 +2,6 @@
 // 5mm Mags
 // ------------------------------------------------------------
 
-/*
-const HDLD_M165="A18";
-
-const HDLD_5MM="5MR";
-
-const ENC_M165_MAG=4.23;
-
-const ENC_M165_MAG_EMPTY=3.25;
-const ENC_M165_MAG_LOADED=0.05;
-
-const ENC_5MM=0.025;
-const ENC_5MM_Loaded=0.032;*/
-
 class HD_M165Mag:HDMagAmmo{
 	default{
 		//$Category "Ammo/Hideous Destructor/"
