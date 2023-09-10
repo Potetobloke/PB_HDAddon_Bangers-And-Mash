@@ -1,8 +1,8 @@
-You need BulletLib to run this mod.
+# PB-HDAddon-Bangers-And-Mash
+
+## You need HDBulletLib-Recasted to run this mod
+
 I'm not particularly active in HDest at the moment, but if you ping me on the HDest Discord, I'll respond to ya.
-
-
-
 
 CREDITS TO EVERYTHING
 
@@ -13,6 +13,7 @@ Spawners = Caligari87
 Most of the firearms = MatthewTheGlutton
 
 ---Melee Stuff---
+
 - Fire Axe -
 Sprites = Neoworm
 Sounds = Valve
@@ -90,7 +91,6 @@ Sounds = from base HD
 Sprites = YukesVonFaust, Potetobloke
 Sounds = Skulltag(?), CS 1.6
 
-
 /////UNUSED STUFF/////
 
 ---Utsu Denkasou Assault Bracelet (Charge Fist)---
@@ -109,4 +109,3 @@ Sprites = General Tacitus
 
 ---MJ12 Energy Projector---
 Sprites = Eidos, Deus Ex Wiki
-
