@@ -36,7 +36,7 @@ version "4.10"
 
 // 35mm Magazines
 #include "zscript/Magazines/35mm Magazines/CobraMag.zsc"
-#include "zscript/Magazines/35mm Magazines/KelekenBox.zsc"
+#include "zscript/Magazines/35mm Magazines/KelenkenBox.zsc"
 
 // 45 ACP Magazines
 #include "zscript/Magazines/45 ACP Magazines/MAC10Mag.zsc"
@@ -70,7 +70,7 @@ version "4.10"
 // 7mm Firearms
 #include "zscript/Weapons/7mm Firearms/HS76A1 SmartGun.zsc"
 #include "zscript/Weapons/7mm Firearms/M60.zsc"
-#include "zscript/Weapons/7mm Firearms/PSG2A1.zssc"
+#include "zscript/Weapons/7mm Firearms/PSG2A1.zsc"
 #include "zscript/Weapons/7mm Firearms/UN-AF L7A1.zsc"
 
 // 12-Gauge Firearms
@@ -88,7 +88,7 @@ version "4.10"
 #include "zscript/Weapons/45 ACP Firearms/SOCOM.zsc"
 
 // 50 AM Firearms
-#include "zscript/Weapons/50 AM Firearms/Sawyer LR37 "Big Boy".zsc"
+#include "zscript/Weapons/50 AM Firearms/Sawyer LR37 'Big Boy'.zsc"
 #include "zscript/Weapons/50 AM Firearms/SP-50 Mega Class Magnum.zsc"
 
 // 50 OMG Firearms
