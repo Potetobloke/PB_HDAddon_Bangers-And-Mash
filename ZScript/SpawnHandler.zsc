@@ -374,10 +374,30 @@ class PBWepsHandler : EventHandler {
         spawns_MAC10.push(addItemEntry('HDPistol', mac10_pistol_spawn_bias));
         addItem('HDMAC10', spawns_MAC10, mac10_persistent_spawning);
 
-        // MAC-11/10/whatever
+        // Mk. 23 SOCOM
         Array<PBWepsSpawnItemEntry> spawns_mk23socom;
         spawns_mk23socom.push(addItemEntry('HDPistol', mk23socom_pistol_spawn_bias));
         addItem('HDMK23SOCOM', spawns_mk23socom, mk23socom_persistent_spawning);
+
+        // Fire Axe
+        Array<PBWepsSpawnItemEntry> spawns_fireaxe;
+        spawns_fireaxe.push(addItemEntry('Lumberjack', fireaxe_chainsaw_spawn_bias));
+        addItem('HDFireAxe', spawns_fireaxe, fireaxe_persistent_spawning);
+
+        // Sledgehammer
+        Array<PBWepsSpawnItemEntry> spawns_sledgehammer;
+        spawns_sledgehammer.push(addItemEntry('Lumberjack', sledgehammer_chainsaw_spawn_bias));
+        addItem('HDSledgehammer', spawns_sledgehammer, sledgehammer_persistent_spawning);
+
+        // AT-4
+        Array<PBWepsSpawnItemEntry> spawns_at4;
+        spawns_at4.push(addItemEntry('RocketBigPickup', at4_rocketbox_spawn_bias));
+        addItem('HDAT4_WEP', spawns_at4, at4_persistent_spawning);
+
+        // CGM-25
+        Array<PBWepsSpawnItemEntry> spawns_cgm25;
+        spawns_cgm25.push(addItemEntry('RocketBigPickup', cgm25_rocketbox_spawn_bias));
+        addItem('HDCGM25_WEP', spawns_cgm25, cgm25_persistent_spawning);
 
 
         //------------
@@ -387,6 +407,18 @@ class PBWepsHandler : EventHandler {
         //------------
         // Item Spawns
         //------------
+
+        // White Phosphorous Grenades
+        Array<PBWepsSpawnItemEntry> spawns_wpgrenades;
+        spawns_wpgrenades.push(addItemEntry('RocketBigPickup', wpgrenades_rocketbox_spawn_bias));
+        // I can't only really target large cell packs with this anymore so I'm just gonna replace 7mm, likely gonna keep this off by default as these'll spawn on frag grenades anyways. - [Ted]
+        spawns_wpgrenades.push(addItemEntry('HD7mBoxPickup', wpgrenades_7mm_spawn_bias));
+        addItem('HDWilliePeteGrenadePickup', spawns_wpgrenades, wpgrenades_persistent_spawning);
+
+        // White Phosphorous Grenade
+        Array<PBWepsSpawnItemEntry> spawns_wpgrenade;
+        spawns_wpgrenade.push(addItemEntry('HDFragGrenadeAmmo', wpgrenade_grenade_spawn_bias));
+        addItem('HDWilliePeteGrenadeAmmo', spawns_wpgrenade, wpgrenade_persistent_spawning);
 
     }
 
