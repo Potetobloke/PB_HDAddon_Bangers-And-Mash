@@ -2,127 +2,6 @@
 // Item Droppers
 // ------------------------------------------------------------
 
-//dont need these anymore
-/*class PB_9mmMag_Ex:HDUPK{ 
-	default{
-		//$Category "Ammo/Hideous Destructor/"
-		//$Title "gross hack 1"
-		//$Sprite "TNT1A0"
-
-		scale 0.7;
-		hdupk.amount 1;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up an SMG magazine.";
-		hdupk.pickuptype "HD9mMag30";
-	}
-	states{
-	spawn:
-		CLP3 A -1;
-	}
-}
-
-class PB_50AMMag_Ex:HDUPK{
-	default{
-		//$Category "Ammo/Hideous Destructor/"
-		//$Title "gross hack 2"
-		//$Sprite "TNT1A0"
-		scale 0.8;
-		hdupk.amount 1;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up an SMG magazine.";
-		hdupk.pickuptype "HD50AM_Mag";
-	}
-	states{
-	spawn:
-		50AM A -1;
-	}
-}
-
-class PB_G11Mag_Ex:HDUPK{
-	default{
-		//$Category "Ammo/Hideous Destructor/"
-		//$Title "gross hack 3"
-		//$Sprite "TNT1A0"
-		scale 0.8;
-		hdupk.amount 1;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up a G26A1 Magazine.";
-		hdupk.pickuptype "HDG11Mag";
-	}
-	states{
-	spawn:
-		G11M A -1;
-	}
-}
-
-class PB_A180Mag_Ex:HDUPK{
-	default{
-		//$Category "Ammo/Hideous Destructor/"
-		//$Title "gross hack 4"
-		//$Sprite "TNT1A0"
-
-		hdupk.amount 1;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up an M5/165c Magazine.";
-		hdupk.pickuptype "HD_M165Mag";
-	}
-	states{
-	spawn:
-		A18M Y -1;
-	}
-}
-
-class PB_KelenkenBox_Ex:HDUPK{
-	default{
-		//$Category "Ammo/Hideous Destructor/"
-		//$Title "gross hack 5"
-		//$Sprite "TNT1A0"
-
-		hdupk.amount 1;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up a 35mm Bolt Box.";
-		hdupk.pickuptype "HD_PB_35mmBeltBox";
-		scale 0.7;
-	}
-	states{
-	spawn:
-		HW0B A -1;
-	}
-}
-
-class PB_7mmBox_Ex:HDUPK{
-	default{
-		//$Category "Ammo/Hideous Destructor/"
-		//$Title "gross hack 5"
-		//$Sprite "TNT1A0"
-
-		hdupk.amount 1;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up a 7.76mm MG belt Box.";
-		hdupk.pickuptype "HD_PB_7mmBeltBox";
-		scale 0.7;
-	}
-	states{
-	spawn:
-		MBX1 A -1;
-	}
-}
-
-class PB_MaDeuceBox_Ex:HDUPK{
-	default{
-
-		hdupk.amount 1;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up a .50 OMG belt box.";
-		hdupk.pickuptype "HD_PB_50OMGBeltBox";
-		scale 0.7;
-	}
-	states{
-	spawn:
-		M2AB B -1;
-	}
-}*/
-
 class PB_HDAutoMagSpawn_SA:IdleDummy{
 	states{
 	spawn:
@@ -191,14 +70,6 @@ class PB_G11Spawn_Scoped:IdleDummy{
 		}
 	}
 
-
-/*class PB_TerminatorSpawn:ShellBoxPickup{
-	override void postbeginplay(){
-		super.postbeginplay();
-		spawn("TerminatorRandom",pos,ALLOW_REPLACE);
-	}
-}*/
-
 class PB_TerminatorSpawn:IdleDummy{
 	states{
 	spawn:
@@ -210,16 +81,6 @@ class PB_TerminatorSpawn:IdleDummy{
 			}stop;
 		}
 	}
-
-
-/*class PB_MAC11Spawn:PB_MAC10_Mag{
-	override void postbeginplay(){
-		super.postbeginplay();
-		spawn("HDMAC10",pos,ALLOW_REPLACE);
-		spawn("HD9mMag30",pos,ALLOW_REPLACE);
-		spawn("HD9mMag30",pos,ALLOW_REPLACE);
-	}
-}*/
 
 class PB_MAC11Spawn:IdleDummy{
 	states{
@@ -596,6 +457,16 @@ class PB_HDChainsawRep:HDInvRandomSpawner{
 	}
 }
 
+class PB_PistolDropper : HDInvRandomSpawner {
+	default{ //drops more commonly when it actually replaces something
+	dropitem "HDMK23SOCOM",27,1;
+	dropitem "HDMAC10",21,1;
+	dropitem "HD_AutoMag",20,1;
+	dropitem "HD_AutoMagFA",17,1;
+	//dropitem "HDCombatKnife",12,1;
+	}
+}
+
 class PB_HDHunterRep:HDInvRandomSpawner{
 	default{
 	+weaponspawn
@@ -653,15 +524,5 @@ class PB_BFG9000Rep:HDInvRandomSpawner{
 	dropitem "PB_SmartgunSpawn", 256, 5;
 	dropitem "PB_MaDeuceSpawn", 256, 4;
 	dropitem "PB_RailGunSpawn", 256, 4;
-	}
-}
-
-class PB_PistolDropper : HDInvRandomSpawner {
-	default{ //drops more commonly when it actually replaces something
-	dropitem "HDMK23SOCOM",27,1;
-	dropitem "HDMAC10",21,1;
-	dropitem "HD_AutoMag",20,1;
-	dropitem "HD_AutoMagFA",17,1;
-	//dropitem "HDCombatKnife",12,1;
 	}
 }

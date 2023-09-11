@@ -4,8 +4,10 @@ version "4.10"
 #include "zscript-constants.zsc"
 
 // Current item spawners. To be replaced by something better and configurable in the future. - [Ted]
-#include "zscript/misc/AmmoHandler.zsc"
-#include "zscript/misc/ItemReplacer.zsc"
+//#include "zscript/misc/ItemReplacer.zsc"
+
+// New item spawner. Works better and is configurable. - [Ted]
+#include "zscript/SpawnHandler.zsc"
 #include "zscript/misc/ItemSpawns.zsc"
 
 //-----------------
