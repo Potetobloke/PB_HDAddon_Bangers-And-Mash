@@ -320,11 +320,6 @@ class PBWepsHandler : EventHandler {
         spawns_automag_sa.push(addItemEntry('HDPistol', automag_sa_pistol_spawn_bias));
         addItem('PB_HDAutoMagSpawn_SA', spawns_automag_sa, automag_sa_persistent_spawning);
 
-        // MAC-11
-        Array<PBWepsSpawnItemEntry> spawns_mac11;
-        spawns_mac11.push(addItemEntry('Vulcanette', mac11_vulcanette_spawn_bias));
-        addItem('PB_MAC11Spawn', spawns_mac11, mac11_persistent_spawning);
-
         // G11
         Array<PBWepsSpawnItemEntry> spawns_g11_normal;
         spawns_g11_normal.push(addItemEntry('Vulcanette', g11_normal_vulcanette_spawn_bias));
