@@ -184,6 +184,20 @@ class PBWepsHandler : EventHandler {
         if (!psg1_allowBackpacks)            backpackBlacklist.push((Class<Inventory>)('HD_PSG1'));
         if (!mac10_allowBackpacks)           backpackBlacklist.push((Class<Inventory>)('HDMAC10'));
         if (!mk23socom_allowBackpacks)       backpackBlacklist.push((Class<Inventory>)('HDMK23SOCOM'));
+        if (!ps20_allowBackpacks)            backpackBlacklist.push((Class<Inventory>)('HDPS20'));
+        if (!combatknife_allowBackpacks)     backpackBlacklist.push((Class<Inventory>)('HDCombatKnife'));
+        if (!at4_allowBackpacks)             backpackBlacklist.push((Class<Inventory>)('HDAT4_WEP'));
+        if (!cgm25_allowBackpacks)           backpackBlacklist.push((Class<Inventory>)('HDCGM25_WEP'));
+
+        if (!g11mag_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HDG11Mag'));
+        if (!m165mag_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HD_M165Mag'));
+        if (!fiftyammag_allowBackpacks)      backpackBlacklist.push((Class<Inventory>)('HD50AM_Mag'));
+        if (!mac10mag_allowBackpacks)        backpackBlacklist.push((Class<Inventory>)('HDMAC10_Mag'));
+        if (!mk23mag_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HDMK23SOCOM_Mag'));
+        if (!napalmtank_allowBackpacks)      backpackBlacklist.push((Class<Inventory>)('HDNapalmTank'));
+        if (!steyracrmag_allowBackpacks)     backpackBlacklist.push((Class<Inventory>)('PB_HDSteyrACRMag'));
+        if (!cawsmag_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HD_CAWSMag'));
+        if (!falmag_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HD_FALMag'));
 
         //------------
         // Ammunition
