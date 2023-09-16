@@ -131,6 +131,7 @@ server int mk23socom_pistol_spawn_bias = 9;
 server int mk23socom_ammobox_spawn_bias = 24;
 server bool mk23socom_persistent_spawning = false;
 
+server bool combatknife_allowBackpacks = true;
 server int knife_shell_spawn_bias = 19;
 server bool knife_persistent_spawning = false;
 
@@ -140,10 +141,12 @@ server bool fireaxe_persistent_spawning = false;
 server int sledgehammer_chainsaw_spawn_bias = 14;
 server bool sledgehammer_persistent_spawning = false;
 
+server bool at4_allowBackpacks = true;
 server int at4_shellbox_spawn_bias = 24;
 server int at4_rocketbox_spawn_bias = 24;
 server bool at4_persistent_spawning = false;
 
+server bool cgm25_allowBackpacks = true;
 server int cgm25_rocketbox_spawn_bias = 24;
 server int cgm25_shellbox_spawn_bias = 24;
 server bool cgm25_persistent_spawning = false;
@@ -154,15 +157,18 @@ server bool terminator_persistent_spawning = false;
 server int fireextinguisher_ammobox_spawn_bias = 24;
 server bool fireextinguisher_persistent_spawning = false;
 
+server bool ps20_allowBackpacks = true;
 server int ps20_shellbox_spawn_bias = 14;
 server bool ps20_persistent_spawning = false;
 
 server int ruger1022_shellbox_spawn_bias = 14;
 server bool ruger1022_persistent_spawning = false;
 
+server bool falmag_allowBackpacks = true;
 server int falmag_battery_spawn_bias = 14;
 server bool falmag_persistent_spawning = false;
 
+server bool steyracrmag_allowBackpacks = true;
 server int acrmag_battery_spawn_bias = 14;
 server int acrmag_4mmag_spawn_bias = 14;
 server bool acrmag_persistent_spawning = false;
@@ -173,26 +179,32 @@ server bool acrmags_persistent_spawning = false;
 server int eightmilec_battery_spawn_bias = 14;
 server bool eightmilec_persistent_spawning = false;
 
+server bool napalmtank_allowBackpacks = true;
 server int napalm_battery_spawn_bias = 14;
 server bool napalm_persistent_spawning = false;
 
+server bool fiftyammag_allowBackpacks = false;
 server int am50mag_shellbox_spawn_bias = 14;
 server int am50mag_shell_spawn_bias = 14;
 server int am50mag_4mmag_spawn_bias = 14;
 server bool am50mag_persistent_spawning = false;
 
+server bool cawsmag_allowBackpacks = true;
 server int cawsmag_shellbox_spawn_bias = 14;
 server bool cawsmag_persistent_spawning = false;
 
 server int colt355mag_shellbox_spawn_bias = 14;
 server bool colt355mag_persistent_spawning = false;
 
+server bool mac10mag_allowBackpacks = true;
 server int mac10mag_4mmag_spawn_bias = 14;
 server bool mac10mag_persistent_spawning = false;
 
+server bool mk23mag_allowBackpacks = true;
 server int socommag_4mmag_spawn_bias = 14;
 server bool socommag_persistent_spawning = false;
 
+server bool m165mag_allowBackpacks = true;
 server int m165mags_4mmag_spawn_bias = 14;
 server int m165mags_clipbox_spawn_bias = 14;
 server bool m165mags_persistent_spawning = false;
@@ -211,6 +223,7 @@ server bool gasgrenades_persistent_spawning = false;
 server int gasgrenade_grenade_spawn_bias = 14;
 server bool gasgrenade_persistent_spawning = false;
 
+server bool g11mag_allowBackpacks = true;
 server int g11mag_shellbox_spawn_bias = 14;
 server int g11mag_clipbox_spawn_bias = 14;
 server bool g11mag_persistent_spawning = false;
