@@ -1,0 +1,5 @@
+[enu default]
+
+// Menu stuff
+PBWEPS_MENU = "\c[Blue]Ⓟ\c- Potetobloke's Weapon Pack: Bangers and Mash";
+PBWEPS_RESETALLOPTIONS = "Reset all options for Potetobloke's Weapon Pack";

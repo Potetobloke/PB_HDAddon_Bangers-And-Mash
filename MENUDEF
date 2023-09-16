@@ -1,0 +1,61 @@
+// 4mm Firearms
+
+// 5mm Firearms
+
+// 6mm Firearms
+
+// 7mm Firearms
+
+// 12-Gauge Firearms
+
+// 35mm Firearms
+
+// 45 ACP Firearms
+
+// 50 AM Firearms
+
+// 50 OMG Firearms
+
+// 355 Firearms
+
+// Rocket Launchers
+
+// Unique Firearms
+
+// Melee Weapons
+
+// Main Menu stuff
+OptionMenu "PBWepsMenu" {
+	Title "$PBWEPS_MENU"
+    StaticText ""
+
+    StaticText "Hey, this shit's work in progress! Get outta here! - [Ted]"
+
+	StaticText "$MENU_RESETOPTIONS_TITLE", "Red"
+	StaticText ""
+	SafeCommand "$PBWEPS_RESETALLOPTIONS", "PbWeps_Reset_Cvars"
+}
+
+AddOptionMenu "OptionsMenu" {
+	Submenu "$PBWEPS_MENU", "PBWepsMenu"
+}
+
+AddOptionMenu "HDAddonMenu" {
+	Submenu "$PBWEPS_MENU", "PBWepsMenu"
+}
+
+// Spawn Bias (for items that do replace)
+OptionValue "SpawnBias" {
+	-1,    "Disabled"
+	 0,    "Replace All"
+	 2,    "1 in 3"
+	 4,    "1 in 5"
+	 9,    "1 in 10"
+	 14,   "1 in 15"
+	 19,   "1 in 20"
+	 24,   "1 in 25"
+	 49,   "1 in 50"
+	 99,   "1 in 100"
+	 149,  "1 in 150"
+	 199,  "1 in 200"
+}
