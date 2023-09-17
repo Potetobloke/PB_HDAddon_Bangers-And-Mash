@@ -207,7 +207,7 @@ class PB_TerminatorSpawn:ShellBoxPickup{
 		spawn("HD9mMag30",pos,ALLOW_REPLACE);
 	}
 }*/
-
+	
 class PB_MAC11Spawn:IdleDummy{
 	states{
 	spawn:
@@ -391,6 +391,21 @@ class PB_MK23SOCOM_MultiMagSpawn:IdleDummy{
 
 				spawn("HDMK23SOCOM_Mag",pos+(1,2,1),ALLOW_REPLACE);
 				spawn("HDMK23SOCOM_Mag",pos+(-2,-2,-1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+	
+	
+class PB_PM9Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDMinebeaPM9(spawn("HDMinebeaPM9",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HD9mMag30",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HD9mMag30",pos+(8,0,0),ALLOW_REPLACE);
+				spawn("HD9mMag30",pos+(5,0,0),ALLOW_REPLACE);
 			}stop;
 		}
 	}
@@ -610,6 +625,7 @@ class PB_VulcanetteRep:HDInvRandomSpawner{
 	default{
 	+weaponspawn
 	dropitem "PB_HDAutoMagSpawn_FA", 256, 2;
+	dropitem "PB_PM9Spawn", 256, 5;
 	dropitem "PB_MAC11Spawn", 256, 4;
 	dropitem "PB_G11Spawn_Normal", 256, 8;
 	dropitem "PB_G11Spawn_Scoped", 256, 7;
