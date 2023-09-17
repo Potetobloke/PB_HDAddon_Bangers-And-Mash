@@ -16,8 +16,9 @@ Model HDRiotShield_Front
    Model 0 "shield.obj"
    Skin 0 "shield.png"
    Scale 11.5 11.5 11.5
-   Offset -1 0.1 0.1
-   //USEACTORPITCH
+   Offset -12.1 0.1 -1.1
+   USEACTORPITCH
+   USEROTATIONCENTER
 
    Frame RSH0 z 0 "frame01"
 }
@@ -32,4 +33,4 @@ Model HDRiotShield_Permanent
    Offset 1 0 0
 
    Frame RSH0 z 0 "frame01"
-}*/
+}

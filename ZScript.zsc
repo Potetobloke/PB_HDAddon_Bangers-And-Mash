@@ -8,10 +8,14 @@ version "4.10"
 #include "ZScript/Weapons/Melee/HDSledge.zsc"
 #include "ZScript/Weapons/Melee/HDKnife.zsc"
 #include "ZScript/Weapons/Melee/HDKharon.zsc"
+//#include "ZScript/Weapons/Melee/HDLaserRapier.zsc"
 //#include "ZScript/Weapons/Melee/RiotShield.zsc" //fuck this, its bad
 
 //Volt M35A1 High Power Carbine
 #include "ZScript/Weapons/ColtCarbine/ColtCarbine.zsc"
+
+//Volt M35A1 High Power Carbine
+#include "ZScript/Weapons/93R/93R.zsc"
 
 //#include "ZScript/Weapons/mgl_for_acid/mgl.zsc"
 
@@ -39,6 +43,9 @@ version "4.10"
 //Heckler & Mok HSG-71 Marksman Rifle
 #include "ZScript/Weapons/PSG1/PSG1.zsc"
 #include "ZScript/Weapons/PSG1/PSGMag.zsc"
+
+//Minato M9S Machine Pistol
+#include "ZScript/Weapons/PM9/PM9.zsc"
 
 //Austere M17 Flechette Rifle
 #include "ZScript/Weapons/SteyrACR/SteyrGun.zsc"

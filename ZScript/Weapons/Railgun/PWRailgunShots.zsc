@@ -190,6 +190,7 @@ class HDB_RailgunBolt:HDBulletActor{
 		if(ppp){
 			ppp.A_StartSound("misc/bigbulhol",CHAN_BODY,CHANF_OVERLAP);
 			ppp.spawn("LingeringThunder",pos,ALLOW_REPLACE);
+			ppp.spawn("HDWPSmokeChunkA",pos,ALLOW_REPLACE);
 			ppp.spawn("Railgun_Sparker",pos,ALLOW_REPLACE);
 		}
 		return ppp;
@@ -233,9 +234,18 @@ class HDB_RailgunBolt:HDBulletActor{
 		A_SpawnChunks("HDSmoke",4,1,7);
 		aaa=spawn("HDExplosion",pos,ALLOW_REPLACE);aaa.vel.z=2;
 		aaa=spawn("LingeringThunder",pos,ALLOW_REPLACE);
+		
+		A_SpawnChunks("HDWPSmokeChunkA",4,12,15);
+		A_SpawnChunks("HDWPSmokeChunkB",2,17,25);
+		
+		aaa=spawn("HDExplosionWP",self.pos-(0,0,1),ALLOW_REPLACE);
+				aaa.target=target;aaa.master=master;aaa.stamina=stamina;
+				aaa.scale.x=2.3;aaa.scale.y=2.3;
 		distantnoise.make(aaa,"world/rocketfar");
 		A_SpawnChunks("HDSmokeChunk",random(3,4),6,12);
 		HDMobAI.HDNoiseAlert(target,self);
+		
+		
 
 		bmissile=false;
 		bnointeraction=true;
@@ -299,6 +309,7 @@ class HDB_RailgunBolt_LP:HDBulletActor{
 		if(ppp){
 			ppp.A_StartSound("misc/bigbulhol",CHAN_BODY,CHANF_OVERLAP);
 			ppp.spawn("Railgun_Sparker",pos,ALLOW_REPLACE);
+			ppp.spawn("HDWPSmokeChunkA",pos,ALLOW_REPLACE);
 		}
 		return ppp;
 	}
@@ -343,6 +354,8 @@ class HDB_RailgunBolt_LP:HDBulletActor{
 		distantnoise.make(aaa,"world/rocketfar");
 		A_SpawnChunks("HDSmokeChunk",random(3,4),6,12);
 		HDMobAI.HDNoiseAlert(target,self);
+		
+		A_SpawnChunks("HDWPSmokeChunkA",2,12,15);
 
 		bmissile=false;
 		bnointeraction=true;

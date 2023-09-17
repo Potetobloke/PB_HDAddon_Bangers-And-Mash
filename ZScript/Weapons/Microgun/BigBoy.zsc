@@ -257,8 +257,13 @@ class HDMicrogun:HDWeapon{
 		}
 		loop;
 	targetfound:
-		TNT1 A 1 {
-		invoker.weaponstatus[MCRGS_TARGETFOUND]=2;A_Overlay(8,"beepsound",true);}
+		TNT1 A 1 
+		{
+			/*if(player&&hdweapon(player.readyweapon)){
+			player.cmd.buttons|=BT_ATTACK;
+			}*/
+			invoker.weaponstatus[MCRGS_TARGETFOUND]=2;A_Overlay(8,"beepsound",true);
+		}
 		TNT1 A 0 {if(invoker.weaponstatus[MCRGS_TARGETTER]==0)setweaponstate("targetcheck",5);}
 		goto targetcheck;
 	beepsound:

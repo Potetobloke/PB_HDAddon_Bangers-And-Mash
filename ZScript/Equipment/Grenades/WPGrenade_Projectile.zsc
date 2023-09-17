@@ -59,7 +59,7 @@ class HDWilliePeteGrenadeRoller:HDFragGrenadeRoller{
 		TNT1 A 0
 			{
 				A_SpawnChunks("HDWPSmokeChunkA",4,12,15);
-				A_SpawnChunks("HDWPSmokeChunkB",18,17,25);
+				A_SpawnChunks("HDWPSmokeChunkB",20,17,25);
 			}
 		stop;
 	}
@@ -197,7 +197,12 @@ class HDWPSmokeChunkA:HDDebris{
 	burn:
 		TNT1 A 1 
 		{
-			A_Immolate(self,self,25);
+			A_Immolate(self,self,900);
+			
+			//a_spawnitemex("HDFlameRedBig",frandom(-1,1),frandom(-1,1),frandom(-1,1));	
+			a_spawnitemex("HDSmokeWP_Trail",
+						xvel:frandom(-0.5,0.5),
+						yvel:frandom(-0.5,0.5),zvel:frandom(0.3,0.9));
 			
 			if(burntime<=951){
 				burntime+=random(1,5);
@@ -206,7 +211,19 @@ class HDWPSmokeChunkA:HDDebris{
 				immolateradius:48,25,74);}
 			else if (burntime>=950){setstatelabel("stopburning");}
 		}
-		wait;
+		TNT1 AAAAA 1 
+		{
+			A_Immolate(self,self,25);
+			
+			if(burntime<=951){
+				burntime+=random(1,5);
+				A_HDBlast(
+				pushamount:0,
+				immolateradius:48,25,74);}
+			else if (burntime>=950){destroy();}
+			
+		}
+		loop;
 		
 	stopburning:
 		TNT1 A 1;
