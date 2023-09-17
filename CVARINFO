@@ -14,7 +14,7 @@
 // - A backpack CVAR, if it can spawn in backpacks.
 // - As many worldspawn cvars as it needs, one per each item it spawns on.
 // - A persistency setting if it has any worldspawn cvars.
-//
+
 // All of these are used to make the spawn handler work. I'd prefer if it's kept in that order, but it's not necessary. Just looks nice and keeps things standard. - [Ted]
 
 // Railgun
@@ -71,12 +71,13 @@ server int automag_sa_pistol_spawn_bias = 24;
 server bool automag_sa_persistent_spawning = false;
 
 // G11 Normal
-server bool G11_normal_allowBackpacks = true;
+//server bool G11_normal_allowBackpacks = true;
+server bool g11_allowBackpacks = true;
 server int g11_normal_vulcanette_spawn_bias = 19;
 server bool g11_normal_persistent_spawning = false;
 
 // G11 Scoped
-server bool G11_scoped_allowBackpacks = true;
+//server bool G11_scoped_allowBackpacks = true;
 server int g11_scoped_vulcanette_spawn_bias = 19;
 server bool g11_scoped_persistent_spawning = false;
 

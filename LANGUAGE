@@ -1,5 +1,41 @@
 [enu default]
 
-// Menu stuff
+// Option Menu Titles
 PBWEPS_MENU = "\c[Blue]Ⓟ\c- Potetobloke's Weapon Pack: Bangers and Mash";
+MENU_PISTOLS_TITLE = "--- Pistols ---";
+MENU_SHOTGUNS_TITLE = "--- Shotguns ---";
+MENU_MACHINEGUNS_TITLE = "--- Machine Guns ---";
+MENU_EXPLOSIVES_TITLE = "--- Explosives ---";
+MENU_RIFLES_TITLE = "--- Rifles ---";
+MENU_ENERGYWEAPONS_TITLE = "--- Energy Weapons ---";
+MENU_INCENDIARYWEAPONS_TITLE = "--- Incendiary Weapons ---";
+MENU_RESETOPTIONS_TITLE = "--- Reset Options ---";
+
+// Menu Section Headers
+MENU_SPAWNOPTIONS = "Spawn Options";
+MENU_WEPSPAWNOPTIONS = "Weapon Spawn Options";
+MENU_MAGSPAWNOPTIONS = "Magazine Spawn Options";
+MENU_PERSISTENCYOPTIONS = "Spawn Persistence Options";
+MENU_RESETOPTIONS = "Reset Options";
+MENU_RESETALLOPTIONS = "Reset all Options";
+
+// Menu Static Text
+MENU_SPAWNRATE_TEXT1 = "Setting 'spawn rate' to Replace All will suppress";
+MENU_SPAWNRATE_TEXT2 = "spawns of that given type.";
+MENU_PERSISTENCY_TEXT = "Control whether replacements happen after a mapload:";
+
+// Menu Option Labels
+MENU_NOTICE = "Notice:";
+MENU_BACKPACKSALLOWED = "Allowed in Ammo Boxes and/or Backpacks: ";
+MENU_SPAWNRATE = "Spawn Rate: ";
+MENU_WEPSPAWNRATE = "Weapon Spawn Rate: ";
+MENU_MAGSPAWNRATE = "Magazine Spawn Rate: ";
+MENU_PERSISTENCY = "Persistent Spawns: ";
+MENU_WEPPERSISTENCY = "Persistent Weapon Spawns: ";
+MENU_MAGPERSISTENCY = "Persistent Magazine Spawns: ";
+
+// Menu Command Text
+MENU_RESETWEP = "Reset Weapon Options";
+MENU_RESETMAG = "Reset Magazine Options";
+MENU_RESETPERSISTENCY = "Reset Persistence Options";
 PBWEPS_RESETALLOPTIONS = "Reset all options for Potetobloke's Weapon Pack";

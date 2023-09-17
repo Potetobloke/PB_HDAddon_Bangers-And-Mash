@@ -173,8 +173,9 @@ class PBWepsHandler : EventHandler {
         if (!steyracr_allowBackpacks)        backpackBlacklist.push((Class<Inventory>)('HD_SteyrACR'));
         if (!mancubuscannon_allowBackpacks)  backpackBlacklist.push((Class<Inventory>)('HDMancCannon'));
         if (!automag_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HD_AutoMag'));
-        if (!g11_normal_allowBackpacks)      backpackBlacklist.push((Class<Inventory>)('HDG11Rifle'));
-        if (!g11_scoped_allowBackpacks)      backpackBlacklist.push((Class<Inventory>)('HDG11Rifle_Scoped'));
+        // Moving this to be one cvar as technically this could be a variant like the AutoMag but whatever. - [Ted]
+        if (!g11_allowBackpacks)             backpackBlacklist.push((Class<Inventory>)('HDG11Rifle'));
+        if (!g11_allowBackpacks)             backpackBlacklist.push((Class<Inventory>)('HDG11Rifle_Scoped'));
         if (!m5165_allowBackpacks)           backpackBlacklist.push((Class<Inventory>)('HD_M5165'));
         if (!colt355_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HDColt355'));
         if (!caws_allowBackpacks)            backpackBlacklist.push((Class<Inventory>)('HD_CAWSGUN'));
