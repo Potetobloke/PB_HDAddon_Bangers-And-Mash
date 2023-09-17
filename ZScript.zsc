@@ -14,7 +14,7 @@ version "4.10"
 //Volt M35A1 High Power Carbine
 #include "ZScript/Weapons/ColtCarbine/ColtCarbine.zsc"
 
-//Volt M35A1 High Power Carbine
+//Mouletta 97R "Raffica"
 #include "ZScript/Weapons/93R/93R.zsc"
 
 //#include "ZScript/Weapons/mgl_for_acid/mgl.zsc"
