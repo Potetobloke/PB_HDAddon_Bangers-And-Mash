@@ -306,9 +306,9 @@ class PB_Colt9mm_Spawn:IdleDummy{
 			let www=HDColt355(spawn("HDColt355",pos,ALLOW_REPLACE));
 			HDF.TransferSpecials(self,www,HDF.TS_ALL);
 
-				spawn("HD355BoxPickup",pos+(8,0,2),ALLOW_REPLACE);
-				spawn("HD355BoxPickup",pos+(2,0,1),ALLOW_REPLACE);
-				spawn("HD355BoxPickup",pos+(-3,3,1),ALLOW_REPLACE);
+				spawn("HDColt9mmMag25",pos+(8,0,2),ALLOW_REPLACE);
+				spawn("HDColt9mmMag25",pos+(2,0,1),ALLOW_REPLACE);
+				spawn("HDColt9mmMag25",pos+(-3,3,1),ALLOW_REPLACE);
 			}stop;
 		}
 	}
