@@ -608,7 +608,7 @@ class HDSledgehammer:HD_PB_UnarmedWeapon{
 	stop;
 	
 	hitcheckzerk:
-		TNT1 AAA 1 HDPunchSledge(invoker.flicked?640:600);
+		TNT1 AAA 1 HDPunchSledge(invoker.flicked?240:200);
 	stop;
 	
 	IGOTEM:TNT1 A 1;stop;
