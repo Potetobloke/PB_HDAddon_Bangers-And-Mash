@@ -136,9 +136,11 @@ server bool combatknife_allowBackpacks = true;
 server int knife_shell_spawn_bias = 19;
 server bool knife_persistent_spawning = false;
 
+server bool fireaxe_allowBackpacks = true;
 server int fireaxe_chainsaw_spawn_bias = 14;
 server bool fireaxe_persistent_spawning = false;
 
+server bool sledgehammer_allowBackpacks = true;
 server int sledgehammer_chainsaw_spawn_bias = 14;
 server bool sledgehammer_persistent_spawning = false;
 
@@ -214,6 +216,7 @@ server int wpgrenades_rocketbox_spawn_bias = 14;
 server int wpgrenades_7mm_spawn_bias = 14;
 server bool wpgrenades_persistent_spawning = false;
 
+server bool wpgrenade_allowBackpacks = true;
 server int wpgrenade_grenade_spawn_bias = 14;
 server bool wpgrenade_persistent_spawning = false;
 

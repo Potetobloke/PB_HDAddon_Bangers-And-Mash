@@ -5,7 +5,7 @@
 /* This is organized in the way of:
 - Adding the option menu to options and the HDAddonMenu.
 - Main menu, where everything is housed.
-- 
+- Specific weapon menus.
 */
 
 // Main Menu stuff
@@ -52,7 +52,7 @@ OptionMenu "PBWepsMenu" {
 	StaticText ""
 	Submenu "$TAG_M5165C", "m5165cSpawning", 0,1
 	StaticText ""
-	Submenu "$TAG__MAC10", "mac10Spawning", 0,1
+	Submenu "$TAG_MAC10", "mac10Spawning", 0,1
 	StaticText ""
 
 	StaticText "$MENU_EXPLOSIVES_TITLE", "Brown"
@@ -79,6 +79,17 @@ OptionMenu "PBWepsMenu" {
     StaticText "$MENU_INCENDIARYWEAPONS_TITLE", "Fire"
 	StaticText ""
     Submenu "$TAG_MANCUBUSCANNON", "mancubuscannonSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_WPGRENADE", "wpgrenadeSpawning", 0, 1
+	StaticText ""
+
+	StaticText "$MENU_MELEEWEAPONS_TITLE", "DarkGrey"
+	StaticText ""
+	Submenu "$TAG_KNIFE", "knifeSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_FIREAXE", "fireaxeSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_SLEDGEHAMMER", "sledgehammerSpawning", 0, 1
 	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS_TITLE", "Red"
@@ -663,7 +674,43 @@ OptionMenu "colt355Spawning" {
 	SafeCommand "$MENU_RESETALLOPTIONS", "colt355_reset_cvars"
 }
 
-// Rocket Launchers
+// Explosives
+OptionMenu "wpgrenadeSpawning" {
+    Title "$MENU_WPGRENADES_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_WP_GRENADES_ROCKETBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "wpgrenades_rocketbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar wpgrenades_rocketbox_spawn_bias"
+    StaticText "$MENU_WP_GRENADES_7MM_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "wpgrenades_7mm_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar wpgrenades_7mm_spawn_bias"
+	StaticText ""
+    StaticText "$MENU_WP_GRENADE_GRENADE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "wpgrenade_grenade_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar wpgrenade_grenade_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_WPGRENADE_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "wpgrenade_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WP_GRENADEPERSISTENCY", "wpgrenade_persistent_spawning", "OnOff"
+	Option "$MENU_WP_GRENADESPERSISTENCY", "wpgrenades_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar wpgrenade_persistent_spawning; resetcvar wpgrenades_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "wpgrenade_reset_cvars"
+}
 
 // Unique Firearms
 OptionMenu "railgunSpawning" {
@@ -725,3 +772,89 @@ OptionMenu "mancubuscannonSpawning" {
 }
 
 // Melee Weapons
+OptionMenu "knifeSpawning" {
+    Title "$MENU_KNIFE_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_KNIFE_SHELL_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "knife_shell_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar knife_shell_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_KNIFE_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "combatknife_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "knife_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar knife_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "knife_reset_cvars"
+}
+
+OptionMenu "fireaxeSpawning" {
+    Title "$MENU_FIREAXE_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_FIREAXE_CHAINSAW_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "fireaxe_chainsaw_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar fireaxe_chainsaw_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_KNIFE_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "fireaxe_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "fireaxe_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar fireaxe_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "fireaxe_reset_cvars"
+}
+
+OptionMenu "sledgehammerSpawning" {
+    Title "$MENU_SLEDGEHAMMER_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_SLEDGEHAMMER_CHAINSAW_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "sledgehammer_chainsaw_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar sledgehammer_chainsaw_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_KNIFE_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "sledgehammer_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "sledgehammer_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar sledgehammer_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "sledgehammer_reset_cvars"
+}

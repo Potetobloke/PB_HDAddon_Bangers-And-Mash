@@ -9,6 +9,7 @@ MENU_EXPLOSIVES_TITLE = "--- Explosives ---";
 MENU_RIFLES_TITLE = "--- Rifles ---";
 MENU_ENERGYWEAPONS_TITLE = "--- Energy Weapons ---";
 MENU_INCENDIARYWEAPONS_TITLE = "--- Incendiary Weapons ---";
+MENU_MELEEWEAPONS_TITLE = "--- Melee Weapons ---";
 MENU_RESETOPTIONS_TITLE = "--- Reset Options ---";
 
 // Menu Section Headers
