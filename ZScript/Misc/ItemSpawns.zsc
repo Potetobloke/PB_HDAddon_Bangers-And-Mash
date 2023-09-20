@@ -1,0 +1,528 @@
+// ------------------------------------------------------------
+// Item Droppers
+// ------------------------------------------------------------
+
+class PB_HDAutoMagSpawn_SA:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HD_AutoMag(spawn("HD_AutoMag",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HD50AM_Mag",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HD50AM_Mag",pos+(8,0,0),ALLOW_REPLACE);
+				spawn("HD50AM_Mag",pos+(5,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+	
+class PB_HDAutoMagSpawn_FA:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			HD_AutoMag www=HD_AutoMag(spawn("HD_AutoMag",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+			if(www)www.weaponstatus[0]|=PI5F_SELECTFIRE;
+
+				spawn("HD50AM_Mag",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HD50AM_Mag",pos+(8,0,0),ALLOW_REPLACE);
+				spawn("HD50AM_Mag",pos+(5,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+
+class HD_Uragan5Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDUragan5(spawn("HDUragan5",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+			
+				spawn("ShellBoxPickup",pos+(8,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_G11Spawn_Normal:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDG11Rifle(spawn("HDG11Rifle",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HDG11Mag",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HDG11Mag",pos+(8,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_G11Spawn_Scoped:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDG11Rifle_Scoped(spawn("HDG11Rifle_Scoped",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HDG11Mag",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HDG11Mag",pos+(8,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_TerminatorSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDTerminatorSG(spawn("HDTerminatorSG",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("ShellBoxPickup",pos+(10,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_MAC11Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDMAC10(spawn("HDMAC10",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HDMAC10_Mag",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HDMAC10_Mag",pos+(8,0,0),ALLOW_REPLACE);
+				spawn("HDMAC10_Mag",pos+(5,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_A180Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HD_M5165(spawn("HD_M5165",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HD_M165Mag",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HD_M165Mag",pos+(7,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_KelenkenSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HD_ATCKelenken(spawn("HD_ATCKelenken",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HD_PB_35mmBeltBox",pos+(7,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+	
+class PB_MaDeuceSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HD_M2HB(spawn("HD_M2HB",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+			
+				//spawn("HD_PB_50OMGBeltBox",pos+(7,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+	
+class PB_RailGunSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDFortuneRailgun(spawn("HDFortuneRailgun",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HDRailgunDynamoPW",pos+(7,0,0),ALLOW_REPLACE);
+				spawn("HD8mmECAmmoBox",pos+(-3,3,1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_SmartgunSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDMicrogun(spawn("HDMicrogun",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+			
+				//im not sure whether you should have another 250 rounds of 7.76mm
+				//spawn("HD_PB_7mmBeltBox",pos+(7,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+	
+class PB_SteyrACR_Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HD_SteyrACR(spawn("HD_SteyrACR",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("PB_HDSteyrACRMag",pos+(8,0,2),ALLOW_REPLACE);
+				spawn("PB_HDSteyrACRMag",pos+(2,0,1),ALLOW_REPLACE);
+				spawn("PB_HDSteyrACRMag",pos+(-3,3,1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_Colt9mm_Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDColt355(spawn("HDColt355",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HD355BoxPickup",pos+(8,0,2),ALLOW_REPLACE);
+				spawn("HD355BoxPickup",pos+(2,0,1),ALLOW_REPLACE);
+				spawn("HD355BoxPickup",pos+(-3,3,1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+
+class PB_HKCAWS_Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HD_CAWSGUN(spawn("HD_CAWSGUN",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HD_CAWSMag",pos+(8,0,2),ALLOW_REPLACE);
+				spawn("HD_CAWSMag",pos+(2,0,1),ALLOW_REPLACE);
+				spawn("SlugBoxPickup",pos+(-3,3,1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+	
+class PB_SteyrACR_MultiMagSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let mgg=PB_HDSteyrACRMag(spawn("PB_HDSteyrACRMag",pos,ALLOW_REPLACE));
+
+				spawn("PB_HDSteyrACRMag",pos+(1,2,1),ALLOW_REPLACE);
+				spawn("PB_HDSteyrACRMag",pos+(-2,-2,-1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_PSG1_Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			A_SpawnItemEx("PB_PSG1_MAG",-3,0,0,0,0,0,0,SXF_NOCHECKPOSITION);
+			A_SpawnItemEx("PB_PSG1_MAG",3,0,0,0,0,0,0,SXF_NOCHECKPOSITION);
+			A_SpawnItemEx("PB_PSG1_MAG",1,0,0,0,0,0,0,SXF_NOCHECKPOSITION);
+
+			let ggg=HD_PSG1(spawn("HD_PSG1",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,ggg,HDF.TS_ALL);
+		}stop;
+	}
+}
+
+class PB_Ruger1022Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HD_Ruger1022(spawn("HD_Ruger1022",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HDRuger1022Mag",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HDRuger1022Mag",pos+(8,0,0),ALLOW_REPLACE);
+				spawn("HDRuger1022Mag",pos+(5,0,0),ALLOW_REPLACE);
+				A_SpawnItemEx("PB_5mmBoxPickup",1,0,0,0,0,0,0,SXF_NOCHECKPOSITION);
+			}stop;
+		}
+	}
+
+class PB_MK23SOCOMSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDMK23SOCOM(spawn("HDMK23SOCOM",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HDMK23SOCOM_Mag",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HDMK23SOCOM_Mag",pos+(8,0,0),ALLOW_REPLACE);
+				spawn("HDMK23SOCOM_Mag",pos+(5,0,0),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_MK23SOCOM_MultiMagSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let mgg=HDMK23SOCOM_Mag(spawn("HDMK23SOCOM_Mag",pos,ALLOW_REPLACE));
+
+				spawn("HDMK23SOCOM_Mag",pos+(1,2,1),ALLOW_REPLACE);
+				spawn("HDMK23SOCOM_Mag",pos+(-2,-2,-1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+// ------------------------------------------------------------
+// Others
+// ------------------------------------------------------------
+
+class PB_HDLooseAmmoSpawn:RandomSpawner{
+	default{
+		dropitem "PB_50AMLooseAmmo",256,1;
+		dropitem "PB_5mmMRLooseAmmo",256,9;
+	}
+}
+
+class PB_50AMLooseAmmo:IdleDummy{
+	states{
+	spawn:
+		TNT1 AA 0 nodelay{
+			A_SpawnItemEx("HD50AM_Ammo",frandom(-5,5),frandom(-5,5),frandom(-5,5),0,0,0,0,SXF_NOCHECKPOSITION);
+		}stop;
+	}
+}
+
+class PB_5mmMRLooseAmmo:IdleDummy{
+	states{
+	spawn:
+		TNT1 AAAAA 0 nodelay{
+			A_SpawnItemEx("HD5MM_Ammo",frandom(-3,3),frandom(-3,3),frandom(-5,5),0,0,0,0,SXF_NOCHECKPOSITION);
+		}stop;
+	}
+}
+
+// ------------------------------------------------------------
+// Random Spawners
+// ------------------------------------------------------------
+
+class PB_HDInvRandomSpawner:HDInvRandomSpawner //i dont even use this
+{
+	static bool RandomChance(Int Chance, Int MaxChance=256)
+	{
+		If(Random(0,MaxChance)<=Chance)
+		Return True;
+		Return False;
+	}
+}
+
+class PB_ClipBoxPickup1:HDInvRandomSpawner{
+	default{
+		dropitem "HDG11Mag",256,14;
+		dropitem "HD_M165Mag",256,11;
+		dropitem "HD50AM_Mag",256,7;
+	}
+}
+
+class PB_ClipBoxPickup2:HDInvRandomSpawner{
+	default{
+		dropitem "PB_A180Spawn",256,12;
+		dropitem "HDG11Mag",256,14;
+		dropitem "HDMAC10_Mag",256,9;
+		dropitem "HDFireExtinguisher",256,4;
+		dropitem "PB_HDAutoMagSpawn_SA",256,3;
+	}
+}
+
+class PB_NormalMagPickup:HDInvRandomSpawner{
+	default{
+		dropitem "HD50AM_Mag",256,5;
+		dropitem "HDMAC10_Mag",256,12;
+		dropitem "HDMK23SOCOM_Mag",256,11;
+		dropitem "HDM165Mag_Used",256,10;
+		dropitem "HDCombatKnife",256,4;
+		dropitem "HDFireExtinguisher",256,3;
+		dropitem "PB_HDSteyrACRMag",256,3;
+		dropitem "HD9mMag30",256,2;
+		dropitem "HD355BoxPickup",256,1;
+	}
+}
+
+class PB_AmmoBoxRep:HDInvRandomSpawner{
+	default{
+		dropitem "PB_ClipBoxPickup1",256,5;
+		dropitem "PB_ClipBoxPickup2",256,4;
+		dropitem "PB_MK23SOCOMSpawn",256,3;
+		dropitem "PB_Ruger1022Spawn",256,1;
+		dropitem "PB_5mmBoxPickup",256,2;
+		dropitem "PB_50AMBoxPickup",256,1;
+		dropitem "HD6mmFlechetteBoxPickup",256,1;
+		dropitem "HDAT4_WEP",256,1;
+		dropitem "HD_CAWSMag",256,2;
+		//dropitem "HDRPOA_WEP",256,1; dummying this out because i havent worked on it
+		dropitem "HDFireExtinguisher",256,4;
+		dropitem "HDColt9mmMag25", 256, 4;
+		dropitem "HD7mBoxPickup",256,1;
+		dropitem "HD355BoxPickup",256,1;
+	}
+}
+
+class PB_RocketboxDrop:HDInvRandomSpawner{
+	default{
+		dropitem "HDAT4_WEP",256,2;
+		dropitem "HDCGM25_WEP",256,1;
+		dropitem "HD8mmECAmmoBox",256,1;
+		//prioritize these over mod stuff
+		dropitem "RocketBigPickup",256,14;
+		dropitem "HDFragGrenadePickup",256,3;
+	}
+}
+
+class PB_ShellRandom:HDInvRandomSpawner{
+	default{
+		dropitem "PB_TerminatorSpawn",256,1;
+		dropitem "HD50AM_Mag",256,2;
+		dropitem "HDPS20",256,5;
+		dropitem "HDCombatKnife",256,2;
+		//vanilla pickups
+		/*dropitem "HDFragGrenadePickup",256,2;
+		dropitem "ShellPickup",256,8;
+		dropitem "HDFumbledShell",256,4;
+		dropitem "BFGNecroShard",200,1;
+		dropitem "HDAB",200,1;
+		dropitem "DoorBuster",256,1;
+		dropitem "YokaiSpawner",128,1*/
+
+	}
+}
+
+class PB_ShellBoxRandom:HDInvRandomSpawner{
+	default{
+		dropitem "PB_TerminatorSpawn",256,7;
+		dropitem "HD50AM_Mag",256,3;
+		dropitem "HDG11Mag",256,2;
+		dropitem "PB_Ruger1022Spawn",256,1;
+		dropitem "PB_5mmBoxPickup",256,1;
+		dropitem "PB_50AMBoxPickup",256,1;
+		dropitem "HDAT4_WEP",256,1;
+		dropitem "HDCGM25_WEP",256,1;
+		dropitem "HDWilliePeteGrenadePickup",256,1;
+		dropitem "HDGasGrenadePickup",256,1;
+		dropitem "HD_CAWSMag",256,5;
+		dropitem "HDFragGrenadePickup",256,1;
+		dropitem "HD7mBoxPickup",256,1;
+	}
+}
+
+class PB_CellRandom:HDInvRandomSpawner{
+	default{
+		dropitem "HD_FALMag",256,2;
+		dropitem "PB_HDSteyrACRMag",256,3;
+		dropitem "HD8mmECAmmoBox",256,1;
+		//ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss
+		dropitem "BFGNecroShard",128,1;
+		dropitem "BrontornisRound",256,4;
+		dropitem "HDBattery",256,7;
+		dropitem "HDNapalmTank", 256, 5;
+	}
+}
+
+class PB_CellPackRandom:HDInvRandomSpawner{
+	default{
+		dropitem "HD_FALMag",256,5;
+		dropitem "HD6mmFlechetteBoxPickup",256,2;
+		dropitem "PB_SteyrACR_MultiMagSpawn",256,6;
+		dropitem "HDWilliePeteGrenadePickup",256,1;
+		dropitem "HDGasGrenadePickup",256,1;
+		dropitem "HD8mmECAmmoBox",256,1;
+		//idk man
+		dropitem "BrontornisSpawner",256,1;
+		dropitem "HDBattery",256,4;
+		dropitem "HDNapalmTank", 256, 4;
+		dropitem "YokaiSpawner",256,1;
+		dropitem "HDFragGrenadePickup",256,2;
+		dropitem "HD7mBoxPickup",256,1;
+	}
+}
+
+// ------------------------------------------------------------
+// Guns/Weapons
+// ------------------------------------------------------------
+
+class PB_HDChainsawRep:HDInvRandomSpawner{
+	default{
+	+weaponspawn
+	
+	//These should always be breaching tools
+	
+	//dropitem "Lumberjack", 256, 6;
+	dropitem "HDFireAxe", 256, 4;
+	dropitem "HDSledgehammer", 256, 2;
+	}
+}
+
+class PB_PistolDropper : HDInvRandomSpawner {
+	default{ //drops more commonly when it actually replaces something
+	dropitem "HDMK23SOCOM",27,1;
+	dropitem "HDMAC10",21,1;
+	dropitem "HD_AutoMag",20,1;
+	dropitem "HD_AutoMagFA",17,1;
+	//dropitem "HDCombatKnife",12,1;
+	}
+}
+
+class PB_HDHunterRep:HDInvRandomSpawner{
+	default{
+	+weaponspawn
+	dropitem "HD_AutoMag", 256, 6;
+	dropitem "HD_AutoMagFA", 256, 4;
+	dropitem "HD_Uragan5Spawn", 256, 2;
+	dropitem "HDLeverGun", 256, 5;
+	}
+}
+
+class PB_HDSlayerRep:HDInvRandomSpawner{
+	default{
+	+weaponspawn
+	dropitem "PB_HDAutoMagSpawn_SA", 256, 6;
+	dropitem "PB_HDAutoMagSpawn_FA", 256, 5;
+	dropitem "HDStreetSweeper", 256, 2;
+	dropitem "HD_Uragan5Spawn", 256, 3;
+	dropitem "PB_HKCAWS_Spawn", 256, 4;
+	dropitem "HDLeverGun", 256, 4;
+	dropitem "PB_PSG1_Spawn", 256, 1;
+	}
+}
+
+class PB_VulcanetteRep:HDInvRandomSpawner{
+	default{
+	+weaponspawn
+	dropitem "PB_HDAutoMagSpawn_FA", 256, 2;
+	dropitem "PB_MAC11Spawn", 256, 4;
+	dropitem "PB_G11Spawn_Normal", 256, 8;
+	dropitem "PB_G11Spawn_Scoped", 256, 7;
+	dropitem "HD_M5165", 256, 6;
+	dropitem "HD_FNFAL", 256, 3;
+	dropitem "PB_Colt9mm_Spawn", 256, 5;
+	dropitem "HD_SteyrACR", 256, 4;
+	dropitem "HD_CAWSGUN", 256, 3;
+	}
+}
+
+class PB_PlasmaRep:HDInvRandomSpawner{
+	default{
+	+weaponspawn
+	dropitem "HD_FNFAL", 256, 5;
+	dropitem "HD_M60", 256, 4;
+	dropitem "HD_ATCDevincenzia", 256, 2;
+	dropitem "PB_SteyrACR_Spawn", 256, 4;
+	dropitem "HDMancCannon", 256, 4;
+	//dropitem "LiberatorRandom", 256, 3;
+	}
+}
+
+class PB_BFG9000Rep:HDInvRandomSpawner{
+	default{
+	+weaponspawn
+	dropitem "PB_KelenkenSpawn", 256, 4;
+	dropitem "PB_SmartgunSpawn", 256, 5;
+	dropitem "PB_MaDeuceSpawn", 256, 4;
+	dropitem "PB_RailGunSpawn", 256, 4;
+	}
+}
