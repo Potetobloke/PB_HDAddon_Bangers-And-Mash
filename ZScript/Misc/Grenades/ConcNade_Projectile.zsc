@@ -46,6 +46,9 @@ class HDConcussionGrenadeRoller:HDActor{
 	destroy:
 		TNT1 A 1{
 			bsolid=false;bpushable=false;bmissile=false;bnointeraction=false;bshootable=false;
+			
+			//A_SpawnChunks("HD_PBGasEmit",32,8,8);
+			
 			A_HDBlast(
 				blastradius:256,blastdamage:15,fullblastradius:256,
 				pushradius:256,pushamount:512,fullpushradius:128,

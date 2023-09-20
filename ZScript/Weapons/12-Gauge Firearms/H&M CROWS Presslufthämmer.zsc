@@ -170,6 +170,7 @@ class HD_CAWSGUN:HDShotgun{
 	override string gethelptext(){
 		return
 		WEPHELP_FIRESHOOT
+		..WEPHELP_ALTFIRE.."  Unjam\n"
 		..WEPHELP_RELOAD.."  Reload mag\n"
 		//..WEPHELP_USE.."+"..WEPHELP_RELOAD.."  Reload chamber\n"
 		..WEPHELP_FIREMODE.."  Semi/Auto\n"
@@ -289,8 +290,7 @@ class HD_CAWSGUN:HDShotgun{
 			if(invoker.weaponstatus[CAWSG_CHAMBER]==2){
 				A_GunFlash();
 			}else{
-				if(invoker.weaponstatus[CAWSG_MAG]>0)setweaponstate("chamber_manual");
-				else setweaponstate("nope");
+				setweaponstate("nope");
 			}
 		}
 		#### B 1 offset(0,36){
@@ -306,6 +306,10 @@ class HD_CAWSGUN:HDShotgun{
 			if(invoker.weaponstatus[CAWSG_AUTO]==1)A_ReFire("fire2");
 			A_WeaponReady(WRF_NOFIRE);
 		}
+		goto nope;
+		
+	altfire:
+		#### A 3 {if(invoker.weaponstatus[CAWSG_MAG]>0)setweaponstate("chamber_manual");}
 		goto nope;
 	whoops:
 		#### C 1 offset(0,36);

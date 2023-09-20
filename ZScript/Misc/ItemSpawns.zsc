@@ -20,9 +20,8 @@ class PB_HDAutoMagSpawn_FA:IdleDummy{
 	states{
 	spawn:
 		TNT1 A 0 nodelay{
-			HD_AutoMag www=HD_AutoMag(spawn("HD_AutoMag",pos,ALLOW_REPLACE));
+			let www=HD_AutoMagFA(spawn("HD_AutoMagFA",pos,ALLOW_REPLACE));
 			HDF.TransferSpecials(self,www,HDF.TS_ALL);
-			if(www)www.weaponstatus[0]|=PI5F_SELECTFIRE;
 
 				spawn("HD50AM_Mag",pos+(10,0,0),ALLOW_REPLACE);
 				spawn("HD50AM_Mag",pos+(8,0,0),ALLOW_REPLACE);
@@ -81,6 +80,16 @@ class PB_TerminatorSpawn:IdleDummy{
 			}stop;
 		}
 	}
+
+
+/*class PB_MAC11Spawn:PB_MAC10_Mag{
+	override void postbeginplay(){
+		super.postbeginplay();
+		spawn("HDMAC10",pos,ALLOW_REPLACE);
+		spawn("HD9mMag30",pos,ALLOW_REPLACE);
+		spawn("HD9mMag30",pos,ALLOW_REPLACE);
+	}
+}*/
 
 class PB_MAC11Spawn:IdleDummy{
 	states{
@@ -180,9 +189,9 @@ class PB_Colt9mm_Spawn:IdleDummy{
 			let www=HDColt355(spawn("HDColt355",pos,ALLOW_REPLACE));
 			HDF.TransferSpecials(self,www,HDF.TS_ALL);
 
-				spawn("HD355BoxPickup",pos+(8,0,2),ALLOW_REPLACE);
-				spawn("HD355BoxPickup",pos+(2,0,1),ALLOW_REPLACE);
-				spawn("HD355BoxPickup",pos+(-3,3,1),ALLOW_REPLACE);
+				spawn("HDColt9mmMag25",pos+(8,0,2),ALLOW_REPLACE);
+				spawn("HDColt9mmMag25",pos+(2,0,1),ALLOW_REPLACE);
+				spawn("HDColt9mmMag25",pos+(-3,3,1),ALLOW_REPLACE);
 			}stop;
 		}
 	}
@@ -265,6 +274,21 @@ class PB_MK23SOCOM_MultiMagSpawn:IdleDummy{
 
 				spawn("HDMK23SOCOM_Mag",pos+(1,2,1),ALLOW_REPLACE);
 				spawn("HDMK23SOCOM_Mag",pos+(-2,-2,-1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+	
+	
+class PB_PM9Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDMinebeaPM9(spawn("HDMinebeaPM9",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HD9mMag30",pos+(10,0,0),ALLOW_REPLACE);
+				spawn("HD9mMag30",pos+(8,0,0),ALLOW_REPLACE);
+				spawn("HD9mMag30",pos+(5,0,0),ALLOW_REPLACE);
 			}stop;
 		}
 	}
@@ -494,6 +518,7 @@ class PB_VulcanetteRep:HDInvRandomSpawner{
 	default{
 	+weaponspawn
 	dropitem "PB_HDAutoMagSpawn_FA", 256, 2;
+	dropitem "PB_PM9Spawn", 256, 5;
 	dropitem "PB_MAC11Spawn", 256, 4;
 	dropitem "PB_G11Spawn_Normal", 256, 8;
 	dropitem "PB_G11Spawn_Scoped", 256, 7;
@@ -524,5 +549,15 @@ class PB_BFG9000Rep:HDInvRandomSpawner{
 	dropitem "PB_SmartgunSpawn", 256, 5;
 	dropitem "PB_MaDeuceSpawn", 256, 4;
 	dropitem "PB_RailGunSpawn", 256, 4;
+	}
+}
+
+class PB_PistolDropper : HDInvRandomSpawner {
+	default{ //drops more commonly when it actually replaces something
+	dropitem "HDMK23SOCOM",27,1;
+	dropitem "HDMAC10",21,1;
+	dropitem "HD_AutoMag",20,1;
+	dropitem "HD_AutoMagFA",17,1;
+	//dropitem "HDCombatKnife",12,1;
 	}
 }

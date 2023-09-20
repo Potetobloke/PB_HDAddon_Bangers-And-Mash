@@ -322,7 +322,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 		goto ready;
 	zerkpunch:
 		CKF0 D 0 {A_Recoil(-1); A_WeaponReady(WRF_NOSWITCH|WRF_NOFIRE);}
-		#### D 0 HDStab(invoker.flicked?150:110);
+		#### D 0 HDStab(invoker.flicked?40:30);
 		#### D 3 A_WeaponOffset(frandom(-12,12),frandom(30,34));
 		#### CBE 1;
 		#### E 1;

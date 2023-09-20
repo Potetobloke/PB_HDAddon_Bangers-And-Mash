@@ -169,7 +169,7 @@ class HDG11Rifle_Scoped:HDWeapon{
 				//burst
 				invoker.weaponstatus[G11S_AUTO]<1
 				||invoker.weaponstatus[G11S_RATCHET]>2
-			)setweaponstate("nope");
+			)setweaponstate("dryfire");
 		}goto fire2;
 	user2:
 	firemode:
@@ -187,10 +187,10 @@ class HDG11Rifle_Scoped:HDWeapon{
 				A_GunFlash();
 			}else{
 				if(invoker.weaponstatus[G11S_MAG]>0)setweaponstate("chamber");
-				else setweaponstate("nope");
+				else setweaponstate("dryfire");
 			}
 		}
-		GS1G D 0{
+		GS1G D 1{
 
 			if(invoker.weaponstatus[G11S_MAG]>0){
 				invoker.weaponstatus[G11S_MAG]--;
@@ -214,6 +214,10 @@ class HDG11Rifle_Scoped:HDWeapon{
 			{A_SetTics(1); A_ReFire();}
 		}
 		#### A 0 A_ReFire();
+		goto nope;
+	dryfire:
+		GS1G D 1;
+		GS1G A 0;
 		goto nope;
 	flash:
 		TNT1 A 1 bright{

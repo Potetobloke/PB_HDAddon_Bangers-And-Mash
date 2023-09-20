@@ -281,7 +281,7 @@ class HD_CGM25_Rocket:RocketGrenade{
 		+notargetswitch
 		scale 0.35; woundhealth 35;
 		stamina 25; mass 200;
-		speed 15;
+		speed 5;
 		decal "BrontoScorch";
 	}
 	override void ExplodeSlowMissile(line blockingline,actor blockingobject){
@@ -341,7 +341,7 @@ class HD_CGM25_Rocket:RocketGrenade{
 			if(stamina>0){  
 				if(!inthesky){
 				
-				A_SeekerMissile(90,90,SMF_LOOK,32);
+				A_SeekerMissile(75,75,SMF_LOOK,32);
 				
 					brockettrail=true;
 					actor sss=spawn("HDGunsmoke",pos,ALLOW_REPLACE);

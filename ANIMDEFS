@@ -6,3 +6,21 @@ cameratexture HDXHCAM4_PB 300 200
 cameratexture HDXHCAM5_PB 100 161
 cameratexture HDXHCAM6_PB 120 193
 cameratexture HDXHCAM7_PB 128 112
+
+//idea shamelessly stolen from kinsie's JPF
+
+warp2 texture WPS0A0 0.7
+warp2 texture WPS0B0 0.4
+warp2 texture WPS0C0 0.6 
+warp2 texture WPS0D0 0.3
+
+warp2 texture GAS1A0 0.9
+warp2 texture GAS1B0 0.8
+warp2 texture GAS1C0 0.7
+warp2 texture GAS1D0 0.6
+warp2 texture GAS1E0 0.5
+warp2 texture GAS1F0 0.4
+warp2 texture GAS1G0 0.3
+warp2 texture GAS1H0 0.4
+warp2 texture GAS1I0 0.5
+warp2 texture GAS1J0 0.4

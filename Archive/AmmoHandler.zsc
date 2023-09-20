@@ -16,10 +16,16 @@ class PB_AmmoHandler : EventHandler {
 		
 		switch (T.GetClassName()) {
 
-		//case 'HD9mMag30':
-		//case 'HDPistolAmmo':
-		//	PushItem(T, "HDMAC11");
-		//	break;
+		case 'HD9mMag30':
+			PushItem(T, "HDMinebeaPM9");
+			break;
+		case 'HD9mMag15':
+			PushItem(T, "HDRafficaPistol");
+			break;
+		case 'HDPistolAmmo':
+			PushItem(T, "HDRafficaPistol");
+			PushItem(T, "HDMinebeaPM9");
+			break;
 
 		case 'HDShellAmmo':
 			PushItem(T, "HDUragan5");

@@ -28,7 +28,7 @@ class HDNapalmTank:HDMagAmmo{
 	}
 	override void GetItemsThatUseThis(){
 		//itemsthatusethis.push("PBFlamethrower");
-		itemsthatusethis.push("PBMancCannon");
+		itemsthatusethis.push("HDMancCannon");
 	}
 	
 	override bool Extract(){return false;}
