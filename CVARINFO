@@ -232,6 +232,16 @@ server int g11mag_shellbox_spawn_bias = 14;
 server int g11mag_clipbox_spawn_bias = 14;
 server bool g11mag_persistent_spawning = false;
 
+// 93R
+server bool raffica_allowBackpacks = true;
+server int raffica_pistol_spawn_bias = 9;
+server bool raffica_persistent_spawning = false;
+
+// M9S
+server bool m9s_allowBackpacks = true;
+server int m9s_pistol_spawn_bias = 9;
+server bool m9s_persistent_spawning = false;
+
 //-----------------
 // Miscallaneous CVARs
 //-----------------

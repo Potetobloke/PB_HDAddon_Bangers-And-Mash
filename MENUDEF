@@ -5,8 +5,7 @@
 /* This is organized in the way of:
 - Adding the option menu to options and the HDAddonMenu.
 - Main menu, where everything is housed.
-- Specific weapon menus.
-*/
+- Specific weapon menus.*/
 
 // Main Menu stuff
 AddOptionMenu "OptionsMenu" {
@@ -30,6 +29,8 @@ OptionMenu "PBWepsMenu" {
 	StaticText ""
     Submenu "$TAG_MK23", "mk23Spawning", 0, 1
 	StaticText ""
+	Submenu "$TAG_93R", "93rSpawning", 0, 1
+	StaticText ""
 
 	StaticText "$MENU_SHOTGUNS_TITLE", "Red"
     StaticText ""
@@ -50,9 +51,11 @@ OptionMenu "PBWepsMenu" {
 	StaticText ""
 	Submenu "$TAG_FAL", "falSpawning", 0, 1
 	StaticText ""
-	Submenu "$TAG_M5165C", "m5165cSpawning", 0,1
+	Submenu "$TAG_M5165C", "m5165cSpawning", 0, 1
 	StaticText ""
-	Submenu "$TAG_MAC10", "mac10Spawning", 0,1
+	Submenu "$TAG_MAC10", "mac10Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_M9S", "m9sSpawning", 0, 1
 	StaticText ""
 
 	StaticText "$MENU_EXPLOSIVES_TITLE", "Brown"
@@ -271,8 +274,8 @@ OptionMenu "m60Spawning" {
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
-	Option "$MENU_WEPPERSISTENCY", "m60_allowBackpacks", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m60_allowBackpacks"
+	Option "$MENU_WEPPERSISTENCY", "m60_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m60_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Green"
@@ -345,6 +348,65 @@ OptionMenu "psg1Spawning" {
 
 	StaticText "$MENU_RESETOPTIONS", "Orange"
 	SafeCommand "$MENU_RESETALLOPTIONS", "psg1_reset_cvars"
+}
+
+// 9mm Firearms
+OptionMenu "93rSpawning" {
+    Title "$MENU_93R_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Yellow"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Yellow"
+    StaticText "$MENU_93R_PISTOL_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "raffica_pistol_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar raffica_pistol_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_93R_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "raffica_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Yellow"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "raffica_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar raffica_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Yellow"
+	SafeCommand "$MENU_RESETALLOPTIONS", "93r_reset_cvars"
+}
+
+OptionMenu "m9sSpawning" {
+    Title "$MENU_M9S_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_M9S_PISTOL_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "m9s_pistol_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar m9s_pistol_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_M9S_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "m9s_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "m9s_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m9s_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "m9s_reset_cvars"
 }
 
 // 12-Gauge Firearms

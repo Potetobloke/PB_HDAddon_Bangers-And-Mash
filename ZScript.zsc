@@ -75,6 +75,10 @@ version "4.10"
 #include "zscript/Weapons/7mm Firearms/PSG2A1.zsc"
 #include "zscript/Weapons/7mm Firearms/UN-AF L7A1.zsc"
 
+// 9mm Firearms
+#include "ZScript/Weapons/9mm Firearms/93R.zsc"
+#include "ZScript/Weapons/9mm Firearms/PM9.zsc"
+
 // 12-Gauge Firearms
 #include "zscript/Weapons/12-Gauge Firearms/Arkoudi M12-5.zsc"
 #include "zscript/Weapons/12-Gauge Firearms/H&M CROWS Presslufthämmer.zsc"

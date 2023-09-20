@@ -189,6 +189,8 @@ class PBWepsHandler : EventHandler {
         if (!combatknife_allowBackpacks)     backpackBlacklist.push((Class<Inventory>)('HDCombatKnife'));
         if (!at4_allowBackpacks)             backpackBlacklist.push((Class<Inventory>)('HDAT4_WEP'));
         if (!cgm25_allowBackpacks)           backpackBlacklist.push((Class<Inventory>)('HDCGM25_WEP'));
+        if (!raffica_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HDRafficaPistol'));
+        if (!m9s_allowBackpacks)             backpackBlacklist.push((Class<Inventory>)('HDMinebeaPM9'));
 
         if (!g11mag_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HDG11Mag'));
         if (!m165mag_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HD_M165Mag'));
@@ -443,6 +445,16 @@ class PBWepsHandler : EventHandler {
         Array<PBWepsSpawnItemEntry> spawns_ruger1022;
         spawns_ruger1022.push(addItemEntry('ShellBoxPickup', ruger1022_shellbox_spawn_bias));
         addItem('PB_Ruger1022Spawn', spawns_ruger1022, ruger1022_persistent_spawning);
+
+        // 93R
+        Array<PBWepsSpawnItemEntry> spawns_93R;
+        spawns_93R.push(addItemEntry('HDPistol', raffica_pistol_spawn_bias));
+        addItem('HDRafficaPistol', spawns_93R, raffica_persistent_spawning);
+
+        // M9S
+        Array<PBWepsSpawnItemEntry> spawns_m9s;
+        spawns_m9s.push(addItemEntry('HDPistol', m9s_pistol_spawn_bias));
+        addItem('HDMinebeaPM9', spawns_m9s, m9s_persistent_spawning);
 
         //------------
         // Ammunition
