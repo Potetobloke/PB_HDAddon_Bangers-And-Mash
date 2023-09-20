@@ -1,9 +1,6 @@
 // ------------------------------------------------------------
 // Pistol
 // ------------------------------------------------------------
-
-const HDLD_RAFFICAPISTOL="93r";
-
 class HDRafficaPistol:HDHandgun{
 	default{
 		+hdweapon.fitsinbackpack

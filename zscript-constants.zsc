@@ -171,3 +171,9 @@ const CAWS_MINSHOTPOWER=0.910;
 
 // M12/5
 const HDLD_URAGAN5="ura";//URA URA URA URA
+
+// 93R
+const HDLD_RAFFICAPISTOL="93r";
+
+// PM9
+const HDLD_MINEBEAPM9="pm9";
