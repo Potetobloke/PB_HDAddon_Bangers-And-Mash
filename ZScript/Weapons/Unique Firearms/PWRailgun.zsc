@@ -18,7 +18,7 @@ class HDFortuneRailgun:HDWeapon{
 		scale 0.725;
 		inventory.pickupmessage "You got the railgun!";
 		obituary "%o's misfortune lead to them getting killed by %k.";
-		tag "XM99 Experimental Railgun";
+		tag "$TAG_RAILGUN";
 		hdweapon.refid HDLD_PWRAILGUN;
 	}
 	

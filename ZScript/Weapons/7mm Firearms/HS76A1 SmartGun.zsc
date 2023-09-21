@@ -18,7 +18,7 @@ class HDMicrogun:HDWeapon{
 		inventory.pickupmessage "You got the HS76A1 SmartGun! Fire it in short, controlled bursts!";
 		obituary "%o was turned into swiss cheese by %k's bike parts.";
 		hdweapon.barrelsize 40,4,2;
-		tag "H&M HS76A1 SmartGun";
+		tag "$TAG_SMARTGUN";
 		hdweapon.refid HDLD_SMARTGUN;
 	}
 	//dummying this out because this isnt a disposable weapon

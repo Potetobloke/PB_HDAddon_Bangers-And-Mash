@@ -10,7 +10,7 @@ class HDLeverGun:HDWeapon{
 		weapon.bobstyle "normal";
 		obituary "%k made %o yee their last haw.";
 		inventory.pickupmessage "You got the lever action rifle!";
-		tag "Sawyer LR37 ''Big Boy'' Hunting Carbine";
+		tag "$TAG_LEVERGAT";
 		hdweapon.refid HDLD_LEVERRIFLE;
 		hdweapon.barrelsize 28,0.6,2;
 		inventory.maxamount 3;

@@ -15,7 +15,7 @@ class HDAT4_WEP:HDWeapon{
 		inventory.pickupmessage "You got the disposable rocket launcher!";
 		obituary "%o's remains can no longer be identified thanks to %k's green tube.";
 		hdweapon.barrelsize 32,2.1,2;
-		tag "RAT-84";
+		tag "$TAG_AT4";
 		hdweapon.refid HDLD_AT4;
 	}
 	override string pickupmessage(){

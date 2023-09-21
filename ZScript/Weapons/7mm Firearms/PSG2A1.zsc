@@ -17,7 +17,7 @@ class HD_PSG1:HDWeapon{
 		inventory.pickupMessage "You got the semi-auto sniper rifle!";
 		//hdweapon.barrelsize 45,1,2;
 		hdweapon.refid HDLD_PSG1_RIFLE;
-		tag "H&M PSG2A1 Sniper Rifle";
+		tag "$TAG_PSG1";
 		hdweapon.loadoutcodes "
 			\cusuppressor - 0/1, whether to reduce shot noise for less power
 			\cureticle - 0/1, whether the reticle starts illuminated or not

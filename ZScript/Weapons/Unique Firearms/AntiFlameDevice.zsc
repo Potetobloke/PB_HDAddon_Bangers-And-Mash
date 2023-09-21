@@ -21,7 +21,7 @@ class HDFireExtinguisher:HDWeaponGrabber{
 		obituary "%k put out %o's existence.";
 		hdweapon.barrelsize 26,1,2;
 		hdweapon.refid HDLD_FIREEXTINGUISHER;
-		tag "Fire Extinguisher";
+		tag "$TAG_EXTINGUISHER";
 		+inventory.invbar
 		inventory.icon "FXTPA0";
 	}

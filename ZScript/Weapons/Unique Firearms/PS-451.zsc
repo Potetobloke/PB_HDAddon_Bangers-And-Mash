@@ -17,7 +17,7 @@ class HDPS20:HDHandgun{
 		inventory.pickupmessage "You got the PS-451!";
 		obituary "%o got disposed by %k's really strong piece of metal.";
 		hdweapon.barrelsize 5,1,2;
-		tag "Denton Light Arms and Munitions PS-451";
+		tag "$TAG_PS20";
 		inventory.amount 1;
 		inventory.maxamount 12;
 		+inventory.invbar

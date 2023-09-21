@@ -19,7 +19,7 @@ class HDG11Rifle_Scoped:HDWeapon{
 		inventory.pickupmessage "You got the G26SD!";
 		hdweapon.barrelsize 26,1,2.25;
 		hdweapon.refid HDLD_G11_Scoped;
-		tag "H&M G26SD Service Rifle";
+		tag "$TAG_G11_SCOPED";
 	}
 	
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}

@@ -16,7 +16,7 @@ class HD_AutoMag:HDHandgun{
 		weapon.bobstyle "normal";
 		obituary "%k assumed %o was carrying their 2nd pistol.";
 		inventory.pickupmessage "You got the magnum handgun!";
-		tag "SP-50 Mega Class Magnum";
+		tag "$TAG_AUTOMAG";
 		hdweapon.refid HDLD_50PSTL;
 		inventory.maxamount 3;
 		

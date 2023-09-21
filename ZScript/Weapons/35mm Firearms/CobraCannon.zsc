@@ -19,7 +19,7 @@ class HD_ATCDevincenzia:HDWeapon{
 		inventory.pickupmessage "You got the Devincenzia! State of the art bang bang!";
 		hdweapon.barrelsize 52,1.5,3;
 		hdweapon.refid HDLD_COBRACANNON_WP;
-		tag "Berlinghoff XM135 ''Devincenzia''"; 
+		tag "$TAG_DEVINCENZIA"; 
 		//Originally the Cobra Assault Cannon (ala Robocop), but I decided to make it more in line with HD's Brontornis.
 	}
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}

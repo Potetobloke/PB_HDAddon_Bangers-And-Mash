@@ -9,7 +9,7 @@ class HDGasGrenades:HDGrenadethrower{
 		weapon.selectionorder 1020;
 		weapon.slotpriority 1;
 		weapon.slotnumber 0;
-		tag "''Roller'' Toxic Gas Grenades";
+		tag "$TAG_GASGRENADES";
 		hdgrenadethrower.ammotype "HDGasGrenadeAmmo";
 		hdgrenadethrower.throwtype "HDGasGrenadeThrown";
 		hdgrenadethrower.spoontype "HDGasGrenadeSpoon";
@@ -139,7 +139,7 @@ class HDGasGrenadeAmmo:HDAmmo{
 		inventory.maxamount 50;
 		inventory.pickupmessage "Picked up a ''Roller'' Toxic Gas Grenade.";
 		inventory.pickupsound "weapons/pocket";
-		tag "''Roller'' Toxic Gas Grenades";
+		tag "$TAG_GASGRENADES";
 		hdpickup.refid HDLD_GRE_GAS;
 		hdpickup.bulk ENC_GASGRENADE;
 		+INVENTORY.KEEPDEPLETED

@@ -14,9 +14,10 @@ class HDRafficaPistol:HDHandgun{
 		weapon.bobrangey 0.6;
 		weapon.bobspeed 2.5;
 		weapon.bobstyle "normal";
+		// Both the obituary and pickup message should be made unique later for language sake. - [Ted]
 		obituary "$OB_PISTOL";
 		inventory.pickupmessage "$PICKUP_PISTOL";
-		tag "Mouletta 97R ''Raffica''";
+		tag "$TAG_93R";
 		hdweapon.refid HDLD_RAFFICAPISTOL;
 		hdweapon.barrelsize 19,0.3,0.5;
 

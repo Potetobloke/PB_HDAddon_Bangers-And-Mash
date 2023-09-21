@@ -50,7 +50,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 		scale 0.6;
 		//+FLATSPRITE
 		DamageFunction (random(30,40));
-		tag "Combat Knife";
+		tag "$TAG_KNIFE";
 		hdweapon.refid HDLD_KNIFE;
 	}
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}

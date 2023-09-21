@@ -15,7 +15,7 @@ class HDG11Rifle:HDWeapon{
 		inventory.pickupmessage "You got the G26A1!";
 		hdweapon.barrelsize 26,1,2.25;
 		hdweapon.refid HDLD_G11;
-		tag "H&M G26A1 Assault Rifle";
+		tag "$TAG_G11_NORMAL";
 	}
 	
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}

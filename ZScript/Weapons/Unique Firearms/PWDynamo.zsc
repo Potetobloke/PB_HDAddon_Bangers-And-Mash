@@ -16,7 +16,7 @@ class HDRailgunDynamoPW:HDWeapon{
 		obituary "%o was mysteriously killed by %k.";
 		hdweapon.refid HDLD_PW_RAILGUNDYNAMO;
 		hdweapon.barrelsize 15,0.3,0.5;
-		Tag "XM99 Railgun Dynamo";
+		Tag "$TAG_RAILGUNDYNAMO";
 		inventory.maxamount 1;
 	}
 	

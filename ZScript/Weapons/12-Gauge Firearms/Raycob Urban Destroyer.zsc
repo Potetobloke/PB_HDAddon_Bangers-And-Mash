@@ -37,7 +37,7 @@ class HDStreetSweeper:HDWeapon{
 		weapon.bobrangey 0.86;
 		obituary "%o was destroyed by %k's registered (citation needed) ''destructive device''.";
 		inventory.pickupmessage "You got the Raycob Urban Destroyer!"; //No longer City Killer, thanks to oofman1 on the HDest Discord
-		tag "Raycob Urban Destroyer";
+		tag "$TAG_STREETSWEEPER";
 		hdweapon.refid HDLD_STREETSWEEPER;
 		hdweapon.barrelsize 25,0.7,1.2;
 		//inventory.maxamount 3;

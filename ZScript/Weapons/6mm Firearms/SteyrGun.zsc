@@ -18,7 +18,7 @@ class HD_SteyrACR:HDWeapon{
 		inventory.pickupmessage "You got the flechette rifle!";
 		hdweapon.barrelsize 26,0.7,1;
 		hdweapon.refid HDLD_STEYRACR;
-		tag "Austere M17 Flechette Rifle";
+		tag "$TAG_STEYRACR";
 		hdweapon.loadoutcodes "
 			\cufiremode - 0-1, semi/burst
 			\cuzoom - 20-90, 10x the resulting FOV in degrees";

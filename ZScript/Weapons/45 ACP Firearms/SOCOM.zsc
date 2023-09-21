@@ -18,7 +18,7 @@ class HDMK23SOCOM:HDHandgun{
 		//obituary "%o got capped by %k's pea shooter.";
 		obituary "%o was silently taken out.";
 		inventory.pickupmessage "You got the spec-ops handgun!";
-		tag "H&M Mk.45 Combat Handgun";
+		tag "$TAG_MK23";
 		hdweapon.refid HDLD_MK23SOCOM_WEAPON;
 		hdweapon.barrelsize 21,0.5,0.5;
 		

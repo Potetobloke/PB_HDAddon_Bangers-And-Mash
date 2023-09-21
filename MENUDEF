@@ -40,12 +40,16 @@ OptionMenu "PBWepsMenu" {
 	StaticText ""
 	Submenu "$TAG_URAGAN5", "uragan5Spawning", 0, 1
 	StaticText ""
+	Submenu "$TAG_TERMINATOR", "terminatorSpawning", 0, 1
+	StaticText ""
 
 	StaticText "$MENU_MACHINEGUNS_TITLE", "Green"
 	StaticText ""
     Submenu "$TAG_SMARTGUN", "smartgunSpawning", 0, 1
 	StaticText ""
 	Submenu "$TAG_KELENKEN", "kelenkenSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_M2HB", "m2hbSpawning", 0, 1
 	StaticText ""
 	Submenu "$TAG_M60", "m60Spawning", 0, 1
 	StaticText ""
@@ -60,7 +64,11 @@ OptionMenu "PBWepsMenu" {
 
 	StaticText "$MENU_EXPLOSIVES_TITLE", "Brown"
 	StaticText ""
-    Submenu "$TAG_EXAMPLE", "example", 0, 1
+    Submenu "$TAG_CGM25", "cgm25Spawning", 0, 1
+	StaticText ""
+    Submenu "$TAG_AT4", "at4Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_GASGRENADES", "gasgrenadeSpawning", 0, 1
 	StaticText ""
 
 	StaticText "$MENU_RIFLES_TITLE", "Orange"
@@ -69,9 +77,13 @@ OptionMenu "PBWepsMenu" {
 	StaticText ""
 	Submenu "$TAG_STEYRACR", "steyracrSpawning", 0, 1
 	StaticText ""
-	Submenu "$TAG_G11", "g11Spawning", 0, 1
+	Submenu "$MENU_G11_TAG", "g11Spawning", 0, 1
 	StaticText ""
 	Submenu "$TAG_LEVERGAT", "levergatSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_PSG1", "psg1Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_BUGERM22", "bugerm22Spawning", 0, 1
 	StaticText ""
 
     StaticText "$MENU_ENERGYWEAPONS_TITLE", "Cyan"
@@ -83,7 +95,7 @@ OptionMenu "PBWepsMenu" {
 	StaticText ""
     Submenu "$TAG_MANCUBUSCANNON", "mancubuscannonSpawning", 0, 1
 	StaticText ""
-	Submenu "$TAG_WPGRENADE", "wpgrenadeSpawning", 0, 1
+	Submenu "$TAG_WPGRENADES", "wpgrenadeSpawning", 0, 1
 	StaticText ""
 
 	StaticText "$MENU_MELEEWEAPONS_TITLE", "DarkGrey"
@@ -93,6 +105,8 @@ OptionMenu "PBWepsMenu" {
 	Submenu "$TAG_FIREAXE", "fireaxeSpawning", 0, 1
 	StaticText ""
 	Submenu "$TAG_SLEDGEHAMMER", "sledgehammerSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_KHARON", "kharonSpawning", 0, 1
 	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS_TITLE", "Red"
@@ -144,8 +158,8 @@ OptionMenu "g11Spawning" {
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
-	Option "$MENU_WEPAUTOMAGFAPERSISTENCY", "g11_normal_persistent_spawning", "OnOff"
-	Option "$MENU_WEPAUTOMAGSAPERSISTENCY", "g11_scoped_persistent_spawning", "OnOff"
+	Option "$MENU_WEPG11NORMALPERSISTENCY", "g11_normal_persistent_spawning", "OnOff"
+	Option "$MENU_WEPG11SCOPEDPERSISTENCY", "g11_scoped_persistent_spawning", "OnOff"
 	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar g11_normal_persistent_spawning; resetcvar g11_scoped_persistent_spawning"
  	StaticText ""
 

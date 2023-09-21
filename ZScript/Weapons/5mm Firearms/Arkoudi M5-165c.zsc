@@ -21,7 +21,7 @@ class HD_M5165:HDWeapon{
 		inventory.pickupmessage "You got the 5mm SMG! Fire a swarm of angry bees at them!";
 		hdweapon.barrelsize 30,1,3;
 		hdweapon.refid HDLD_M165N;
-		tag "Arkoudi M5/165c";
+		tag "$TAG_M5165C";
 	}
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
 	override hdweapon GetSpareWeapon(actor newowner,bool reverse){return GetSpareWeaponRegular(newowner,reverse);}

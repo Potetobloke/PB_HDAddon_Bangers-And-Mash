@@ -24,7 +24,7 @@ class HD_M60:HDWeapon{
 		inventory.pickupmessage "You got the 7.76 GPMG! Get some!";
 		hdweapon.barrelsize 32,1,3;
 		hdweapon.refid HDLD_M60PIG;
-		tag "USGI M60E1 ''Hungry Hog''"; 
+		tag "$TAG_M60"; 
 	}
 	
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}

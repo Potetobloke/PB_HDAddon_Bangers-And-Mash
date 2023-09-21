@@ -20,7 +20,7 @@ class HD_ATCKelenken:HDWeapon{
 		inventory.pickupmessage "You got the Kelenken!";
 		hdweapon.barrelsize 42,1.5,3;
 		hdweapon.refid HDLD_KELENKEN_WP;
-		tag " MS-AT 35mm ''Kelenken''"; 
+		tag "$TAG_KELENKEN"; 
 		
 			hdweapon.loadoutcodes "
 			\cumodded - 1, Increased RoF in exchange for controllability";

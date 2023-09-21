@@ -16,7 +16,7 @@ class HDTerminatorSG:HDWeapon{
 		weapon.bobstyle "normal";
 		obituary "%o died an embarrassing death, caused by %k.";
 		inventory.pickupmessage "You got the Raycob Exterminator.";
-		tag "Raycob Exterminator";
+		tag "$TAG_TERMINATOR";
 		hdweapon.refid HDLD_TERMINATOR;
 		hdweapon.barrelsize 21,0.3,0.5;
 		inventory.maxamount 3;

@@ -32,7 +32,7 @@ class HDCGM25_WEP:HDWeapon{
 		inventory.pickupmessage "You got the auto-tracking cluster missile launcher!";
 		obituary "%o's couldn't shake off %k's auto-tracking missiles.";
 		hdweapon.barrelsize 28,3.1,3;
-		tag "DLAaM ATCM-35"; //Anti-Tank Tracking Missile
+		tag "$TAG_CGM25"; //Anti-Tank Tracking Missile
 		hdweapon.refid HDLD_CGM25;
 	}
 	override string pickupmessage(){

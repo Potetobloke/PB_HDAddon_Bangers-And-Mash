@@ -20,7 +20,7 @@ class HD_FNFAL:HDWeapon{
 		inventory.pickupmessage "You got the 7.76 Support Weapon!";
 		hdweapon.barrelsize 35,1,2;
 		//hdweapon.nicename "Chives Herstal MG77 ''Defender''";
-		tag "UN-AF L7A1 ''Defender''";
+		tag "$TAG_FAL";
 		hdweapon.refid HDLD_FNFAL;
 		hdweapon.loadoutcodes "
 			\curof - 0/1, heavier bolt for a slower rate of fire

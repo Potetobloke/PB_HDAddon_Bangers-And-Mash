@@ -18,7 +18,7 @@ class HD_Ruger1022:HDWeapon{
 		inventory.pickupmessage "You got the target rifle! Hunt some small game with it!";
 		hdweapon.barrelsize 26,1,2.25;
 		hdweapon.refid HDLD_RUGER1022;
-		tag "Buger M22 Target Rifle";
+		tag "$TAG_BUGERM22";
 	}
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
 	override hdweapon GetSpareWeapon(actor newowner,bool reverse){return GetSpareWeaponRegular(newowner,reverse);}

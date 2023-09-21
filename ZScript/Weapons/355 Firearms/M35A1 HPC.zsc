@@ -21,7 +21,7 @@ class HDColt355:HDWeapon{
 		inventory.pickupmessage "You got the .355 SMG!";
 		hdweapon.barrelsize 28,0.9,1;
 		hdweapon.refid HDLD_COLT9MM_NORM;
-		tag "Volt M35A1 HPC";
+		tag "$TAG_COLTCOMMANDO";
 	}
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
 	override hdweapon GetSpareWeapon(actor newowner,bool reverse,bool doselect){return GetSpareWeaponRegular(newowner,reverse,doselect);}

@@ -9,7 +9,7 @@ class HDWhitePhosphorusGrenades:HDGrenadethrower{
 		weapon.selectionorder 1020;
 		weapon.slotpriority 1;
 		weapon.slotnumber 0;
-		tag "White Phosphorus Grenades";
+		tag "$TAG_WPGRENADES";
 		hdgrenadethrower.ammotype "HDWilliePeteGrenadeAmmo";
 		hdgrenadethrower.throwtype "HDWilliePeteGrenadeThrown";
 		hdgrenadethrower.spoontype "HDWilliePeteGrenadeSpoon";
@@ -139,7 +139,7 @@ class HDWilliePeteGrenadeAmmo:HDAmmo{
 		inventory.maxamount 50;
 		inventory.pickupmessage "Picked up a White Phosphorus Grenade.";
 		inventory.pickupsound "weapons/pocket";
-		tag "M70 White Phosphorus Grenades";
+		tag "$TAG_WPGRENADES";
 		hdpickup.refid HDLD_GRE_WHITEPHOSPHORUS;
 		hdpickup.bulk ENC_WPGRENADE;
 		+INVENTORY.KEEPDEPLETED

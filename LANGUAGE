@@ -40,3 +40,100 @@ MENU_RESETWEP = "Reset Weapon Options";
 MENU_RESETMAG = "Reset Magazine Options";
 MENU_RESETPERSISTENCY = "Reset Persistence Options";
 PBWEPS_RESETALLOPTIONS = "Reset all options for Potetobloke's Weapon Pack";
+
+// Weapon Menu Specific Lumps
+
+// 4mm Firearms
+
+// G11
+MENU_G11_TAG = "H&M G26 Series Rifles";
+MENU_G11_TITLE = "------ G26A1 & G26SD Options ------";
+MENU_G11_NORMAL_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the G26A1 on Vulcanettes:";
+MENU_G11_SCOPED_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the G26SD on Vulcanettes:";
+MENU_G11_BACKPACKS = "Control whether the G26 series rifles spawns in Backpacks:";
+MENU_WEPG11NORMALPERSISTENCY = "Control whether replacements happen after a mapload for the G26A1:";
+MENU_WEPG11SCOPEDPERSISTENCY = "Control whether replacements happen after a mapload for the G26SD:";
+
+// 5mm Firearms
+
+// M5165c
+MENU_M5165C_TITLE = "------ M5165C Options ------"
+MENU_M5165C_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the M5165C on Vulcanettes:";
+MENU_M5165C_SMG_SPAWNTEXT = "Control the spawn rate of the M5165C on SMGs:";
+MENU_M5165C_BACKPACKS = "Control whether the M5165C spawns in Backpacks:";
+
+// 6mm Firearms
+
+// Steyr ACR
+MENU_STEYRACR_TITLE = "------ Austere M17 Flechette Rifle Options ------"
+
+// Weapon Tags
+
+// All the tags for weapons, some are likely to only be used in the menu (EG: TAG_G11_MENU for both of the G11 Variants)
+// But all of it should be put here. - [Ted]
+
+// 4mm Firearms
+TAG_G11_NORMAL = "H&M G26A1 Assault Rifle";
+TAG_G11_SCOPED = "H&M G26SD Service Rifle";
+
+// 5mm Firearms
+TAG_M5165C = "Arkoudi M5/165c";
+TAG_BUGERM22 = "Buger M22 Target Rifle";
+
+// 6mm Firearms
+TAG_STEYRACR = "Austere M17 Flechette Rifle";
+
+// 7mm Firearms
+TAG_SMARTGUN = "H&M HS76A1 SmartGun";
+TAG_M60 = "USGI M60E1 \"Hungry Hog\"";
+TAG_FAL = "UN-AF L7A1 \"Defender\"";
+TAG_PSG1 = "H&M PSG2A1 Sniper Rifle";
+
+// 9mm Firearms
+TAG_93R = "Mouletta 97R \"Raffica\"";
+TAG_M9S = "Minato M9S Machine Pistol";
+
+// 12-Gauge Firearms
+TAG_CAWS = "H&M CROWS \"Presslufthämmer\"";
+TAG_STREETSWEEPER = "Raycob Urban Destroyer";
+TAG_URAGAN5 = "Arkoudi M12/5 Shotgun";
+TAG_TERMINATOR = "Raycob Exterminator";
+
+// 35mm Firearms
+TAG_DEVINCENZIA = "Berlinghoff XM135 \"Devincenzia\"";
+TAG_KELENKEN = "MS-AT 35mm \"Kelenken\"";
+
+// 45 ACP Firearms
+TAG_MK23 = "H&M Mk.45 Combat Handgun";
+TAG_MAC10 = "Raycob RAC-10/45 Machine Pistol";
+
+// 50 AM Firearms
+TAG_LEVERGAT = "Sawyer LR37 \"Big Boy\" Hunting Carbine";
+TAG_AUTOMAG = "SP-50 Mega Class Magnum";
+
+// 50 OMG Firearms
+TAG_M2HB = "Brownell AM-HMG50 \"MKII Stinger\"";
+
+// .355 Firearms
+TAG_COLTCOMMANDO = "Volt M35A1 HPC";
+
+// Rocket Launchers
+TAG_CGM25 = "DLAaM ATCM-35";
+TAG_AT4 = "RAT-84";
+
+// Unique Firearms
+TAG_RAILGUN = "XM99 Experimental Railgun";
+TAG_RAILGUNDYNAMO = "XM99 Railgun Dynamo";
+TAG_MANCUBUSCANNON = "Mancubus Arm Cannon";
+TAG_EXTINGUISHER = "Fire Extinguisher";
+TAG_PS20 = "Denton Light Arms and Munitions PS-451";
+
+// Items
+TAG_WPGRENADES = "M70 White Phosphorus Grenades";
+TAG_GASGRENADES = "\"Roller\" Toxic Gas Grenades";
+
+// Melee Weapons
+TAG_KNIFE = "Combat Knife";
+TAG_FIREAXE = "Fire Axe";
+TAG_SLEDGEHAMMER = "Sledgehammer";
+TAG_KHARON = "Replica Kharon";

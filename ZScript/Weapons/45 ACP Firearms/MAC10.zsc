@@ -19,7 +19,7 @@ class HDMAC10:HDHandgun{
 		inventory.pickupmessage "You got the Raycob RAC-10/45!";
 		hdweapon.barrelsize 10,0.65,0.5;
 		hdweapon.refid HDLD_MAC10;
-		tag "Raycob RAC-10/45 Machine Pistol";
+		tag "$TAG_MAC10";
 	}
 	
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}

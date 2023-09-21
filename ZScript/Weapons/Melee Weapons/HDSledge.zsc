@@ -88,7 +88,7 @@ class HDSledgehammer:HD_PB_UnarmedWeapon{
 		weapon.slotnumber 1;
 		DamageFunction (random(60,65));
 		scale 0.75;
-		tag "Sledgehammer";
+		tag "$TAG_SLEDGEHAMMER";
 		hdweapon.refid HDLD_SLEDGEHAMMER;
 		//hdweapon.barrelsize 21,3,1;
 	}

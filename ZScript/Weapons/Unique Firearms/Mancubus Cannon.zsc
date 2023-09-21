@@ -14,7 +14,7 @@ class HDMancCannon:HDWeapon{
 		inventory.pickupmessage "You got a modified mancubus's arm cannon! It somehow works.";
 		obituary "%o was roasted and toasted by %k.";
 		hdweapon.barrelsize 26,2,2;
-		tag "Mancubus Arm Cannon";
+		tag "$TAG_MANCUBUSCANNON";
 	}
 
 	override string,double getpickupsprite(){return "MCN0Z0",0.9;}

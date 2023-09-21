@@ -20,7 +20,7 @@ class HD_CAWSGUN:HDShotgun{
 		scale 0.65;
 		inventory.pickupmessage "You got the Automatic Shotgun! Time to take out the trash!";
 		hdweapon.barrelsize 27,1,2;
-		tag "H&M CROWS ''Presslufthämmer''";
+		tag "$TAG_CAWS";
 		hdweapon.refid HDLD_CAWSGUN;
 	}
 	
