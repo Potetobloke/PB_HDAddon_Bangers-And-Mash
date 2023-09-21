@@ -77,7 +77,7 @@ OptionMenu "PBWepsMenu" {
 	StaticText ""
 	Submenu "$TAG_STEYRACR", "steyracrSpawning", 0, 1
 	StaticText ""
-	Submenu "$MENU_G11_TAG", "g11Spawning", 0, 1
+	Submenu "$TAG_G11", "g11Spawning", 0, 1
 	StaticText ""
 	Submenu "$TAG_LEVERGAT", "levergatSpawning", 0, 1
 	StaticText ""

@@ -46,7 +46,6 @@ PBWEPS_RESETALLOPTIONS = "Reset all options for Potetobloke's Weapon Pack";
 // 4mm Firearms
 
 // G11
-MENU_G11_TAG = "H&M G26 Series Rifles";
 MENU_G11_TITLE = "------ G26A1 & G26SD Options ------";
 MENU_G11_NORMAL_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the G26A1 on Vulcanettes:";
 MENU_G11_SCOPED_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the G26SD on Vulcanettes:";
@@ -65,7 +64,7 @@ MENU_M5165C_BACKPACKS = "Control whether the M5165C spawns in Backpacks:";
 // 6mm Firearms
 
 // Steyr ACR
-MENU_STEYRACR_TITLE = "------ Austere M17 Flechette Rifle Options ------"
+MENU_STEYRACR_TITLE = "------ Austere M17 Flechette Rifle Options ------";
 
 // Weapon Tags
 
@@ -73,6 +72,7 @@ MENU_STEYRACR_TITLE = "------ Austere M17 Flechette Rifle Options ------"
 // But all of it should be put here. - [Ted]
 
 // 4mm Firearms
+TAG_G11 = "H&M G26 Series Rifles";
 TAG_G11_NORMAL = "H&M G26A1 Assault Rifle";
 TAG_G11_SCOPED = "H&M G26SD Service Rifle";
 
