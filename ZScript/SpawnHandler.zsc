@@ -236,6 +236,12 @@ class PBWepsHandler : EventHandler {
         wep_7mm.push('HD_M60');
         addAmmo('SevenMilAmmo', wep_7mm);
 
+        // 9mm
+        Array<string> wep_9mm;
+        wep_9mm.push('HDMinebeaPM9');
+        wep_9mm.push('HDRafficaPistol');
+        addAmmo('HDPistolAmmo', wep_9mm);
+
         // .45 ACP
         Array<string> wep_45acp;
         wep_45acp.push('HDMAC10');
@@ -429,12 +435,12 @@ class PBWepsHandler : EventHandler {
         // Terminator
         Array<PBWepsSpawnItemEntry> spawns_terminator;
         spawns_terminator.push(addItemEntry('ShellBoxPickup', terminator_shellbox_spawn_bias));
-        addItem('PB_TerminatorSpawn', spawns_terminator, terminator_persistent_spawning);
+        addItem('HDTerminatorSG', spawns_terminator, terminator_persistent_spawning, false);
 
         // Fire Extinguisher
         Array<PBWepsSpawnItemEntry> spawns_fireextinguisher;
         spawns_fireextinguisher.push(addItemEntry('HDAmBox', fireextinguisher_ammobox_spawn_bias));
-        addItem('HDFireExtinguisher', spawns_fireextinguisher, fireextinguisher_persistent_spawning);
+        addItem('HDFireExtinguisher', spawns_fireextinguisher, fireextinguisher_persistent_spawning, false);
 
         // PS-20
         Array<PBWepsSpawnItemEntry> spawns_ps20;

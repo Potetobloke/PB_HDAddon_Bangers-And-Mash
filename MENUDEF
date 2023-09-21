@@ -215,9 +215,6 @@ OptionMenu "steyracrSpawning" {
     StaticText "$MENU_STEYRACR_THUNDERBUSTER_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "steyracr_thunderbuster_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar steyracr_thunderbuster_spawn_bias"
- 	StaticText ""
-
-	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
     StaticText "$MENU_STEYRACR_VULCANETTE_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "steyracr_vulcanette_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar steyracr_vulcanette_spawn_bias"
@@ -309,9 +306,6 @@ OptionMenu "falSpawning" {
     StaticText "$MENU_FAL_THUNDERBUSTER_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "fal_thunderbuster_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar fal_thunderbuster_spawn_bias"
- 	StaticText ""
-
-	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
     StaticText "$MENU_FAL_VULCANETTE_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "fal_vulcanette_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar fal_vulcanette_spawn_bias"
@@ -344,7 +338,6 @@ OptionMenu "psg1Spawning" {
     StaticText "$MENU_PSG1_HUNTER_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "psg1_hunter_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar psg1_hunter_spawn_bias"
- 	StaticText ""
     StaticText "$MENU_PSG1_SLAYER_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "psg1_slayer_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar psg1_slayer_spawn_bias"
@@ -437,7 +430,6 @@ OptionMenu "cawsSpawning" {
     StaticText "$MENU_CAWS_VULCANETTE_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "caws_vulcanette_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar caws_vulcanette_spawn_bias"
- 	StaticText ""
     StaticText "$MENU_CAWS_SLAYER_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "caws_slayer_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar caws_slayer_spawn_bias"
@@ -499,7 +491,6 @@ OptionMenu "uragan5Spawning" {
     StaticText "$MENU_URAGAN5_HUNTER_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "uragan5_hunter_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar uragan5_hunter_spawn_bias"
- 	StaticText ""
     StaticText "$MENU_URAGAN5_SLAYER_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "uragan5_slayer_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar uragan5_slayer_spawn_bias"
@@ -517,6 +508,35 @@ OptionMenu "uragan5Spawning" {
 
 	StaticText "$MENU_RESETOPTIONS", "Red"
 	SafeCommand "$MENU_RESETALLOPTIONS", "uragan5_reset_cvars"
+}
+
+OptionMenu "terminatorSpawning" {
+    Title "$MENU_TERMINATOR_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Red"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Red"
+    StaticText "$MENU_TERMINATOR_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "terminator_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar terminator_shellbox_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_TERMINATOR_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "terminator_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Red"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "terminator_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar terminator_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Red"
+	SafeCommand "$MENU_RESETALLOPTIONS", "terminator_reset_cvars"
 }
 
 // 35mm Firearms
