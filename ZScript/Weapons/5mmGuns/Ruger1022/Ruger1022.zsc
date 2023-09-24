@@ -226,9 +226,9 @@ class HD_Ruger1022:HDWeapon{
 
 			//shoot the bullet
 			//copypaste any changes to spawnshoot as well!
-			HDBulletActor.FireBullet(self,"HDBullet5mmMR");
+			let bbb=HDBulletActor.FireBullet(self,"HDBullet5mmMR",speedfactor:frandom(2.5,2.6));
 			invoker.weaponstatus[RG12S_CHAMBER]=1;
-			A_MuzzleClimb(-frandom(-0.1,0.2),-frandom(0.1,0.3),-frandom(-0.1,0.3),-frandom(0.1,0.2));
+			A_MuzzleClimb(-frandom(-0.01,0.01),-frandom(0.02,0.02),-frandom(-0.01,0.01),-frandom(0.01,0.02));
 			A_AlertMonsters();
 		}
 		goto lightdone;
@@ -253,19 +253,19 @@ class HD_Ruger1022:HDWeapon{
 	loadchamber:
 		---- A 0 A_JumpIf(invoker.weaponstatus[RG12S_CHAMBER]>0,"nope");
 		---- A 0 A_JumpIf(!countinv("HD5MM_Ammo"),"nope");
-		---- A 1 offset(0,34) A_StartSound("weapons/pocket",CHAN_WEAPON);
-		---- A 1 offset(2,36);
-		#### A 1 offset(5,40);
-		#### A 4 offset(4,39){
+		#### H 2 offset(0,34) A_StartSound("weapons/pocket",CHAN_6);
+		#### I 3 offset(2,36);
+		#### J 3 offset(5,40) A_StartSound("weapons/ruger1022/fwd",CHAN_7,pitch:0.8);
+		#### J 4 offset(4,39){
 			if(countinv("HD5MM_Ammo")){
 				A_TakeInventory("HD5MM_Ammo",1,TIF_NOTAKEINFINITE);
 				invoker.weaponstatus[RG12S_CHAMBER]=2;
-				A_StartSound("weapons/ruger1022/fwd",CHAN_WEAPON);
+				//A_StartSound("weapons/ruger1022/fwd",CHAN_7);
 			}
 		}
-		#### A 7 offset(5,37);
-		#### A 1 offset(2,36);
-		#### A 1 offset(0,34);
+		#### J 7 offset(5,37);
+		#### I 3 offset(2,36) A_StartSound("weapons/ruger1022/fwd",CHAN_7);
+		#### H 3 offset(0,34);
 		goto readyend;
 	user4:
 	unload:
@@ -281,7 +281,7 @@ class HD_Ruger1022:HDWeapon{
 		R10G A 0;
 		#### A 0{
 			invoker.weaponstatus[0]&=~RG12F_JUSTUNLOAD;
-			if(invoker.weaponstatus[RG12S_MAG]>=25)setweaponstate("nope");
+			if(invoker.weaponstatus[RG12S_MAG]>=10)setweaponstate("nope");
 			else if(HDMagAmmo.NothingLoaded(self,"HDRuger1022Mag")){
 				if(
 					invoker.weaponstatus[RG12S_MAG]<0
@@ -341,7 +341,7 @@ class HD_Ruger1022:HDWeapon{
 			if(
 				invoker.weaponstatus[RG12S_MAG]<1
 				||invoker.weaponstatus[RG12S_CHAMBER]>0
-			)setweaponstate("reloadend");
+			)setweaponstate("reloadend2");
 		}
 	chamber:
 		R10G A 0;
@@ -356,6 +356,14 @@ class HD_Ruger1022:HDWeapon{
 	reloadend:
 		#### G 3 offset(30,52);
 		#### A 2 offset(20,46);
+		#### A 1 offset(10,42);
+		#### A 1 offset(5,38);
+		#### A 1 offset(0,34);
+		goto nope;
+		
+	reloadend2:
+		#### D 3 offset(30,52);
+		#### G 2 offset(20,46);
 		#### A 1 offset(10,42);
 		#### A 1 offset(5,38);
 		#### A 1 offset(0,34);
