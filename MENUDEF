@@ -718,7 +718,6 @@ OptionMenu "levergatSpawning" {
     StaticText "$MENU_LEVERGAT_HUNTER_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "levergat_hunter_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar levergat_hunter_spawn_bias"
- 	StaticText ""
     StaticText "$MENU_LEVERGAT_SLAYER_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "levergat_slayer_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar levergat_slayer_spawn_bias"
@@ -739,6 +738,34 @@ OptionMenu "levergatSpawning" {
 }
 
 // 50 OMG Firearms
+OptionMenu "m2hbSpawning" {
+    Title "$MENU_M2HB_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_M2HB_BFG9000_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "m2hb_bfg_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar m2hb_bfg_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_M2HB_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "m2hb_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "m2hb_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m2hb_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "m2hb_reset_cvars"
+}
 
 // 355 Firearms
 OptionMenu "colt355Spawning" {

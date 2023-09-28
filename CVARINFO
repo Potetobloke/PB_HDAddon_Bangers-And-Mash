@@ -242,6 +242,11 @@ server bool m9s_allowBackpacks = true;
 server int m9s_pistol_spawn_bias = 9;
 server bool m9s_persistent_spawning = false;
 
+// M2HB
+server bool m2hb_allowBackpacks = true;
+server int m2hb_bfg_spawn_bias = 29;
+server bool m2hb_persistent_spawning = false;
+
 //-----------------
 // Miscallaneous CVARs
 //-----------------

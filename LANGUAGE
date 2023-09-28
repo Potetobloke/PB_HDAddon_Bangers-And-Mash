@@ -174,7 +174,43 @@ MENU_MK23_BACKPACKS = "Control whether the H&M Mk. 45 Combat Handgun spawns in B
 // 50 AM Firearms
 //-----------------
 
-// 
+// Automag
+MENU_AUTOMAG_TITLE = "------ SP-50 Mega Class Magnum Options ------";
+MENU_AUTOMAG_FA_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the Full-Auto SP-50 Mega Class Magnum on Vulcanettes:";
+MENU_AUTOMAG_FA_SLAYER_SPAWNTEXT = "Control the spawn rate of the Full-Auto SP-50 Mega Class Magnum on Slayers:";
+MENU_AUTOMAG_SA_HUNTER_SPAWNTEXT = "Control the spawn rate of the Semi-Auto SP-50 Mega Class Magnum on Hunters:";
+MENU_AUTOMAG_SA_PISTOL_SPAWNTEXT = "Control the spawn rate of the Semi-Auto SP-50 Mega Class Magnum on Pistols:";
+MENU_AUTOMAG_BACKPACKS = "Control whether the SP-50 Mega Class Magnum spawns in Backpacks:";
+MENU_WEPAUTOMAGFAPERSISTENCY = "Persistent Weapon Spawns for the Full-Auto SP-50: ";
+MENU_WEPAUTOMAGFAPERSISTENCY = "Persistent Weapon Spawns for the Semi-Auto SP-50: ";
+
+// Levergat
+MENU_LEVERGAT_TITLE = "------ Sawyer LR37 \"Big Boy\" Hunting Carbine ------";
+MENU_LEVERGAT_HUNTER_SPAWNTEXT = "Control the spawn rate of the Sawyer LR37 on Hunters:";
+MENU_LEVERGAT_SLAYER_SPAWNTEXT = "Control the spawn rate of the Sawyer LR37 on Slayers:";
+MENU_LEVERGAT_BACKPACKS = "Control whether the Sawyer LR37 spawns in Backpacks:";
+
+//-----------------
+// 50 OMG Firearms
+//-----------------
+
+// M2HB
+MENU_M2HB_TITLE = "------ Brownell AM-HMG50 \"Mk II Stinger\"";
+MENU_M2HB_BFG9000_SPAWNTEXT = "Control the spawn rate of the Brownell AM-HMG50 on BFG-9000s:";
+MENU_M2HB_BACKPACKS = "Control whether the Brownell AM-HMG50 spawns in Backpacks:";
+
+//-----------------
+// .355 Firearms
+//-----------------
+
+// Colt 355
+MENU_COLT355_TITLE = "------ Volt M35A1 HPC ------";
+MENU_COLT355_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the M35A1 HPC on Vulcanettes:";
+MENU_COLT355_BACKPACKS = "Control whether the M35A1 HPC spawns in Backpacks:";
+
+//-----------------
+// Explosives
+//-----------------
 
 // Weapon Tags
 

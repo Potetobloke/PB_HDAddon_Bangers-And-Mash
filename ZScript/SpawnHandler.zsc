@@ -191,6 +191,7 @@ class PBWepsHandler : EventHandler {
         if (!cgm25_allowBackpacks)           backpackBlacklist.push((Class<Inventory>)('HDCGM25_WEP'));
         if (!raffica_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HDRafficaPistol'));
         if (!m9s_allowBackpacks)             backpackBlacklist.push((Class<Inventory>)('HDMinebeaPM9'));
+        if (!m2hb_allowBackpacks)            backpackBlacklist.push((Class<Inventory>)('HD_M2HB'));
 
         if (!g11mag_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HDG11Mag'));
         if (!m165mag_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HD_M165Mag'));
@@ -279,6 +280,15 @@ class PBWepsHandler : EventHandler {
         wep_ACR.push('HD_SteyrACR');
         addAmmo('PB_HDSteyrACRMag', wep_ACR);
 
+        // 9mm SMG Magazines
+        Array<string> wep_9mm30m;
+        wep_9mm30m.push('HDMinebeaPM9');
+        addAmmo('HD9mMag30', wep_9mm30m);
+
+        // 9mm Pistol Magazines
+        Array<string> wep_9mm15m;
+        wep_9mm15m.push('HDRafficaPistol');
+        addAmmo('HD9mMag15', wep_9mm15m);
 
         //------------
         // Weaponry
@@ -461,6 +471,11 @@ class PBWepsHandler : EventHandler {
         Array<PBWepsSpawnItemEntry> spawns_m9s;
         spawns_m9s.push(addItemEntry('HDPistol', m9s_pistol_spawn_bias));
         addItem('HDMinebeaPM9', spawns_m9s, m9s_persistent_spawning);
+
+        // M2HB
+        Array<PBWepsSpawnItemEntry> spawns_m2hb;
+        spawns_m2hb.push(addItemEntry('BFG9k', m2hb_bfg_spawn_bias));
+        addItem('HD_M2HB', spawns_m2hb, m2hb_persistent_spawning);
 
         //------------
         // Ammunition
