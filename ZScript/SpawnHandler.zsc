@@ -192,6 +192,11 @@ class PBWepsHandler : EventHandler {
         if (!raffica_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HDRafficaPistol'));
         if (!m9s_allowBackpacks)             backpackBlacklist.push((Class<Inventory>)('HDMinebeaPM9'));
         if (!m2hb_allowBackpacks)            backpackBlacklist.push((Class<Inventory>)('HD_M2HB'));
+        if (!terminator_allowBackpacks)      backpackBlacklist.push((Class<Inventory>)('HDTerminatorSG'));
+        if (!kharon_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HDKharon'));
+        if (!gasgrenade_allowBackpacks)      backpackBlacklist.push((Class<Inventory>)('HDGasGrenadeAmmo'));
+        if (!wpgrenade_allowBackpacks)       backpackBlacklist.push((Class<Inventory>)('HDWilliePeteGrenadeAmmo'));
+        if (!ruger1022_allowBackpacks)       backpackBlacklist.push((Class<Inventory>)('HD_Ruger1022'));
 
         if (!g11mag_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HDG11Mag'));
         if (!m165mag_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HD_M165Mag'));

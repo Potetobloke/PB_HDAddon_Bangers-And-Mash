@@ -3,7 +3,8 @@
 //-----------------
 
 // Most of these are server variables so in a multiplayer session they can be synced to other players.
-// Every weapon has a comment before its cvars based on its name in-game for organization. - [Ted]
+// I've tried to comment everything, there's too much shit for me to have done everything though so I gave up halfway.
+// You can likely figure out what's what but uhh good luck. I'll fix it later. - [Ted]
 
 // NOTE: Values need to either be -1, 0, 2, 4, 9, 14, 19, 24, 49, 99, 149 or 199 to work for the spawners!
 // Anything else would require remaking the option values in the menus.
@@ -155,6 +156,7 @@ server int cgm25_shellbox_spawn_bias = 24;
 server bool cgm25_persistent_spawning = false;
 
 server int terminator_shellbox_spawn_bias = 49;
+server bool terminator_allowBackpacks = false;
 server bool terminator_persistent_spawning = false;
 
 server int fireextinguisher_ammobox_spawn_bias = 24;
@@ -164,6 +166,7 @@ server bool ps20_allowBackpacks = true;
 server int ps20_shellbox_spawn_bias = 14;
 server bool ps20_persistent_spawning = false;
 
+server bool ruger1022_allowBackpacks = true;
 server int ruger1022_shellbox_spawn_bias = 14;
 server bool ruger1022_persistent_spawning = false;
 
@@ -224,6 +227,7 @@ server int gasrenades_rocketbox_spawn_bias = 14;
 server int gasgrenades_7mm_spawn_bias = 14;
 server bool gasgrenades_persistent_spawning = false;
 
+server bool gasgrenade_allowBackpacks = true;
 server int gasgrenade_grenade_spawn_bias = 14;
 server bool gasgrenade_persistent_spawning = false;
 
@@ -244,8 +248,13 @@ server bool m9s_persistent_spawning = false;
 
 // M2HB
 server bool m2hb_allowBackpacks = true;
-server int m2hb_bfg_spawn_bias = 29;
+server int m2hb_bfg_spawn_bias = 24;
 server bool m2hb_persistent_spawning = false;
+
+// Kharon
+server bool kharon_allowBackpacks = true;
+server int kharon_chainsaw_spawn_bias = 24;
+server bool kharon_persistent_spawning = false;
 
 //-----------------
 // Miscallaneous CVARs

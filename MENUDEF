@@ -19,9 +19,6 @@ AddOptionMenu "HDAddonMenu" {
 OptionMenu "PBWepsMenu" {
 	Title "$PBWEPS_MENU"
     StaticText ""
-
-    StaticText "Hey, this shit's work in progress! Get outta here! - [Ted]"
-	StaticText ""
 	
 	StaticText "$MENU_PISTOLS_TITLE", "Yellow"
 	StaticText ""
@@ -199,6 +196,35 @@ OptionMenu "m5165cSpawning" {
 
 	StaticText "$MENU_RESETOPTIONS", "Green"
 	SafeCommand "$MENU_RESETALLOPTIONS", "m5165_reset_cvars"
+}
+
+OptionMenu "bugerm22Spawning" {
+    Title "$MENU_BUGERM22_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Orange"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_BUGERM22_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "ruger1022_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar ruger1022_shellbox_spawn_bias"
+	StaticText""
+
+	StaticText "$MENU_BUGERM22_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "ruger1022_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "ruger1022_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar ruger1022_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Orange"
+	SafeCommand "$MENU_RESETALLOPTIONS", "ruger1022_reset_cvars"
 }
 
 // 6mm Firearms
@@ -826,13 +852,114 @@ OptionMenu "wpgrenadeSpawning" {
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
-	Option "$MENU_WP_GRENADEPERSISTENCY", "wpgrenade_persistent_spawning", "OnOff"
-	Option "$MENU_WP_GRENADESPERSISTENCY", "wpgrenades_persistent_spawning", "OnOff"
+	Option "$MENU_GRENADEPERSISTENCY", "wpgrenade_persistent_spawning", "OnOff"
+	Option "$MENU_GRENADEPACKPERSISTENCY", "wpgrenades_persistent_spawning", "OnOff"
 	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar wpgrenade_persistent_spawning; resetcvar wpgrenades_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Fire"
 	SafeCommand "$MENU_RESETALLOPTIONS", "wpgrenade_reset_cvars"
+}
+
+OptionMenu "gasgrenadeSpawning" {
+    Title "$MENU_TOXICGASGRENADES_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Brown"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Brown"
+    StaticText "$MENU_TG_GRENADES_ROCKETBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "gasrenades_rocketbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar gasrenades_rocketbox_spawn_bias"
+    StaticText "$MENU_TG_GRENADES_7MM_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "gasgrenades_7mm_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar gasgrenades_7mm_spawn_bias"
+	StaticText ""
+    StaticText "$MENU_TG_GRENADE_GRENADE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "gasgrenade_grenade_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar gasgrenade_grenade_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_TOXICGASGRENADE_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "gasgrenade_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Brown"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_GRENADEPERSISTENCY", "gasgrenade_persistent_spawning", "OnOff"
+	Option "$MENU_GRENADEPACKPERSISTENCY", "gasgrenades_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar toxicgasgrenade_persistent_spawning; resetcvar toxicgasgrenades_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Brown"
+	SafeCommand "$MENU_RESETALLOPTIONS", "toxicgasgrenade_reset_cvars"
+}
+
+OptionMenu "cgm25Spawning" {
+    Title "$MENU_CGM25_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Brown"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Brown"
+    StaticText "$MENU_CGM25_ROCKETBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "cgm25_rocketbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar cgm25_rocketbox_spawn_bias"
+    StaticText "$MENU_CGM25_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "cgm25_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar cgm25_shellbox_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_CGM25_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "cgm25_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Brown"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "cgm25_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar cgm25_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Brown"
+	SafeCommand "$MENU_RESETALLOPTIONS", "cgm25_reset_cvars"
+}
+
+OptionMenu "at4Spawning" {
+    Title "$MENU_AT4_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Brown"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Brown"
+    StaticText "$MENU_AT4_ROCKETBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "at4_rocketbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar at4_rocketbox_spawn_bias"
+    StaticText "$MENU_AT4_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "at4_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar at4_shellbox_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_AT4_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "at4_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Brown"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "at4_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar at4_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Brown"
+	SafeCommand "$MENU_RESETALLOPTIONS", "at4_reset_cvars"
 }
 
 // Unique Firearms
@@ -968,7 +1095,7 @@ OptionMenu "sledgehammerSpawning" {
 	SafeCommand "$MENU_RESETWEP", "resetcvar sledgehammer_chainsaw_spawn_bias"
  	StaticText ""
 
-	StaticText "$MENU_KNIFE_BACKPACKS", "White"
+	StaticText "$MENU_SLEDGEHAMMER_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "sledgehammer_allowBackpacks", "OnOff"
  	StaticText ""
 
@@ -980,4 +1107,35 @@ OptionMenu "sledgehammerSpawning" {
 
 	StaticText "$MENU_RESETOPTIONS", "Fire"
 	SafeCommand "$MENU_RESETALLOPTIONS", "sledgehammer_reset_cvars"
+}
+
+OptionMenu "kharonSpawning" {
+    Title "$MENU_KHARON_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+// Kharon doesn't spawn on anything to my knowledge but gonna keep this here anyways. - [Ted but sliced in half]
+/*	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_KHARON_CHAINSAW_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "kharon_chainsaw_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar kharon_chainsaw_spawn_bias"
+ 	StaticText ""*/
+
+	StaticText "$MENU_KHARON_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "kharon_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+// Read earlier comment. - [Ted but illiterate]
+/*	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "kharon_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar kharon_persistent_spawning"
+ 	StaticText ""*/
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "kharon_reset_cvars"
 }
