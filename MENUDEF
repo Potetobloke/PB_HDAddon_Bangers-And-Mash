@@ -16,6 +16,22 @@ AddOptionMenu "HDAddonMenu" {
 	Submenu "$PBWEPS_MENU", "PBWepsMenu"
 }
 
+// Spawn Bias (for items that do replace)
+OptionValue "SpawnBias" {
+	-1,    "Disabled"
+	 0,    "Replace All"
+	 2,    "1 in 3"
+	 4,    "1 in 5"
+	 9,    "1 in 10"
+	 14,   "1 in 15"
+	 19,   "1 in 20"
+	 24,   "1 in 25"
+	 49,   "1 in 50"
+	 99,   "1 in 100"
+	 149,  "1 in 150"
+	 199,  "1 in 200"
+}
+
 OptionMenu "PBWepsMenu" {
 	Title "$PBWEPS_MENU"
     StaticText ""
@@ -108,23 +124,7 @@ OptionMenu "PBWepsMenu" {
 
 	StaticText "$MENU_RESETOPTIONS_TITLE", "Red"
 	StaticText ""
-	SafeCommand "$PBWEPS_RESETALLOPTIONS", "PbWeps_Reset_Cvars"
-}
-
-// Spawn Bias (for items that do replace)
-OptionValue "SpawnBias" {
-	-1,    "Disabled"
-	 0,    "Replace All"
-	 2,    "1 in 3"
-	 4,    "1 in 5"
-	 9,    "1 in 10"
-	 14,   "1 in 15"
-	 19,   "1 in 20"
-	 24,   "1 in 25"
-	 49,   "1 in 50"
-	 99,   "1 in 100"
-	 149,  "1 in 150"
-	 199,  "1 in 200"
+	SafeCommand "$PBWEPS_RESETALLOPTIONS", "pbweps_reset_cvars"
 }
 
 // 4mm Firearms
@@ -221,7 +221,7 @@ OptionMenu "m5165cSpawning" {
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "m5165_persistent_spawning", "OnOff"
 	Option "$MENU_MAGPERSISTENCY", "m165mags_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m5165_persistent_spawning"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m5165_persistent_spawning; resetcvar m165mags_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Green"
@@ -298,7 +298,7 @@ OptionMenu "steyracrSpawning" {
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "steyracr_persistent_spawning", "OnOff"
 	Option "$MENU_MAGPERSISTENCY", "acrmag_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar steyracr_persistent_spawning"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar steyracr_persistent_spawning; resetcvar acrmag_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Orange"
@@ -820,7 +820,7 @@ OptionMenu "automagSpawning" {
 	Option "$MENU_WEPAUTOMAGFAPERSISTENCY", "automag_fa_persistent_spawning", "OnOff"
 	Option "$MENU_WEPAUTOMAGSAPERSISTENCY", "automag_sa_persistent_spawning", "OnOff"
 	Option "$MENU_MAGPERSISTENCY", "am50mag_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar automag_fa_persistent_spawning; resetcvar automag_sa_persistent_spawning"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar automag_fa_persistent_spawning; resetcvar automag_sa_persistent_spawning; resetcvar am50mag_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Yellow"
@@ -921,7 +921,7 @@ OptionMenu "colt355Spawning" {
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "colt355_persistent_spawning", "OnOff"
 	Option "$MENU_MAGPERSISTENCY", "colt355mag_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar colt355_persistent_spawning"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar colt355_persistent_spawning; resetcvar colt355mag_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Green"
