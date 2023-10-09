@@ -207,6 +207,7 @@ class PBWepsHandler : EventHandler {
         if (!steyracrmag_allowBackpacks)     backpackBlacklist.push((Class<Inventory>)('PB_HDSteyrACRMag'));
         if (!cawsmag_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HD_CAWSMag'));
         if (!falmag_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HD_FALMag'));
+        if (!colt355mag_allowBackpacks)      backpackBlacklist.push((Class<Inventory>)('HDColt9mmMag25'));
 
         //------------
         // Ammunition
@@ -500,7 +501,7 @@ class PBWepsHandler : EventHandler {
         // Steyr ACR Mags
         Array<PBWepsSpawnItemEntry> spawns_acrmags;
         spawns_acrmags.push(addItemEntry('HDBattery', acrmags_battery_spawn_bias));
-        addItem('PB_SteyrACR_MultiMagSpawn', spawns_acrmags, acrmags_persistent_spawning);
+        addItem('PB_SteyrACR_MultiMagSpawn', spawns_acrmags, acrmag_persistent_spawning);
 
         // 8mm EC Ammo Boxes
         Array<PBWepsSpawnItemEntry> spawns_eightmilec;

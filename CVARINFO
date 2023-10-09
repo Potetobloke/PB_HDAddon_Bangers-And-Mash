@@ -178,10 +178,9 @@ server bool steyracrmag_allowBackpacks = true;
 server int acrmag_battery_spawn_bias = 14;
 server int acrmag_4mmag_spawn_bias = 14;
 server bool acrmag_persistent_spawning = false;
-
 server int acrmags_battery_spawn_bias = 14;
-server bool acrmags_persistent_spawning = false;
 
+// To be moved to HDBulletlib-Recasted with belt links, unsure of when but I'll fuckin do it. - [Ted]
 server int eightmilec_battery_spawn_bias = 14;
 server bool eightmilec_persistent_spawning = false;
 
@@ -189,7 +188,7 @@ server bool napalmtank_allowBackpacks = true;
 server int napalm_battery_spawn_bias = 14;
 server bool napalm_persistent_spawning = false;
 
-server bool fiftyammag_allowBackpacks = false;
+server bool fiftyammag_allowBackpacks = true;
 server int am50mag_shellbox_spawn_bias = 14;
 server int am50mag_shell_spawn_bias = 14;
 server int am50mag_4mmag_spawn_bias = 14;
@@ -199,6 +198,7 @@ server bool cawsmag_allowBackpacks = true;
 server int cawsmag_shellbox_spawn_bias = 14;
 server bool cawsmag_persistent_spawning = false;
 
+server bool colt355mag_allowBackpacks = true;
 server int colt355mag_shellbox_spawn_bias = 14;
 server bool colt355mag_persistent_spawning = false;
 

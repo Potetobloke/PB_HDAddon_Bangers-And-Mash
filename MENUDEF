@@ -153,11 +153,29 @@ OptionMenu "g11Spawning" {
 	Option "$MENU_BACKPACKSALLOWED", "g11_allowBackpacks", "OnOff"
  	StaticText ""
 
+	StaticText ""
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_G11_MAGAZINE_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "g11mag_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar g11mag_shellbox_spawn_bias"
+	// Till I confirm that this actually works. It probably doesn't. - [Ted]
+	/*StaticText "$MENU_G11_MAGAZINE_CLIPBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "g11mag_clipbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar g11mag_clipbox_spawn_bias"*/
+ 	StaticText ""
+
+	StaticText "$MENU_G11_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "g11_allowBackpacks", "OnOff"
+	StaticText "$MENU_G11_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "g11mag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPG11NORMALPERSISTENCY", "g11_normal_persistent_spawning", "OnOff"
 	Option "$MENU_WEPG11SCOPEDPERSISTENCY", "g11_scoped_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar g11_normal_persistent_spawning; resetcvar g11_scoped_persistent_spawning"
+	Option "$MENU_MAGPERSISTENCY", "g11mag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar g11_normal_persistent_spawning; resetcvar g11_scoped_persistent_spawning; resetcvar g11mag_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Orange"
@@ -178,19 +196,31 @@ OptionMenu "m5165cSpawning" {
     StaticText "$MENU_M5165C_VULCANETTE_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "m5165_vulcanette_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar m5165_vulcanette_spawn_bias"
- 	StaticText ""
     StaticText "$MENU_M5165C_SMG_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "m5165_smg_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar m5165_smg_spawn_bias"
 	StaticText""
 
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Green"
+    StaticText "$MENU_M5165C_MAG_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "m165mags_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar m165mags_4mmag_spawn_bias"
+	// Commented out until guarenteed that this works. - [Ted]
+    /*StaticText "$MENU_M5165C_SMG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "m165mags_clipbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar m165mags_clipbox_spawn_bias"*/
+	StaticText""
+
 	StaticText "$MENU_M5165C_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "m5165_allowBackpacks", "OnOff"
+	StaticText "$MENU_M5165C_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "m165mag_allowBackpacks", "OnOff"
  	StaticText ""
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "m5165_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "m165mags_persistent_spawning", "OnOff"
 	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m5165_persistent_spawning"
  	StaticText ""
 
@@ -246,13 +276,28 @@ OptionMenu "steyracrSpawning" {
 	SafeCommand "$MENU_RESETWEP", "resetcvar steyracr_vulcanette_spawn_bias"
  	StaticText ""
 
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_STEYRACR_MAGS_BATTERY_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "acrmag_battery_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar acrmag_battery_spawn_bias"
+    StaticText "$MENU_STEYRACR_MAGS_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "acrmag_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar acrmag_4mmag_spawn_bias"
+    StaticText "$MENU_STEYRACR_MAGS_MORE_BATTERY_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "acrmags_battery_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar acrmags_battery_spawn_bias"
+ 	StaticText ""
+
 	StaticText "$MENU_STEYRACR_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "steyracr_allowBackpacks", "OnOff"
+	StaticText "$MENU_STEYRACR_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKKPACKSALLOWED", "steyracrmag_allowBackpacks", "OnOff"
  	StaticText ""
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "steyracr_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "acrmag_persistent_spawning", "OnOff"
 	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar steyracr_persistent_spawning"
  	StaticText ""
 
@@ -337,14 +382,23 @@ OptionMenu "falSpawning" {
 	SafeCommand "$MENU_RESETWEP", "resetcvar fal_vulcanette_spawn_bias"
  	StaticText ""
 
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Green"
+    StaticText "$MENU_FAL_MAG_BATTERY_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "falmag_battery_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar falmag_battery_spawn_bias"
+ 	StaticText ""
+
 	StaticText "$MENU_FAL_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "fal_allowBackpacks", "OnOff"
+	StaticText "$MENU_FAL_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "falmag_allowBackpacks", "OnOff"
  	StaticText ""
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "fal_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar fal_persistent_spawning"
+	Option "$MENU_MAGPERSISTENCY", "falmag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar fal_persistent_spawning; resetcvar falmag_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Green"
@@ -461,14 +515,23 @@ OptionMenu "cawsSpawning" {
 	SafeCommand "$MENU_RESETWEP", "resetcvar caws_slayer_spawn_bias"
  	StaticText ""
 
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Red"
+    StaticText "$MENU_CAWS_MAG_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "cawsmag_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar cawsmag_shellbox_spawn_bias"
+ 	StaticText ""
+
 	StaticText "$MENU_CAWS_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "caws_allowBackpacks", "OnOff"
+	StaticText "$MENU_CAWS_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "cawsmag_allowBackpacks", "OnOff"
  	StaticText ""
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Red"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "caws_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar caws_persistent_spawning"
+	Option "$MENU_MAGPERSISTENCY", "cawsmag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar caws_persistent_spawning; resetcvar cawsmag_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Red"
@@ -641,14 +704,23 @@ OptionMenu "mac10Spawning" {
 	SafeCommand "$MENU_RESETWEP", "resetcvar mac10_pistol_spawn_bias"
  	StaticText ""
 
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Green"
+    StaticText "$MENU_MAC10_MAG_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "mac10mag_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar mac10mag_4mmag_spawn_bias"
+ 	StaticText ""
+
 	StaticText "$MENU_MAC10_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "mac10_allowBackpacks", "OnOff"
+	StaticText "$MENU_MAC10_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "mac10mag_allowBackpacks", "OnOff"
  	StaticText ""
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "mac10_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar mac10_persistent_spawning"
+	Option "$MENU_MAGPERSISTENCY", "mac10mag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar mac10_persistent_spawning; resetcvar mac10mag_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Green"
@@ -668,20 +740,28 @@ OptionMenu "mk23Spawning" {
     StaticText "$MENU_MK23_PISTOL_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "mk23socom_pistol_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar mk23socom_pistol_spawn_bias"
-	StaticText ""
     StaticText "$MENU_MK23_AMMOBOX_SPAWNTEXT", "White"
 	Option "$MENU_WEPSPAWNRATE", "mk23socom_ammobox_spawn_bias", "SpawnBias"
 	SafeCommand "$MENU_RESETWEP", "resetcvar mk23socom_ammobox_spawn_bias"
  	StaticText ""
 
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Yellow"
+    StaticText "$MENU_MK23_MAG_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "socommag_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar socommag_4mmag_spawn_bias"
+ 	StaticText ""
+
 	StaticText "$MENU_MK23_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "mk23socom_allowBackpacks", "OnOff"
+	StaticText "$MENU_MK23_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "mk23mag_allowBackpacks", "OnOff"
  	StaticText ""
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Yellow"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "mk23socom_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar mk23socom_persistent_spawning"
+	Option "$MENU_MAGPERSISTENCY", "socommag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar mk23socom_persistent_spawning; resetcvar socommag_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Yellow"
@@ -716,14 +796,30 @@ OptionMenu "automagSpawning" {
 	SafeCommand "$MENU_RESETWEP", "resetcvar automag_sa_pistol_spawn_bias"
  	StaticText ""
 
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Yellow"
+    StaticText "$MENU_AUTOMAG_MAG_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "am50mag_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar am50mag_shellbox_spawn_bias"
+    StaticText "$MENU_AUTOMAG_MAG_SHELL_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "am50mag_shell_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar am50mag_shell_spawn_bias"
+    StaticText "$MENU_AUTOMAG_MAG_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "am50mag_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar am50mag_4mmag_spawn_bias"
+ 	StaticText ""
+
 	StaticText "$MENU_AUTOMAG_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "automag_allowBackpacks", "OnOff"
+	// Mag mag? Mag mag. - [Ted]
+	StaticText "$MENU_AUTOMAG_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "fiftyammag_allowBackpacks", "OnOff"
  	StaticText ""
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Yellow"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPAUTOMAGFAPERSISTENCY", "automag_fa_persistent_spawning", "OnOff"
 	Option "$MENU_WEPAUTOMAGSAPERSISTENCY", "automag_sa_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "am50mag_persistent_spawning", "OnOff"
 	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar automag_fa_persistent_spawning; resetcvar automag_sa_persistent_spawning"
  	StaticText ""
 
@@ -809,13 +905,22 @@ OptionMenu "colt355Spawning" {
 	SafeCommand "$MENU_RESETWEP", "resetcvar colt355_vulcanette_spawn_bias"
  	StaticText ""
 
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Green"
+    StaticText "$MENU_COLT355__MAG_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "colt355mag_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar colt355mag_shellbox_spawn_bias"
+ 	StaticText ""
+
 	StaticText "$MENU_COLT355_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "colt355_allowBackpacks", "OnOff"
+	StaticText "$MENU_COLT355_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "colt355mag_allowBackpacks", "OnOff"
  	StaticText ""
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "colt355_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "colt355mag_persistent_spawning", "OnOff"
 	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar colt355_persistent_spawning"
  	StaticText ""
 
@@ -1007,14 +1112,23 @@ OptionMenu "mancubuscannonSpawning" {
 	SafeCommand "$MENU_RESETWEP", "resetcvar mancubuscannon_thunderbuster_spawn_bias"
  	StaticText ""
 
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_NAPALMTANK_BATTERY_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "napalm_battery_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar napalm_battery_spawn_bias"
+ 	StaticText ""
+
 	StaticText "$MENU_MANCUBUSCANNON_BACKPACKS", "White"
 	Option "$MENU_BACKPACKSALLOWED", "mancubuscannon_allowBackpacks", "OnOff"
+	StaticText "$MENU_NAPALMTANKS_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "napalmtank_allowBackpacks", "OnOff"
  	StaticText ""
 
 	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
     StaticText "$MENU_PERSISTENCY_TEXT", "White"
 	Option "$MENU_WEPPERSISTENCY", "mancubuscannon_persistent_spawning", "OnOff"
-	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar mancubuscannon_persistent_spawning"
+	Option "$MENU_MAGPERSISTENCY", "napalm_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar mancubuscannon_persistent_spawning; resetcvar napalm_persistent_spawning"
  	StaticText ""
 
 	StaticText "$MENU_RESETOPTIONS", "Fire"
