@@ -52,6 +52,8 @@ class HD_PBGasEmit:HDPuff{
             BlockThingsIterator itr = BlockThingsIterator.Create(self,128);
             while (itr.next()) {
                 let next = itr.thing;
+				string Respirator = "UaS_Respirator";
+				class<Inventory> rsp = Respirator;
                 if (next.bKILLED)
                     continue;
 				if (next.countinv("WornRadsuit"))
@@ -59,7 +61,7 @@ class HD_PBGasEmit:HDPuff{
 				if (next.bNOBLOOD)
                     continue; 
 				// here we check if the player is wearing a resperator. 
-				if (next.countinv("UaS_Respirator") && invoker.IsPlayerUsingRespirator(HDPlayerPawn(next)))
+				if (next.countinv(rsp) && invoker.IsPlayerUsingRespirator(HDPlayerPawn(next)))
 					continue;
 					
 				//if (next.countinv("UaS_Respirator") && invoker.IsPlayerUsingRespirator(HDPlayerPawn(next)))
