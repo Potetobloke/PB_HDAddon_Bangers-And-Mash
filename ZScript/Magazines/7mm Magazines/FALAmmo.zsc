@@ -1,0 +1,47 @@
+class HD_FALMag:HD7mMag{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Defender Magazine"
+		//$Sprite "FALMB0"
+
+		hdmagammo.maxperunit 7575;
+		hdmagammo.roundtype "SevenMilAmmo";
+		hdmagammo.roundbulk ENC_776_LOADED;
+		hdmagammo.magbulk ENC_776DRUM_EMPTY;
+		hdpickup.refid HDLD_FAL75RND_MAG;
+		tag "L7A1 Drum Magazine";
+		inventory.pickupmessage "Picked up a drum magazine for the L7A1.";
+		scale 0.55;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"FALMD0":"FALMC0";
+		return magsprite,"RBRSA3A7","SevenMilAmmo",1.7;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_FNFAL");
+	}
+	states{
+	spawn:
+		FALM D -1;
+		stop;
+	spawnempty:
+		FALM C -1;
+		stop;
+	}
+}
+
+class HD_FALMag_Half:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HD_FALMag",35);
+		destroy();
+	}
+}
+
+class HD_FALMag_Empty:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HD_FALMag",0);
+		destroy();
+	}
+}

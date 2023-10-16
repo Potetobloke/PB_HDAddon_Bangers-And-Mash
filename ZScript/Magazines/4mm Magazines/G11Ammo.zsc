@@ -1,0 +1,76 @@
+//0.192=Enc. value of each 4.26mm round
+class HDG11Mag:HDMagAmmo{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "G26A1 Magazine"
+		//$Sprite "G11MA0"
+
+		hdmagammo.maxperunit 45;
+		hdmagammo.roundtype "FourMilAmmo";
+		hdmagammo.roundbulk ENC_426_LOADED;
+		hdmagammo.magbulk ENC_G11MAG_EMPTY;
+		tag "G26 Magazine";
+		scale 0.75;
+		inventory.pickupmessage "Picked up a G26 Magazine.";
+		hdpickup.refid HDLD_G11MAG;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"G11MD0":"G11MC0";
+		return magsprite,"RBRSBRN","FourMilAmmo",1.5;
+	}
+	
+		override void postbeginplay(){
+		super.postbeginplay();
+		breakchance=0;
+	}
+	int breakchance;
+	override void doeffect(){
+		if(breakchance>0)breakchance--;
+		super.doeffect();
+	}
+	
+		override bool Insert(){
+		SyncAmount();
+		if(
+			mags[mags.size()-1]>=45
+			||!owner.countinv(roundtype)
+		)return false;
+		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
+		owner.A_StartSound("weapons/rifleclick2",CHAN_WEAPON);
+		if(random(0,80)<=breakchance){
+			owner.A_StartSound("ammo/g11break",CHAN_7);
+			owner.A_SpawnItemEx("BulletPuffsmall",2,0,owner.height-12,4,frandom(-2,2),frandom(2,4));
+			owner.A_SpawnItemEx("WallChunk",2,0,owner.height-12,4,frandom(-2,2),frandom(2,4));
+			owner.A_SpawnItemEx("WallChunk",2,0,owner.height-12,4,frandom(-2,2),frandom(2,4));
+			breakchance=min(breakchance+15,80);
+			return false;
+		}
+		breakchance=max(breakchance,24);
+		owner.A_StartSound("weapons/pocket",CHAN_BODY,0,frandom(0.1,0.6));
+		mags[mags.size()-1]++;
+		return true;
+	}
+	
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HDG11Rifle");
+		itemsthatusethis.push("HDG11Rifle_Scoped");
+	}
+	states{
+	spawn:
+		G11M A -1;
+		stop;
+	spawnempty:
+		G11M B -1{//removed sprite roll for this because the G11's magazines are really long sticks
+			//brollsprite=true;brollcenter=true;
+			//roll=randompick(0,0,0,0,2,2,2,2,1,3)*90;
+		}stop;
+	}
+}
+
+class HDG11EmptyMag:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HDG11Mag",0);
+		destroy();
+	}
+}

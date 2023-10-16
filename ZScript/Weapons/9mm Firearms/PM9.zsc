@@ -1,0 +1,402 @@
+class HDMinebeaPM9:HDHandgun{
+	//bool PM9Stockout;
+	default{
+		//$Category "Weapons/Hideous Destructor"
+		//$Title "Minato M9 PDW"
+		//$Sprite "MC1PA0"
+
+		obituary "%o was quietly magdumped by %k.";
+		weapon.selectionorder 35;
+		weapon.slotpriority 1.8;
+		+hdweapon.fitsinbackpack
+		+hdweapon.reverseguninertia
+		weapon.slotnumber 2;
+		weapon.kickback 30;
+		weapon.bobrangex 0.1;
+		weapon.bobrangey 0.6;
+		weapon.bobspeed 2.5;
+		scale 0.60;
+		inventory.pickupmessage "You got the suppressed machine pistol!";
+		hdweapon.barrelsize 25,0.65,1.1;
+		hdweapon.refid HDLD_MINEBEAPM9;
+		tag "$TAG_M9S";
+	}
+	
+	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
+	override hdweapon GetSpareWeapon(actor newowner,bool reverse){return GetSpareWeaponRegular(newowner,reverse);}
+	
+	override void PostBeginPlay()
+    {
+        weaponspecial = 1337; // [Ace] UaS sling compatibility.
+        Super.PostBeginPlay();
+    }
+	
+	override double gunmass(){
+		return 5+((weaponstatus[PM9S_MAG]<0)?-0.5:(weaponstatus[PM9S_MAG]*0.05));
+	}
+	override double weaponbulk(){
+		int mg=weaponstatus[PM9S_MAG];
+		if(mg<0)return 40;
+		else return (40+ENC_9MAG30_LOADED*0.6)+mg*ENC_9_LOADED;
+	}
+	
+	override void failedpickupunload(){
+		failedpickupunloadmag(PM9S_MAG,"HD9mMag30");
+	}
+	override void DropOneAmmo(int amt){
+		if(owner){
+			amt=clamp(amt,1,10);
+			if(owner.countinv("HDPistolAmmo"))owner.A_DropInventory("HDPistolAmmo",amt*30);
+			else owner.A_DropInventory("HD9mMag30",amt);
+		}
+	}
+	
+	override string gethelptext(){
+		return
+		WEPHELP_FIRESHOOT
+		..WEPHELP_RELOAD.."  Reload\n"
+		..WEPHELP_FIREMODE.."  Semi/Auto\n"
+		..WEPHELP_MAGMANAGER
+		..WEPHELP_UNLOADUNLOAD
+		;
+	}
+	
+	override string,double getpickupsprite(){
+		return "PM9P"..((weaponstatus[PM9S_MAG]<0)?"B":"A").."0",1.;
+	}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel==1){
+			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD9mMag30")));
+			if(nextmagloaded>=30){
+				sb.drawimage("CLP3A0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(3,3));
+			}else if(nextmagloaded<1){
+				sb.drawimage("CLP3B0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(3,3));
+			}else sb.drawbar(
+				"CLP3NORM","CLP3GREY",
+				nextmagloaded,30,
+				(-46,-3),-1,
+				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
+			);
+			sb.drawnum(hpl.countinv("HD9mMag30"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+		}
+		sb.drawwepcounter(hdw.weaponstatus[PM9S_AUTO],
+			-22,-10,"RBRSA3A7","STFULAUT"
+		);
+		sb.drawwepnum(hdw.weaponstatus[PM9S_MAG],30);
+		if(hdw.weaponstatus[PM9S_CHAMBER]==2){sb.drawwepdot(-26,-17,(3,2));
+		}else if(hdw.weaponstatus[PM9S_CHAMBER]==1){sb.drawwepdot(-26,-22,(3,2));
+		}else{sb.drawwepdot(-26,-27,(3,2));
+		}
+	}
+	override void DrawSightPicture(
+		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
+		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
+	){
+		int cx,cy,cw,ch;
+		[cx,cy,cw,ch]=screen.GetClipRect();
+			sb.SetClipRect(
+				-24+bob.x,-16+bob.y,40,32,
+				sb.DI_SCREEN_CENTER
+			);
+		vector2 scc;
+		vector2 bobb=bob*1.3;
+		
+		if(hpl.player.getpsprite(PSP_WEAPON).frame>=1){
+			sb.SetClipRect(
+				-10+bob.x,-10+bob.y,20,19,
+				sb.DI_SCREEN_CENTER
+			);
+			bobb.y-=2;
+			scc=(1.1,1.1);
+		}else{
+			sb.SetClipRect(
+				-8+bob.x,-9+bob.y,16,15,
+				sb.DI_SCREEN_CENTER
+			);
+			scc=(0.9,0.9);
+		}
+		
+		sb.drawimage(
+			"PM9S_001",(0,1)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+			scale:scc
+		);
+		sb.SetClipRect(cx,cy,cw,ch);
+		sb.drawimage(
+			"PM9S_000",(0,-1)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+			alpha:0.9,scale:scc
+		);
+
+	}
+	states{
+	select0:
+		PM9G A 0;
+		#### # 0;
+		goto select0small;
+	deselect0:
+		PM9G A 0;
+		#### # 0;
+		goto deselect0small;
+	ready:
+		PM9G A 0;
+		#### # 1{
+			A_SetCrosshair(21);
+			A_WeaponReady(WRF_ALL);
+			}
+		goto readyend;
+	
+	user3:
+		#### A 0 A_JumpIf(invoker.weaponstatus[PM9S_MAG]<1,2);
+		#### D 0;
+		#### # 0 A_MagManager("HD9mMag30");
+		goto ready;
+	altfire:
+	althold:
+		goto nope;
+	hold:
+		#### A 0{
+			if(
+				//full auto
+				invoker.weaponstatus[PM9S_AUTO]==2
+			)setweaponstate("fire2");
+			else if(
+				//burst
+				invoker.weaponstatus[PM9S_AUTO]<1
+			)setweaponstate("nope");
+		}goto fire;
+	user2:
+	firemode:
+		---- A 1			{
+			int aut=invoker.weaponstatus[PM9S_AUTO];
+			if(aut>=0){
+				invoker.weaponstatus[PM9S_AUTO]=aut==0?1:0;
+			}
+		}goto nope;
+	fire:
+		#### # 1;
+		#### # 0 
+		{
+		A_JumpIf(invoker.weaponstatus[PM9S_MAG]>-1,2);
+		if(invoker.weaponstatus[PM9S_MAG]<1){
+				setweaponstate("BoltEmpty");
+			}
+		}
+		#### # 0;
+		#### # 0;
+	fire2:
+		#### A 0 
+				{
+		A_JumpIf(invoker.weaponstatus[PM9S_MAG]>-1,2);
+		if(invoker.weaponstatus[PM9S_MAG]<1){
+				setweaponstate("BoltEmpty");}
+			}	
+		#### A 0 offset(0,32);
+		#### # 0{
+			if(invoker.weaponstatus[PM9S_CHAMBER]==2
+			&&invoker.weaponstatus[PM9S_MAG]>0){
+				A_GunFlash();
+			}else if (invoker.weaponstatus[PM9S_CHAMBER]==2
+			&&invoker.weaponstatus[PM9S_MAG]<0){
+				setweaponstate("unloadchamber");
+			}else{
+				if(invoker.weaponstatus[PM9S_MAG]>0){
+				setweaponstate("loadchamber");
+				}else setweaponstate("nope");
+			}
+		}
+		#### B 1{A_WeaponOffset(frandom(-3,3),frandom(39,41));IsMoving.Give(self,5);}
+		#### B 0{
+		
+			if(invoker.weaponstatus[PM9S_CHAMBER]==1){
+				A_EjectCasing("HDSpent9mm",
+					frandom(-1,2),
+					(frandom(0.2,0.3),-frandom(9,9.5),frandom(0,0.2)),
+					(0,0,-2)
+				);
+				
+				invoker.weaponstatus[PM9S_MAG]--;
+				invoker.weaponstatus[PM9S_CHAMBER]=2;
+				if(invoker.weaponstatus[PM9S_MAG]<=0){
+					A_StartSound("weapons/pm9boltfin",CHAN_6);
+					invoker.weaponstatus[PM9S_CHAMBER]=0;
+				}
+			}
+			//invoker.weaponstatus[PM9S_CHAMBER]=2;
+			if(invoker.weaponstatus[PM9S_AUTO]==1)A_ReFire("fire2");
+			A_WeaponReady(WRF_NOFIRE);
+			
+			if(hdplayerpawn(self)){
+				hdplayerpawn(self).gunbraced=false;}
+		}
+		#### A 1{A_WeaponOffset(frandom(-1,1),frandom(35,37));}
+		goto nope;
+		
+	flash:
+		#### A 0{ //STOPPING POWAH
+			let bbb=HDBulletActor.FireBullet(self,"HDB_9",spread:2.5,speedfactor:frandom(0.97,0.99));
+			if(
+				frandom(16,ceilingz-floorz)<bbb.speed*0.1
+			)A_AlertMonsters(190);
+			
+			A_StartSound("weapons/pm9boltfwd",CHAN_7,CHANF_OVERLAP,0.2);
+			A_StartSound("weapons/PM9Shot",CHAN_WEAPON,0,0.75,pitch:0.8+(invoker.weaponstatus[PM9S_MAG]*0.01));
+			invoker.weaponstatus[PM9S_CHAMBER]=1;
+		}
+		#### A 1 
+		{
+			A_MuzzleClimb(-frandom(0.4,1.2),-frandom(0.4,1.6));
+			A_ZoomRecoil(0.995);
+		}
+		goto lightdone;
+
+	BoltEmpty:
+		#### A 1 A_JumpIf(invoker.weaponstatus[PM9S_CHAMBER]<1,"nope");
+		#### A 0{
+			invoker.weaponstatus[PM9S_CHAMBER]=0;
+			A_StartSound("weapons/pm9boltfwd",CHAN_7
+			);
+		}
+		#### A 1 offset(0,35);
+		#### A 1 offset(0,33);
+		goto ready;
+
+	unloadchamber:
+	/*	PM9C D 0;
+		#### IH 3 A_JumpIf(invoker.weaponstatus[PM9S_CHAMBER]<1,"nope");
+		#### G 4;
+		#### FE 4;
+		#### D 4{
+			invoker.weaponstatus[PM9S_CHAMBER]=0;
+			A_StartSound("weapons/MACboltfwd",CHAN_WEAPON
+			);
+		}
+		#### C 3;
+		#### B 2;
+		#### A 1;
+		PM9G EDCA 2;*/
+		goto BoltEmpty;
+	loadchamber:
+		PM9C A 0;
+		#### A 0 A_JumpIf(invoker.weaponstatus[PM9S_CHAMBER]>0,"nope");
+		#### A 2;
+		#### B 2  A_StartSound("weapons/pocket",CHAN_WEAPON);
+		#### C 2;
+		#### D 3;
+		#### E 3 A_StartSound("weapons/pm9boltback",CHAN_WEAPON);
+		#### F 3 {
+				invoker.weaponstatus[PM9S_CHAMBER]=2;
+			}
+		#### GH 3;
+		#### I 2;
+		PM9G EDCA 2;
+		goto nope;
+		
+user4:
+	unload:
+		"####" "#" 0{
+			invoker.weaponstatus[0]|=PM9F_JUSTUNLOAD;
+			if(
+				invoker.weaponstatus[PM9S_MAG]>=0
+			)setweaponstate("unmag");
+			else if(invoker.weaponstatus[PM9S_CHAMBER]>0)setweaponstate("unloadchamber");
+		}goto nope;
+	reload:
+		"####" "#" 0{
+			invoker.weaponstatus[0]&=~PM9F_JUSTUNLOAD;
+			if(invoker.weaponstatus[PM9S_MAG]>=30)setweaponstate("nope");
+			else if(HDMagAmmo.NothingLoaded(self,"HD9mMag30")){
+				if(
+					invoker.weaponstatus[PM9S_MAG]<0
+					&&countinv("HD45ACPAmmo")
+				)setweaponstate("loadchamber");
+				else setweaponstate("nope");
+			}
+		}goto unmag;
+	unmag:
+		#### C 1 offset(0,34) A_SetCrosshair(21);
+		#### D 1 offset(5,38);
+		#### E 1 offset(10,42);
+		"####" "#" 2 offset(20,46) A_StartSound("weapons/smgmagclick",CHAN_WEAPON);
+		"####" "#" 4 offset(30,52){
+			A_MuzzleClimb(0.3,0.4);
+			A_StartSound("weapons/smgmagmove",CHAN_WEAPON);
+		}
+		"####" "#" 0{
+			int magamt=invoker.weaponstatus[PM9S_MAG];
+			if(magamt<0){
+				setweaponstate("magout");
+				return;
+			}
+			invoker.weaponstatus[PM9S_MAG]=-1;
+			if(
+				(!PressingUnload()&&!PressingReload())
+				||A_JumpIfInventory("HD9mMag30",0,"null")
+			){
+				HDMagAmmo.SpawnMag(self,"HD9mMag30",magamt);
+				setweaponstate("magout");
+			}else{
+				HDMagAmmo.GiveMag(self,"HD9mMag30",magamt);
+				A_StartSound("weapons/pocket",CHAN_WEAPON);
+				setweaponstate("pocketmag");
+			}
+		}
+	pocketmag:
+		"####" "#" 7 offset(34,54) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+	magout:
+		"####" "#" 0{
+			if(invoker.weaponstatus[0]&PM9F_JUSTUNLOAD)setweaponstate("reloadend");
+			else setweaponstate("loadmag");
+		}
+
+	loadmag:
+		"####" "#" 0 A_StartSound("weapons/pocket",CHAN_WEAPON);
+		"####" "#" 0 A_JumpIf(invoker.weaponstatus[MACG_STOCK]<1,2);
+		"####" "#" 6 offset(34,54) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+		"####" "#" 7 offset(34,52) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+		"####" "#" 10 offset(32,50);
+		"####" "#" 3 offset(32,49){
+			let mmm=hdmagammo(findinventory("HD9mMag30"));
+			if(mmm){
+				invoker.weaponstatus[PM9S_MAG]=mmm.TakeMag(true);
+				A_StartSound("weapons/smgmagclick",CHAN_BODY);
+			}
+			if(
+				invoker.weaponstatus[PM9S_MAG]<1
+				||invoker.weaponstatus[PM9S_CHAMBER]>0
+			)setweaponstate("reloadend");
+		}
+	reloadend:
+		"####" "#" 3 offset(30,52);
+		"####" "#" 2 offset(20,46);
+		"####" "#" 1 offset(10,42);
+		"####" "#" 1 offset(5,38);
+		"####" "#" 1 offset(0,34);
+		"####" "#" 0{
+		if(
+				invoker.weaponstatus[PM9S_MAG]<1
+				||invoker.weaponstatus[PM9S_CHAMBER]>0
+			)setweaponstate("realend");
+		}
+		goto loadchamber;
+	realend:
+		#### EDCA 2;
+		goto nope;
+	spawn:
+		PM9P AB -1 nodelay{
+			if(invoker.weaponstatus[PM9S_MAG]<0)frame=1;
+		}
+	}
+	override void initializewepstats(bool idfa){
+		weaponstatus[0]=0;
+		weaponstatus[PM9S_MAG]=30;
+		weaponstatus[PM9S_CHAMBER]=2;
+		if(!idfa)weaponstatus[PM9S_AUTO]=0;
+	}
+}
+enum minebeapm9status{
+	PM9F_JUSTUNLOAD=1,
+
+	PM9S_FLAGS=0,
+	PM9S_MAG=1, //-1 unmagged
+	PM9S_CHAMBER=2, //0 closed, 1 stuck, 2 open
+	PM9S_AUTO=3, //0 semi, 1 auto
+};

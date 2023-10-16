@@ -1,0 +1,32 @@
+// ------------------------------------------------------------
+// 6x42mm Sabot Cased Flechette
+// ------------------------------------------------------------
+
+class PB_HDSteyrACRMag:HDMagAmmo{
+	default{
+
+		hdmagammo.maxperunit 24;
+		hdmagammo.roundtype "HD6mmFlechetteAmmo";
+		hdmagammo.roundbulk ENC_6MMFLECHETTE_LOADED;
+		hdmagammo.magbulk ENC_STEYRACR_MAG_EMPTY;
+		tag "Austere M17 Magazine";
+		inventory.pickupmessage "Picked up a flechette rifle magazine.";
+		hdpickup.refid HDLD_STEYRACRMAG;
+		scale 0.55;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"ACMGNORM":"ACMGEMPTY";
+		return magsprite,"ACRPI3I7","HD6mmFlechetteAmmo",0.5;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("PB_SteyrACR");
+	}
+	states{
+	spawn:
+		ACRP E -1;
+		stop;
+	spawnempty:
+		ACRP F -1 A_SpawnEmpty();
+		stop;
+	}
+}

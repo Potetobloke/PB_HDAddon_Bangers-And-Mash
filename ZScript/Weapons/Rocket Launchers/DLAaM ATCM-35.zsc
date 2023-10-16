@@ -1,0 +1,370 @@
+class HD_PBGreenLaser:IdleDummy{
+	default{
+		+bloodlessimpact +nodecal +hittracer +puffonactors
+		+forcexybillboard
+		stamina 1;
+		scale 0.5;
+	}
+states
+	{
+	spawn:
+		CGMG Z 2 BRIGHT A_FadeOut(0.5);
+	stop;
+	}
+}
+
+class HDCGM25_WEP:HDWeapon{
+	default{
+		//$Category "Weapons/Hideous Destructor"
+		//$Title "DLaM CGM-25"
+		//$Sprite "CGMPA0"
+
+		//+weapon.wimpy_weapon
+		//+hdweapon.reverseguninertia
+		//+hdweapon.fitsinbackpack
+		//+weapon.cheatnotweapon
+		weapon.selectionorder 1;
+		weapon.slotnumber 5;
+		weapon.kickback 30;
+		weapon.bobrangex 0.21;
+		weapon.bobrangey 0.86;
+		scale 0.725;
+		inventory.pickupmessage "You got the auto-tracking cluster missile launcher!";
+		obituary "%o's couldn't shake off %k's auto-tracking missiles.";
+		hdweapon.barrelsize 28,3.1,3;
+		tag "$TAG_CGM25"; //Anti-Tank Tracking Missile
+		hdweapon.refid HDLD_CGM25;
+	}
+	override string pickupmessage(){
+		if(weaponstatus[CGMS_CHAMBER]<1)return string.format("%s It is used.",super.pickupmessage());
+		else return string.format("%s It has a round.",super.pickupmessage());
+		return super.pickupmessage();
+	}
+	
+	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
+	override hdweapon GetSpareWeapon(actor newowner,bool reverse,bool doselect){return GetSpareWeaponRegular(newowner,reverse,doselect);}
+	override void tick(){
+		super.tick();
+		drainheat(CGMS_HEAT,6);
+	}
+	override void postbeginplay(){
+		super.postbeginplay();
+		}
+	override double gunmass(){
+		double amt=weaponstatus[CGMS_CHAMBER];
+		return 9+amt*2;
+	}
+	override double weaponbulk(){
+		int rkt=weaponstatus[CGMS_CHAMBER];
+		if(rkt<0)return 115;
+		else return 135;
+	}
+	override string,double getpickupsprite(){return "CGMPA0",0.7;}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel==1){
+			sb.drawnum(hpl.countinv("HDCGM25_WEP"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+		}
+		if(hdw.weaponstatus[CGMS_CHAMBER]>1)sb.drawwepdot(-16,-10,(5,3));
+	}
+	
+	action void A_HDFireCGM25(int acc_vert,int acc_horz){
+		A_StartSound("weapons/grenadeshot",CHAN_WEAPON);
+		vector3 gpos=pos+gunpos((0,0,-getdefaultbytype("HD_CGM25_Rocket").height*0.6));
+		let ggg=HD_CGM25_Rocket(spawn("HD_CGM25_Rocket",gpos,ALLOW_REPLACE));
+
+		let hdp=hdplayerpawn(self);
+		if(hdp){
+			ggg.angle=hdp.gunangle;
+			ggg.pitch=hdp.gunpitch-2;
+		}else{
+			ggg.angle=angle;
+			ggg.pitch=pitch-2;
+		}
+		ggg.angle=angle+acc_vert*CGMS_INACCURACY;ggg.pitch=pitch+acc_horz*CGMS_INACCURACY;ggg.target=self;ggg.master=self;
+		ggg.primed=true;
+	}
+	
+	action void A_HDBackBlast()
+	{
+		let hdp=hdplayerpawn(self);
+		double shootangle = hdp.angle-180;
+		
+		vector3 gpos=pos+gunpos((0,0,-getdefaultbytype("HD_Backblast").height*0.6));
+
+        let blst=actor(spawn("HD_Backblast",gpos,
+            ALLOW_REPLACE)
+        );
+        blst.angle=shootangle;
+        blst.pitch=pitch-180;
+        blst.target=self;
+        blst.master=self;
+        blst.vel.xy = (cos(shootangle) * 60, sin(shootangle) * 60);
+        blst.vel.z=-sin(pitch)*-60;
+	}
+	
+		override void DrawSightPicture(
+		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
+		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
+	){
+		if(scopeview){
+		
+		int cx,cy,cw,ch;
+		[cx,cy,cw,ch]=screen.GetClipRect();
+		sb.SetClipRect(
+			-16+bob.x,-4+bob.y,32,16,
+			sb.DI_SCREEN_CENTER
+		);
+		vector2 bobb=bob*2;
+		bobb.y=clamp(bobb.y,-8,8);
+		sb.drawimage(
+			"frntsite",(0,0)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+			alpha:0.9,scale:(1.6,2)
+		);
+		sb.SetClipRect(cx,cy,cw,ch);
+		sb.drawimage(
+			"backsite",(0,0)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+			scale:(2,1)
+		);
+
+		
+			bool alt=hdw.weaponstatus[0]&CGMS_PRESSALT;
+			int scaledyoffset=36;
+			texman.setcameratotexture(hpc,"HDXHCAM1_PB",3);
+			sb.drawimage(
+				"HDXHCAM1_PB",(0,scaledyoffset)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+				alpha:alt?(hpl.flip?0.7:0.8):1.,scale:(1,1)
+			);
+			
+			sb.drawimage(
+				"tbwindow",(0,scaledyoffset)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+				scale:(1,1)
+			);
+			
+			sb.drawnum(0,
+				23+bob.x,11+bob.y,sb.DI_SCREEN_CENTER,Font.CR_BLACK,1.
+			);
+			
+			bobb*=3.7;
+			double dotoff=max(abs(bobb.x),abs(bobb.y));
+			if(dotoff<40)sb.drawimage(
+				"grn_quad",(0,scaledyoffset)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+				alpha:(alt?0.4:0.9)*(1.-dotoff*0.04),scale:alt?(hpl.flip?(3,3):(1,1)):(2,2)
+			);
+			
+			if(CGMS_PRESSALT==3){if(dotoff<40)sb.drawimage(
+				"grn_dot1",(0,scaledyoffset)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+				alpha:(alt?0.4:0.9)*(1.-dotoff*0.04),scale:alt?(hpl.flip?(3,3):(1,1)):(2,2)
+			);
+			}
+		}
+	}
+	
+	override string gethelptext(){
+		return
+		WEPHELP_FIRESHOOT
+		..WEPHELP_UNLOAD.."   Throw\n"
+		;
+	}
+	
+	states{
+	select0:
+		CGMG A 0; //{invoker.weaponstatus[CGMS_PRESSALT]=0;}
+		CGMG A 0;
+		goto select0small;
+	deselect0:
+		CGMG A 0;
+		goto deselect0small;
+	ready:
+		CGMG A 1 
+		{
+		A_WeaponReady(WRF_ALL);
+		}
+		goto readyend;
+	fire:
+		CGMG A 1 offset(0,34){
+			if(invoker.weaponstatus[CGMS_CHAMBER]<2){
+				setweaponstate("readyend");
+				return;
+			}
+			A_HDFireCGM25(1,0); A_HDFireCGM25(-1,0);
+			A_HDFireCGM25(0,1); A_HDFireCGM25(0,-1);
+			A_HDFireCGM25(0,0);
+			
+			
+			A_HDBackBlast();
+			A_GunFlash();
+			A_StartSound("weapons/CGMfire",CHAN_WEAPON);
+			A_StartSound("weapons/rockignite",CHAN_AUTO);
+			A_StartSound("weapons/rockboom",5);
+			invoker.weaponstatus[CGMS_CHAMBER]=0;
+			invoker.weaponstatus[CGMS_HEAT]+=23;
+			A_WeaponOffset(frandom(-3,3),frandom(30,33));
+		}
+		CGMG BAB 0{
+			A_HDBackBlast();
+			A_GunFlash();
+			A_StartSound("weapons/rockignite",CHAN_AUTO);
+			invoker.weaponstatus[CGMS_HEAT]+=23;
+			A_WeaponOffset(frandom(-3,3),frandom(30,33));
+			A_MuzzleClimb(-frandom(0.9,1.),-frandom(1.3,1.6),frandom(0.5,0.6),frandom(0.6,0.8));
+		}
+		CGMG B 1 A_MuzzleClimb(-frandom(1.9,2.),-frandom(2.3,2.6),frandom(1.5,1.6),frandom(1.6,1.8));
+		CGMG A 5 {invoker.weaponstatus[CGMS_INACCURACY]=0;}
+		goto readyend;
+	flash:
+		TNT1 A 1 bright{
+			HDFlashAlpha(0,true);
+			A_Light1();
+		}
+		TNT1 A 2{
+			A_ZoomRecoil(0.5);
+			A_Light0();
+		}
+		stop;
+	unload:
+	---- A 0 A_JumpIfInventory("HDIncapWeapon",1,"Incapped");
+	YEET:
+		---- A 1
+		{
+		if(player&&hdweapon(player.readyweapon)){
+		 player.cmd.buttons|=BT_ZOOM;
+		 DropInventory(player.readyweapon);
+		}
+		}
+		TNT1 A 0;
+	spawn:
+		CGMP AB -1 nodelay{
+			if(invoker.weaponstatus[CGMS_CHAMBER]<2)frame=1;
+		}
+	
+/*	Altfire:
+		CGMG A 1 A_Overlay(5,"TargetCheck",false);
+			goto readyend;
+	
+	targetcheck:
+		TNT1 A 0 CGM25_CheckTarget();
+		TNT1 A 1 
+		{
+		invoker.weaponstatus[CGMS_TARGETTER]-=1;
+		}
+		stop;
+	targetfound:
+		TNT1 A 1 {
+		invoker.weaponstatus[CGMS_TARGETTER]=2;
+		A_StartSound("weapons/xm556microgun/speen",CHAN_7);}
+		goto targetcheck;*/
+	}
+	override void InitializeWepStats(bool idfa){
+		weaponstatus[CGMS_CHAMBER]=2;
+		if(!idfa){
+			weaponstatus[0]=0;
+			weaponstatus[CGMS_PRESSALT]=0;
+			weaponstatus[CGMS_HEAT]=0;
+		}
+	}
+}
+enum CGM25status{
+	CGMF_JUSTUNLOAD=1,
+
+	CGMS_STATUS=0,
+	CGMS_CHAMBER=1,
+	CGMS_HEAT=2,
+	CGMS_INACCURACY=3,
+	CGMS_PRESSALT=4,
+	CGMS_TARGETTER=5,
+};
+
+class HD_CGM25_Rocket:RocketGrenade{
+	default{
+		+forcepain
+		+seekermissile
+		+notargetswitch
+		scale 0.35; woundhealth 35;
+		stamina 25; mass 200;
+		speed 5;
+		decal "BrontoScorch";
+	}
+	override void ExplodeSlowMissile(line blockingline,actor blockingobject){
+		if(max(abs(skypos.x),abs(skypos.y))>=32768){destroy();return;}
+		bmissile=false;
+
+		//damage
+		//NOTE: basic impact damage calculation is ALREADY in base SlowProjectile!
+		if(blockingobject){
+			int dmgg=random(64,128);
+			if(primed&&isrocket){
+				double dangle=absangle(angle,angleto(blockingobject));
+				if(dangle<20){
+					dmgg+=random(200,300);
+					if(hd_debug)A_Log("CRIT!");
+				}else if(dangle<40)dmgg+=random(100,200);
+			}
+			blockingobject.damagemobj(self,target,dmgg,"Piercing");
+		}
+
+		//explosion
+		if(!inthesky){
+			A_SprayDecal("Scorch",16);
+			A_HDBlast(
+				pushradius:256,pushamount:128,fullpushradius:96,
+				fragradius:HDCONST_SPEEDOFSOUND-10*5,fragtype:"HDB_fragRL",
+				immolateradius:128,immolateamount:random(3,60),
+				immolatechance:isrocket?random(1,stamina):25
+			);
+			actor xpl=spawn("Gyrosploder",pos-(0,0,1),ALLOW_REPLACE);
+			xpl.target=target;xpl.master=master;xpl.stamina=stamina;
+		}else{
+			distantnoise.make(self,"world/rocketfar");
+		}
+		A_SpawnChunks("HDB_frag",180,100,700+50*stamina);
+		destroy();return;
+	}
+	states{
+	spawn:
+		MISL A 0 nodelay{primed=true;}
+		goto spawnrocket;
+	spawnrocket:
+		---- A 0{
+			if(!inthesky){
+				brockettrail=true;
+				Gunsmoke();
+				A_StartSound("weapons/rocklaunch",CHAN_VOICE);
+			}
+		}
+		---- AAA 0{
+			actor sss=spawn("HDGunSmoke",pos-vel*0.1+(0,0,-4),ALLOW_REPLACE);
+			sss.vel=vel*-0.06+(frandom(-2,2),frandom(-2,2),frandom(-2,2));
+		}
+	spawnrocket2:
+		#### A 1{
+			if(self is "HD_CGM25_Rocket")frame=0;
+			if(stamina>0){  
+				if(!inthesky){
+				
+				A_SeekerMissile(75,75,SMF_LOOK,32);
+				
+					brockettrail=true;
+					actor sss=spawn("HDGunsmoke",pos,ALLOW_REPLACE);
+					sss.vel=vel*0.1;
+				}else{
+					brockettrail=false;
+					bgrenadetrail=false;
+				}
+				A_ChangeVelocity(
+					cos(pitch)*10,0,
+					sin(-pitch)*10+1,CVF_RELATIVE
+				);
+				stamina--;
+			}
+		}
+		---- A 0{
+			if(primed){
+				if(!inthesky)A_StartSound("weapons/rocklaunch",5);
+			}else{
+				primed=true;
+				brockettrail=false;
+				if(!inthesky)bgrenadetrail=true;
+			}
+		}loop;
+	}
+}

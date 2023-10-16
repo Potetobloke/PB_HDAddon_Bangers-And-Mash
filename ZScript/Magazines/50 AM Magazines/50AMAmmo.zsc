@@ -1,0 +1,42 @@
+// ------------------------------------------------------------
+// .50 Action Mega
+// ------------------------------------------------------------
+
+class HD50AM_Mag:HDMagAmmo{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "AutoMag Magazine"
+		//$Sprite "50AMA0"
+
+		hdmagammo.maxperunit 8; //7
+		hdmagammo.roundtype "HD50AM_Ammo";
+		hdmagammo.roundbulk ENC_50AM_LOADED;
+		hdmagammo.magbulk ENC_50AMMAG_EMPTY; //these should be as large as the standard 15 rnd  9mm mag
+		tag ".50 AM Magazine";
+		inventory.pickupmessage "Picked up a .50 AM magazine.";
+		hdpickup.refid HDLD_50AM_MAG;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"50AMA0":"50AMB0";
+		return magsprite,"50AMZ0","HD50AM_AMMO",2.;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_AutoMag");
+	}
+	states{
+	spawn:
+		50AM A -1;
+		stop;
+	spawnempty:
+		50AM B -1 A_SpawnEmpty();
+		stop;
+	}
+}
+
+class HD50AM_Mag_Empty:IdleDummy{
+	override void postbeginplay(){
+		super.postbeginplay();
+		HDMagAmmo.SpawnMag(self,"HD50AM_Mag",0);
+		destroy();
+	}
+}

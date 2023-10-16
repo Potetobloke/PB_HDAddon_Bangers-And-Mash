@@ -1,0 +1,378 @@
+[enu default]
+
+// Option Menu Titles
+PBWEPS_MENU = "\c[Blue]Ⓟ\c- Potetobloke's Weapon Pack: Bangers and Mash";
+MENU_PISTOLS_TITLE = "--- Pistols ---";
+MENU_SHOTGUNS_TITLE = "--- Shotguns ---";
+MENU_MACHINEGUNS_TITLE = "--- Machine Guns ---";
+MENU_EXPLOSIVES_TITLE = "--- Explosives ---";
+MENU_RIFLES_TITLE = "--- Rifles ---";
+MENU_ENERGYWEAPONS_TITLE = "--- Energy Weapons ---";
+MENU_INCENDIARYWEAPONS_TITLE = "--- Incendiary Weapons ---";
+MENU_MELEEWEAPONS_TITLE = "--- Melee Weapons ---";
+MENU_RESETOPTIONS_TITLE = "--- Reset Options ---";
+
+// Menu Section Headers
+MENU_SPAWNOPTIONS = "Spawn Options";
+MENU_WEPSPAWNOPTIONS = "Weapon Spawn Options";
+MENU_MAGSPAWNOPTIONS = "Magazine Spawn Options";
+MENU_PERSISTENCYOPTIONS = "Spawn Persistence Options";
+MENU_RESETOPTIONS = "Reset Options";
+MENU_RESETALLOPTIONS = "Reset all Options";
+
+// Menu Static Text
+MENU_SPAWNRATE_TEXT1 = "Setting 'spawn rate' to Replace All will suppress";
+MENU_SPAWNRATE_TEXT2 = "spawns of that given type.";
+MENU_PERSISTENCY_TEXT = "Control whether replacements happen after a mapload:";
+
+// Menu Option Labels
+MENU_NOTICE = "Notice:";
+MENU_BACKPACKSALLOWED = "Allowed in Ammo Boxes and/or Backpacks: ";
+MENU_SPAWNRATE = "Spawn Rate: ";
+MENU_WEPSPAWNRATE = "Weapon Spawn Rate: ";
+MENU_MAGSPAWNRATE = "Magazine Spawn Rate: ";
+MENU_PERSISTENCY = "Persistent Spawns: ";
+MENU_WEPPERSISTENCY = "Persistent Weapon Spawns: ";
+MENU_MAGPERSISTENCY = "Persistent Magazine Spawns: ";
+MENU_GRENADEPERSISTENCY = "Persistent Grenade Spawns: ";
+MENU_GRENADEPACKPERSISTENCY = "Persistent Grenade Pack Spawns: ";
+
+// Menu Command Text
+MENU_RESETWEP = "Reset Weapon Options";
+MENU_RESETMAG = "Reset Magazine Options";
+MENU_RESETPERSISTENCY = "Reset Persistence Options";
+PBWEPS_RESETALLOPTIONS = "Reset all options for Potetobloke's Weapon Pack";
+
+// Weapon Menu Specific Lumps
+
+//-----------------
+// 4mm Firearms
+//-----------------
+
+// G11
+MENU_G11_TITLE = "------ G26A1 & G26SD Options ------";
+MENU_G11_NORMAL_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the G26A1 on Vulcanettes:";
+MENU_G11_SCOPED_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the G26SD on Vulcanettes:";
+MENU_G11_MAGAZINE_SHELLBOX_SPAWNTEXT = "Control the spawn rate of the G26 Magazines on Shellboxes:";
+MENU_G11_BACKPACKS = "Control whether the G26 series rifles spawns in Backpacks:";
+MENU_G11_MAG_BACKPACKS = "Control whether the G26 series rifles' magazines spawn in Backpacks:";
+MENU_WEPG11NORMALPERSISTENCY = "Persistent G26A1 Spawns:";
+MENU_WEPG11SCOPEDPERSISTENCY = "Persistent G26SD Spawns:";
+
+//-----------------
+// 5mm Firearms
+//-----------------
+
+// M5165c
+MENU_M5165C_TITLE = "------ M5165C Options ------";
+MENU_M5165C_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the M5165C on Vulcanettes:";
+MENU_M5165C_SMG_SPAWNTEXT = "Control the spawn rate of the M5165C on SMGs:";
+MENU_M5165C_BACKPACKS = "Control whether the M5165C spawns in Backpacks:";
+MENU_M5165C_MAG_4MMAG_SPAWNTEXT = "Control the spawn rate of the M5165C's Magazines on 4mm Magazines:";
+MENU_M5165C_MAG_BACKPACKS = "control whether the M5165C's Magazines spawn in Backpacks:";
+
+// Buger M22
+MENU_BUGERM22_TITLE = "------ Buger M22 Target Rifle Options ------";
+MENU_BUGERM22_SHELLBOX_SPAWNTEXT = "Control the spawn rate of the Buger M22 on Shell Boxes:";
+MENU_BUGERM22_BACKPACKS = "Control whether the Buger M22 spawns in Backpacks:";
+
+//-----------------
+// 6mm Firearms
+//-----------------
+
+// Steyr ACR
+MENU_STEYRACR_TITLE = "------ Austere M17 Flechette Rifle Options ------";
+MENU_STEYRACR_THUNDERBUSTER_SPAWNTEXT = "Control the spawn rate of the Austere M17 on Thunderbusters:";
+MENU_STEYRACR_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the Austere M17 on Vulcanettes:";
+MENU_STEYRACR_BACKPACKS = "Control whether the Austere M17 spawns in Backpacks:";
+MENU_STEYRACR_MAGS_BATTERY_SPAWNTEXT = "Control the spawn rate of singular Austere M17 Magazines on Batteries:";
+MENU_STEYRACR_MAGS_4MMAG_SPAWNTEXT = "Control the spawn rate of singular Austere M17 Magazines on 4mm Magazines:";
+MENU_STEYRACR_MAGS_MORE_BATTERY_SPAWNTEXT = "Control the spawn rate of multiple Austere M17 Magazines on Batteries:";
+
+//-----------------
+// 7mm Firearms
+//-----------------
+
+// Smartgun
+MENU_SMARTGUN_TITLE = "------ H&M HS76A1 SmartGun Options ------";
+MENU_SMARTGUN_BFG9K_SPAWNTEXT = "Control the spawn rate of the H&M HS76A1 on BFGs:";
+MENU_SMARTGUN_BACKPACKS = "Control whether the H&M HS76A1 spawns in Backpacks";
+
+// M60
+MENU_M60_TITLE = "------ USGI M60E1 \"Hungry Hog\" Options ------";
+MENU_M60_THUNDERBUSTER_SPAWNTEXT = "Control the spawn rate of the USGI M60E1 on Thunderbusters:";
+MENU_M60_BACKPACKS = "Control whether the USGI M60E1 spawns in Backpacks:";
+
+// FAL
+MENU_FAL_TITLE = "------ UN-AF L7A1 \"Defender\" Options ------";
+MENU_FAL_THUNDERBUSTER_SPAWNTEXT = "Control the spawn rate of the UN-AF L7A1 on Thunderbusters:";
+MENU_FAL_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the UN-AF L7A1 on Vulcanettes:";
+MENU_FAL_BACKPACKS = "Control whether the UN-AF L7A1 spawns in Backpacks:";
+MENU_FAL_MAG_BATTERY_SPAWNTEXT = "Control the spawn rate of the UN-AF L7A1's Drums on Batteries:";
+MENU_FAL_MAG_BACKPACKS = "Control whether the UN-AF L7A1's Drums spawn in Backpacks:";
+
+// PSG-1
+MENU_PSG1_TITLE = "------ H&M PSG2A1 Sniper Rifle Options ------";
+MENU_PSG1_HUNTER_SPAWNTEXT = "Control the spawn rate of the H&M PSG2A1 on Hunters:";
+MENU_PSG1_SLAYER_SPAWNTEXT = "Control the spawn rate of the H&M PSG2A1 on Slayers:";
+MENU_PSG1_BACKPACKS = "Control whether the H&M PSG2A1 spawns in Backpacks";
+
+//-----------------
+// 9mm Firearms
+//-----------------
+
+// 93R
+MENU_93R_TITLE = "------ Mouletta 97R \"Raffica\" Options ------";
+MENU_93R_PISTOL_SPAWNTEXT = "Control the spawn rate of the Mouletta 97R \"Raffica\" on Pistols:";
+MENU_93R_BACKPACKS = "Control whether the Mouletta 97R spawns in Backpacks:";
+
+// M9S
+MENU_M9S_TITLE = "------ Minato M9S Machine Pistol Options ------";
+MENU_M9S_PISTOL_SPAWNTEXT = "Control the spawn rate of the Minato M9S on Pistols:";
+MENU_M9S_BACKPACKS = "Control whether the Minato M9S spawns in Backpacks:";
+
+//-----------------
+// 12-Gauge Firearms
+//-----------------
+
+// Caws
+MENU_CAWS_TITLE = "------ H&M Crows \"Presslufthämmer\" Options ------";
+MENU_CAWS_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the H&M Crows on Vulcanettes:";
+MENU_CAWS_SLAYER_SPAWNTEXT = "Control the spawn rate of the H&M Crows on Slayers:";
+MENU_CAWS_BACKPACKS = "Control whether the H&M Crows spawns in Backpacks:";
+MENU_CAWS_MAG_SHELLBOX_SPAWNTEXT = "Control the spawn rate of the H&M Crows' Magazines on Shellboxes:";
+MENU_CAWS_MAG_BACKPACKS = "control whether the H&M Crows' Magazines spawn in Backpacks:";
+
+// Street Sweeper
+MENU_STREETSWEEPER_TITLE = "------ Raycob Urban Destroyer Options ------";
+MENU_STREETSWEEPER_SLAYER_SPAWNTEXT = "Control the spawn rate of the Raycob Urban Destroyer on Slayers:";
+MENU_STREETSWEEPER_BACKPACKS = "Control whether the Raycob Urban Destroyer spawns in Backpacks:";
+
+// Uragan 5
+MENU_URAGAN5_TITLE = "------ Arkoudi M12/5 Shotgun Options ------";
+MENU_URAGAN5_HUNTER_SPAWNTEXT = "Control the spawn rate of the Arkoudi M12/5 Shotgun on Hunters:";
+MENU_URAGAN5_SLAYER_SPAWNTEXT = "Control the spawn rate of the Arkoudi M12/5 Shotgun on Slayers:";
+MENU_URAGAN5_BACKPACKS = "Control whether the Arkoudi M12/5 Shotguns spawns in Backpacks:";
+
+// Terminator
+MENU_TERMINATOR_TITLE = "------ Raycob Exterminator Options ------";
+MENU_TERMINATOR_SHELLBOX_SPAWNTEXT = "Control the spawn rate of the Raycob Exterminator with Shellboxes:";
+MENU_TERMINATOR_BACKPACKS = "Control whether the Raycob Exterminator spawns in Backpacks:";
+
+//-----------------
+// 35mm Firearms
+//-----------------
+
+// Kelenken
+MENU_KELENKEN_TITLE = "------ MS-AT 35mm \"Kelenken\" Options ------";
+MENU_KELENKEN_BFG9K_SPAWNTEXT = "Control the spawn rate of the MS-AT 35mm \"Kelenken\" on BFGs:";
+MENU_KELENKEN_BACKPACKS = "Control whether the MS-AT 35mm \"Kelenken\" spawns in Backpacks:";
+
+// Devincenzia
+MENU_DEVINCENZIA_TITLE = "------ Berlinghoff XM135 \"Devincenzia\" Options ------";
+MENU_DEVINCENZIA_THUNDERBUSTER_SPAWNTEXT = "Control the spawn rate of the XM135 \"Devincenzia\" on Thunderbusters:";
+MENU_DEVINCENZIA_BACKPACKS = "Control whether the XM135 \"Devincenzia\" spawns in Backpacks:";
+
+//-----------------
+// 45 ACP Firearms
+//-----------------
+
+// MAC-10
+MENU_MAC10_TITLE = "------ Raycob RAC-10/45 Machine Pistol Options ------";
+MENU_MAC10_PISTOL_SPAWNTEXT = "Control the spawn rate of the Raycob RAC-10/45 on Pistols:";
+MENU_MAC10_BACKPACKS = "Control whether the Raycob RAC-10/45 spawns in Backpacks:";
+MENU_MAC10_MAG_4MMAG_SPAWNTEXT = "Control the spawn rate of the Raycob RAC-10/45's Magazines on 4mm Magazines:";
+MENU_MAC10_MAG_BACKPACKS = "Control whether the Raycob RAC-10/45's Magazines spawn in Backpacks:";
+
+// Mk. 23
+MENU_MK23_TITLE = "------ H&M Mk. 45 Combat Handgun Options ------";
+MENU_MK23_PISTOL_SPAWNTEXT = "Control the spawn rate of the H&M Mk. 45 Combat Handgun on Pistols:";
+MENU_MK23_AMMOBOX_SPAWNTEXT = "Control the spawn rate of the H&M Mk. 45 Combat Handgun with Ammo Boxes:";
+MENU_MK23_BACKPACKS = "Control whether the H&M Mk. 45 Combat Handgun spawns in Backpacks:";
+MENU_MK23_MAG_4MMAG_SPAWNTEXT = "Control the spawn rate of the H&M Mk. 45 Combat Handgun's Magazines on 4mm Magazines:";
+MENU_MK23_MAG_BACKPACKS = "control whether the H&M Mk. 45 Combat Handgun's Magazines spawn in Backpacks:";
+
+//-----------------
+// 50 AM Firearms
+//-----------------
+
+// Automag
+MENU_AUTOMAG_TITLE = "------ SP-50 Mega Class Magnum Options ------";
+MENU_AUTOMAG_FA_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the Full-Auto SP-50 Mega Class Magnum on Vulcanettes:";
+MENU_AUTOMAG_FA_SLAYER_SPAWNTEXT = "Control the spawn rate of the Full-Auto SP-50 Mega Class Magnum on Slayers:";
+MENU_AUTOMAG_SA_HUNTER_SPAWNTEXT = "Control the spawn rate of the Semi-Auto SP-50 Mega Class Magnum on Hunters:";
+MENU_AUTOMAG_SA_PISTOL_SPAWNTEXT = "Control the spawn rate of the Semi-Auto SP-50 Mega Class Magnum on Pistols:";
+MENU_AUTOMAG_BACKPACKS = "Control whether the SP-50 Mega Class Magnum spawns in Backpacks:";
+MENU_WEPAUTOMAGFAPERSISTENCY = "Persistent Full-Auto SP-50 Spawns: ";
+MENU_WEPAUTOMAGSAPERSISTENCY = "Persistent Semi-Auto SP-50 Spawns: ";
+MENU_AUTOMAG_MAG_SHELLBOX_SPAWNTEXT = "Control the spawn rate of the SP-50 Automag's Magazines on Shellboxes:";
+MENU_AUTOMAG_MAG_SHELL_SPAWNTEXT = "Control the spawn rate of the SP-50 Automag's Magazines on Shells:";
+MENU_AUTOMAG_MAG_4MMAG_SPAWNTEXT = "Control the spawn rate of the SP-50 Automag's Magazines on 4mm Magazines:";
+MENU_AUTOMAG_MAG_BACKPACKS = "Control whether the SP-50 Automag's Magazines spawn in Backpacks:";
+
+// Levergat
+MENU_LEVERGAT_TITLE = "------ Sawyer LR37 \"Big Boy\" Hunting Carbine Options ------";
+MENU_LEVERGAT_HUNTER_SPAWNTEXT = "Control the spawn rate of the Sawyer LR37 on Hunters:";
+MENU_LEVERGAT_SLAYER_SPAWNTEXT = "Control the spawn rate of the Sawyer LR37 on Slayers:";
+MENU_LEVERGAT_BACKPACKS = "Control whether the Sawyer LR37 spawns in Backpacks:";
+
+//-----------------
+// 50 OMG Firearms
+//-----------------
+
+// M2HB
+MENU_M2HB_TITLE = "------ Brownell AM-HMG50 \"Mk II Stinger\" Options";
+MENU_M2HB_BFG9000_SPAWNTEXT = "Control the spawn rate of the Brownell AM-HMG50 on BFG-9000s:";
+MENU_M2HB_BACKPACKS = "Control whether the Brownell AM-HMG50 spawns in Backpacks:";
+
+//-----------------
+// .355 Firearms
+//-----------------
+
+// Colt 355
+MENU_COLT355_TITLE = "------ Volt M35A1 HPC Options ------";
+MENU_COLT355_VULCANETTE_SPAWNTEXT = "Control the spawn rate of the M35A1 HPC on Vulcanettes:";
+MENU_COLT355_BACKPACKS = "Control whether the M35A1 HPC spawns in Backpacks:";
+MENU_COLT355__MAG_SHELLBOX_SPAWNTEXT = "Control the spawn rate of the M35A1 HPC's Magazines on Shellboxes:";
+MENU_COLT355_MAG_BACKPACKS = "Control whether the M35A1 HPC's Magazines spawn in Backpacks:";
+
+//-----------------
+// Explosives
+//-----------------
+
+// White Phosphorous Grenades
+MENU_WPGRENADES_TITLE = "------ M70 White Phosphorous Grenade Options ------";
+MENU_WP_GRENADES_ROCKETBOX_SPAWNTEXT = "Control the spawn rate of M70 White Phosphorous Grenades on Rocket Boxes:";
+MENU_WP_GRENADES_7MM_SPAWNTEXT = "Control the spawn rate of M70 White Phosphorous Grenades on 7mm Boxes:";
+MENU_WP_GRENADE_GRENADE_SPAWNTEXT = "Control the spawn rate of M70 White Phosphorous Grenades on Grenades:";
+MENU_WPGRENADE_BACKPACKS = "Control whether the M70 White Phosphorous Grenades spawn in Backpacks:";
+
+// Toxic Gas Grenades
+MENU_TOXICGASGRENADES_TITLE = "------ \"Roller\" Toxic Gas Grenade Options ------";
+MENU_TG_GRENADES_ROCKETBOX_SPAWNTEXT = "Control the spawn rate of \"Roller\" Toxic Gas Grenades on Rocket Boxes:";
+MENU_TG_GRENADES_7MM_SPAWNTEXT = "Control the spawn rate of \"Roller\" Toxic Gas Grenades on 7mm Boxes:";
+MENU_TG_GRENADE_GRENADE_SPAWNTEXT = "Control the spawn rate of \"Roller\" Toxic Gas Grenades on Grenades:";
+MENU_TOXICGASGRENADE_BACKPACKS = "Control whether the \"Roller\" Toxic Gas Grenades spawn in Backpacks:";
+
+// CGM-25
+MENU_CGM25_TITLE = "------ DLAaM ATCM-35 Options ------";
+MENU_AT4_ROCKETBOX_SPAWNTEXT = "Control the spawn rate of the DLAaM ATCM-35 on Rocket Boxes:";
+MENU_AT4_SHELLBOX_SPAWNTEXT = "Control the spawn rate of the DLAaM ATCM-35 on Shell Boxes:";
+MENU_AT4_BACKPACKS = "Control whether the DLAaM ATCM-35 spawns in Backpacks:";
+
+// AT-4
+MENU_AT4_TITLE = "------ RAT-84 Options ------";
+MENU_CGM25_ROCKETBOX_SPAWNTEXT = "Control the spawn rate of the RAT-84 on Rocket Boxes:";
+MENU_CGM25_SHELLBOX_SPAWNTEXT = "Control the spawn rate of the RAT-84 on Shell Boxes:";
+MENU_CGM25_BACKPACKS = "Control whether the RAT-84 spawns in Backpacks:";
+
+//-----------------
+// Unique Firearms
+//-----------------
+
+// Railgun
+MENU_RAILGUN_TITLE = "------ XM99 Experimental Railgun Options ------";
+MENU_RAILGUN_BFG9K_SPAWNTEXT = "Control the spawn rate of the XM99 Railgun on BFG-9000s:";
+MENU_RAILGUN_BACKPACKS = "Control whether the XM99 Railgun spawns in Backpacks:";
+
+// Mancubus Cannon
+MENU_MANCUBUSCANNON_TITLE = "------ Mancubus Arm Cannon Options ------";
+MENU_MANCUBUSCANNON_THUNDERBUSTER_SPAWNTEXT = "Control the spawn rate of the Mancubus Cannon on Thunderbusters:";
+MENU_MANCUBUSCANNON_BACKPACKS = "Control whether the Mancubus Cannon spawns in Backpacks:";
+MENU_NAPALMTANK_BATTERY_SPAWNTEXT = "Control the spawn rate of Napalm Tanks on Batteries:";
+MENU_NAPALMTANKS_BACKPACKS = "Control whether Napalm Tanks spawn in Backpacks:";
+
+//-----------------
+// Melee Weapons
+//-----------------
+
+// Combat Knife
+MENU_KNIFE_TITLE = "------ Combat Knife Options ------";
+MENU_KNIFE_SHELL_SPAWNTEXT = "Control the spawn rate of the Combat Knife on shell pickups:";
+MENU_KNIFE_BACKPACKS = "Control whether the Combat Knife spawns in Backpacks:";
+
+// Fire Axe
+MENU_FIREAXE_TITLE = "------ Fire Axe Options ------";
+MENU_FIREAXE_CHAINSAW_SPAWNTEXT = "Control the spawn rate of the Fire Axe on chainsaws:";
+MENU_FIREAXE_BACKPACKS = "Control whether the Fire Axe spawns in Backpacks:";
+
+// Sledgehammer
+MENU_SLEDGEHAMMER_TITLE = "------ Sledgehammer Options ------";
+MENU_SLEDGEHAMMER_CHAINSAW_SPAWNTEXT = "Control the spawn rate of the Sledgehammer on chainsaws:";
+MENU_SLEDGEHAMMER_BACKPACKS = "Control whether the Sledgehammer spawns in Backpacks:";
+
+// Kharon
+MENU_KHARON_TITLE = "------ Replica Kharon Options ------";
+MENU_KHARON_BACKPACKS = "Control whether the Replica Kharon spawns in Backpacks:";
+
+// Weapon Tags
+
+// All the tags for weapons, some are likely to only be used in the menu (EG: TAG_G11_MENU for both of the G11 Variants)
+// But all of it should be put here. - [Ted]
+
+// 4mm Firearms
+TAG_G11 = "H&M G26 Series Rifles";
+TAG_G11_NORMAL = "H&M G26A1 Assault Rifle";
+TAG_G11_SCOPED = "H&M G26SD Service Rifle";
+
+// 5mm Firearms
+TAG_M5165C = "Arkoudi M5/165c";
+TAG_BUGERM22 = "Buger M22 Target Rifle";
+
+// 6mm Firearms
+TAG_STEYRACR = "Austere M17 Flechette Rifle";
+
+// 7mm Firearms
+TAG_SMARTGUN = "H&M HS76A1 SmartGun";
+TAG_M60 = "USGI M60E1 \"Hungry Hog\"";
+TAG_FAL = "UN-AF L7A1 \"Defender\"";
+TAG_PSG1 = "H&M PSG2A1 Sniper Rifle";
+
+// 9mm Firearms
+TAG_93R = "Mouletta 97R \"Raffica\"";
+TAG_M9S = "Minato M9S Machine Pistol";
+
+// 12-Gauge Firearms
+TAG_CAWS = "H&M CROWS \"Presslufthämmer\"";
+TAG_STREETSWEEPER = "Raycob Urban Destroyer";
+TAG_URAGAN5 = "Arkoudi M12/5 Shotgun";
+TAG_TERMINATOR = "Raycob Exterminator";
+
+// 35mm Firearms
+TAG_DEVINCENZIA = "Berlinghoff XM135 \"Devincenzia\"";
+TAG_KELENKEN = "MS-AT 35mm \"Kelenken\"";
+
+// 45 ACP Firearms
+TAG_MK23 = "H&M Mk.45 Combat Handgun";
+TAG_MAC10 = "Raycob RAC-10/45 Machine Pistol";
+
+// 50 AM Firearms
+TAG_LEVERGAT = "Sawyer LR37 \"Big Boy\" Hunting Carbine";
+TAG_AUTOMAG = "SP-50 Mega Class Magnum";
+
+// 50 OMG Firearms
+TAG_M2HB = "Brownell AM-HMG50 \"MKII Stinger\"";
+
+// .355 Firearms
+TAG_COLTCOMMANDO = "Volt M35A1 HPC";
+
+// Rocket Launchers
+TAG_CGM25 = "DLAaM ATCM-35";
+TAG_AT4 = "RAT-84";
+
+// Unique Firearms
+TAG_RAILGUN = "XM99 Experimental Railgun";
+TAG_RAILGUNDYNAMO = "XM99 Railgun Dynamo";
+TAG_MANCUBUSCANNON = "Mancubus Arm Cannon";
+TAG_EXTINGUISHER = "Fire Extinguisher";
+TAG_PS20 = "Denton Light Arms and Munitions PS-451";
+
+// Items
+TAG_WPGRENADES = "M70 White Phosphorus Grenades";
+TAG_GASGRENADES = "\"Roller\" Toxic Gas Grenades";
+
+// Melee Weapons
+TAG_KNIFE = "Combat Knife";
+TAG_FIREAXE = "Fire Axe";
+TAG_SLEDGEHAMMER = "Sledgehammer";
+TAG_KHARON = "Replica Kharon";

@@ -1,0 +1,158 @@
+class HD_CAWSMag:HDMagAmmo{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "HK CAWS Magazine"
+		//$Sprite "CWSMA0"
+
+		hdmagammo.maxperunit 1010;
+		hdmagammo.roundtype "HDShellAmmo";
+		hdmagammo.roundbulk ENC_SHELLLOADED;
+		hdmagammo.magbulk ENC_CAWS_MAG;
+		hdpickup.refid HDLD_CAWSMAG;
+		tag "Combat Shotgun Magazine";
+		inventory.pickupmessage "Picked up an automatic combat shotgun magazine.";
+		scale 0.65;
+		inventory.maxamount 1000;
+	}
+	override string,string,name,double getmagsprite(int thismagamt){
+		string magsprite=(thismagamt>0)?"CWSMA0":"CWSMB0";
+		return magsprite,"SHELA0","HDShellAmmo",1.7;
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HD_CAWSGUN");
+	}
+
+	override int GetMagHudCount(int input){return input%100;}
+	override void DrawRoundCount(HDStatusBar sb,HDPlayerPawn hpl,name roundsprite,double scl,int offx,int offy){
+		offx+=40;
+		scl=0.9;
+		sb.drawstring(
+			sb.pSmallFont,sb.FormatNumber(hpl.countinv("HDShellAmmo")),
+			(offx+2,offy),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
+			font.CR_BROWN
+		);
+		sb.drawimage(roundsprite,(offx,offy),
+			sb.DI_SCREEN_CENTER|sb.DI_ITEM_RIGHT_TOP,
+			scale:(scl,scl)
+		);
+		if(!hpl.countinv("HDSlugAmmo"))return;
+		offy+=20;
+		sb.drawstring(
+			sb.pSmallFont,sb.FormatNumber(hpl.countinv("HDSlugAmmo")).." \cu[Use] load slugs",
+			(offx+2,offy),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
+			font.CR_BROWN
+		);
+		sb.drawimage("SLUGA0",(offx,offy),
+			sb.DI_SCREEN_CENTER|sb.DI_ITEM_RIGHT_TOP,
+			scale:(scl,scl)
+		);
+	}
+
+	override void Consolidate(){
+		SyncAmount();
+		if(amount<2)return;
+		int totalrounds=0;
+		int totalfullets=0;
+		for(int i=0;i<amount;i++){
+			totalrounds+=mags[i]%100;
+			totalfullets+=mags[i]/100;
+			mags[i]=0;
+		}
+		int mpu=maxperunit%100;
+		for(int i=0;i<amount;i++){
+			int toinsert=min(mpu,totalrounds);
+			mags[i]=toinsert;
+			totalrounds-=toinsert;
+
+			if(totalfullets>0){
+				int toinsertfullet=min(totalfullets,toinsert);
+				mags[i]+=100*toinsertfullet;
+				totalfullets-=toinsertfullet;
+			}
+
+			if(totalrounds<1)break;
+		}
+	}
+
+	static bool CheckSlug(int amt,int amt2=-1){
+		//method 1: compare total rounds to total that are slugs
+		if(amt2>=0)return
+			amt<=amt2
+			||random(1,amt)<=amt2
+		;
+
+		//method 2: extract numbers from "hundreds are NOT slugs" method
+		int fullets=amt/100;
+		int rounds=amt%100;
+		return
+			fullets<1
+			||random(1,rounds)>fullets
+		;
+	}
+	override void DoEffect(){
+		if(
+			!!owner
+			&&!!owner.player
+			&&(
+				owner.player.cmd.buttons&BT_USE
+				||!owner.countinv("HDShellAmmo")
+			)
+			&&owner.countinv("HDSlugAmmo")
+		)roundtype="HDSlugAmmo";
+		else roundtype="HDShellAmmo";
+		super.DoEffect();
+	}
+
+	override bool Extract(){
+		SyncAmount();
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]<1
+		)return false;
+
+		class<inventory> rndtp="HDShellAmmo";
+		int mindex=mags.size()-1;
+
+		if(CheckSlug(mags[mindex]))rndtp="HDSlugAmmo";
+		else mags[mindex]-=100;
+
+		if(HDPickup.MaxGive(owner,rndtp,roundbulk)>=1)HDF.Give(owner,rndtp,1);
+		else HDPickup.DropItem(owner,rndtp,1);
+		owner.A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
+
+		mags[mindex]--;
+		return true;
+	}
+	override bool Insert(){
+		SyncAmount();
+		if(
+			mags.size()<1
+			||mags[mags.size()-1]%100>=maxperunit%100
+			||!owner.countinv(roundtype)
+		)return false;
+
+		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
+		owner.A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
+		int mindex=mags.size()-1;
+		mags[mindex]++;
+
+		//add the flag if it's a regular non-slug
+		if(roundtype=="HDShellAmmo")mags[mindex]+=100;
+
+			inserttime=16;
+
+		return true;
+	}
+
+	override double getbulkonemag(int which){
+		return magbulk+roundbulk*(mags[which]%100);
+	}
+
+	states{
+		spawn:
+		CWSM AC -1 nodelay;
+	spawnempty:
+		CWSM B -1 A_SpawnEmpty();
+		stop;
+	}
+}

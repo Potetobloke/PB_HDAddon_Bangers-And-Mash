@@ -1,0 +1,266 @@
+//-----------------
+// Spawner CVARs
+//-----------------
+
+// Most of these are server variables so in a multiplayer session they can be synced to other players.
+// I've tried to comment everything, there's too much shit for me to have done everything though so I gave up halfway.
+// You can likely figure out what's what but uhh good luck. I'll fix it later. - [Ted]
+
+// NOTE: Values need to either be -1, 0, 2, 4, 9, 14, 19, 24, 49, 99, 149 or 199 to work for the spawners!
+// Anything else would require remaking the option values in the menus.
+// They'll still function in-game correctly, but the menus won't properly display them.
+// Stick to it please and have less bug reports to explain for pls. - [Ted]
+
+// Each item/weapon should also get the following:
+// - A backpack CVAR, if it can spawn in backpacks.
+// - As many worldspawn cvars as it needs, one per each item it spawns on.
+// - A persistency setting if it has any worldspawn cvars.
+
+// All of these are used to make the spawn handler work. I'd prefer if it's kept in that order, but it's not necessary. Just looks nice and keeps things standard. - [Ted]
+
+// Railgun
+server bool railgun_allowBackpacks = true;
+server int railgun_bfg9k_spawn_bias = 49;
+server bool railgun_persistent_spawning = false;
+
+// Smartgun
+server bool smartgun_allowBackpacks = true;
+server int smartgun_bfg9k_spawn_bias = 49;
+server bool smartgun_persistent_spawning = false;
+
+// Kelenken
+server bool kelenken_allowBackpacks = true;
+server int kelenken_bfg9k_spawn_bias = 24;
+server bool kelenken_persistent_spawning = false;
+
+// FAL
+server bool fal_allowBackpacks = true;
+server int fal_thunderbuster_spawn_bias = 14;
+server int fal_vulcanette_spawn_bias = 24;
+server bool fal_persistent_spawning = false;
+
+// M60
+server bool m60_allowBackpacks = true;
+server int m60_thunderbuster_spawn_bias = 24;
+server bool m60_persistent_spawning = false;
+
+// Devincenzia
+server bool devincenzia_allowBackpacks = true;
+server int devincenzia_thunderbuster_spawn_bias = 24;
+server bool devincenzia_persistent_spawning = false;
+
+// Steyr ACR
+server bool steyracr_allowBackpacks = true;
+server int steyracr_thunderbuster_spawn_bias = 24;
+server int steyracr_vulcanette_spawn_bias = 14;
+server bool steyracr_persistent_spawning = false;
+
+// Mancubus Cannon
+server bool mancubuscannon_allowBackpacks = true;
+server int mancubuscannon_thunderbuster_spawn_bias = 24;
+server bool mancubuscannon_persistent_spawning = false;
+
+// Automag FA
+server bool automag_allowBackpacks = true;
+server int automag_fa_vulcanette_spawn_bias = 49;
+server int automag_fa_slayer_spawn_bias = 49;
+server bool automag_fa_persistent_spawning = false;
+
+// Automag SA
+server int automag_sa_hunter_spawn_bias = 24;
+server int automag_sa_pistol_spawn_bias = 24;
+server bool automag_sa_persistent_spawning = false;
+
+// G11 Normal
+//server bool G11_normal_allowBackpacks = true;
+server bool g11_allowBackpacks = true;
+server int g11_normal_vulcanette_spawn_bias = 19;
+server bool g11_normal_persistent_spawning = false;
+
+// G11 Scoped
+//server bool G11_scoped_allowBackpacks = true;
+server int g11_scoped_vulcanette_spawn_bias = 19;
+server bool g11_scoped_persistent_spawning = false;
+
+// M5-165c
+server bool m5165_allowBackpacks = true;
+server int m5165_vulcanette_spawn_bias = 9;
+server int m5165_smg_spawn_bias = 14;
+server bool m5165_persistent_spawning = false;
+
+// Colt 355
+server bool colt355_allowBackpacks = true;
+server int colt355_vulcanette_spawn_bias = 9;
+server bool colt355_persistent_spawning = false;
+
+// Caws
+server bool caws_allowBackpacks = true;
+server int caws_vulcanette_spawn_bias = 9;
+server int caws_slayer_spawn_bias = 9;
+server bool caws_persistent_spawning = false;
+
+// Street Sweeper
+server bool sweeper_allowBackpacks = true;
+server int sweeper_slayer_spawn_bias = 9;
+server bool sweeper_persistent_spawning = false;
+
+// Uragan-5
+server bool uragan5_allowBackpacks = true;
+server int uragan5_slayer_spawn_bias = 14;
+server int uragan5_hunter_spawn_bias = 9;
+server bool uragan5_persistent_spawning = false;
+
+// Levergat
+server bool levergat_allowBackpacks = true;
+server int levergat_slayer_spawn_bias = 14;
+server int levergat_hunter_spawn_bias = 19;
+server bool levergat_persistent_spawning = false;
+
+// PSG-1
+server bool psg1_allowBackpacks = true;
+server int psg1_slayer_spawn_bias = 14;
+server int psg1_hunter_spawn_bias = 19;
+server bool psg1_persistent_spawning = false;
+
+// MAC-10
+server bool mac10_allowBackpacks = true;
+server int mac10_pistol_spawn_bias = 14;
+server bool mac10_persistent_spawning = false;
+
+// Mk. 23 SOCOM
+server bool mk23socom_allowBackpacks = true;
+server int mk23socom_pistol_spawn_bias = 9;
+server int mk23socom_ammobox_spawn_bias = 24;
+server bool mk23socom_persistent_spawning = false;
+
+server bool combatknife_allowBackpacks = true;
+server int knife_shell_spawn_bias = 19;
+server bool knife_persistent_spawning = false;
+
+server bool fireaxe_allowBackpacks = true;
+server int fireaxe_chainsaw_spawn_bias = 14;
+server bool fireaxe_persistent_spawning = false;
+
+server bool sledgehammer_allowBackpacks = true;
+server int sledgehammer_chainsaw_spawn_bias = 14;
+server bool sledgehammer_persistent_spawning = false;
+
+server bool at4_allowBackpacks = true;
+server int at4_shellbox_spawn_bias = 24;
+server int at4_rocketbox_spawn_bias = 24;
+server bool at4_persistent_spawning = false;
+
+server bool cgm25_allowBackpacks = true;
+server int cgm25_rocketbox_spawn_bias = 24;
+server int cgm25_shellbox_spawn_bias = 24;
+server bool cgm25_persistent_spawning = false;
+
+server int terminator_shellbox_spawn_bias = 49;
+server bool terminator_allowBackpacks = false;
+server bool terminator_persistent_spawning = false;
+
+server int fireextinguisher_ammobox_spawn_bias = 24;
+server bool fireextinguisher_persistent_spawning = false;
+
+server bool ps20_allowBackpacks = true;
+server int ps20_shellbox_spawn_bias = 14;
+server bool ps20_persistent_spawning = false;
+
+server bool ruger1022_allowBackpacks = true;
+server int ruger1022_shellbox_spawn_bias = 14;
+server bool ruger1022_persistent_spawning = false;
+
+server bool falmag_allowBackpacks = true;
+server int falmag_battery_spawn_bias = 14;
+server bool falmag_persistent_spawning = false;
+
+server bool steyracrmag_allowBackpacks = true;
+server int acrmag_battery_spawn_bias = 14;
+server int acrmag_4mmag_spawn_bias = 14;
+server bool acrmag_persistent_spawning = false;
+server int acrmags_battery_spawn_bias = 14;
+
+// To be moved to HDBulletlib-Recasted with belt links, unsure of when but I'll fuckin do it. - [Ted]
+server int eightmilec_battery_spawn_bias = 14;
+server bool eightmilec_persistent_spawning = false;
+
+server bool napalmtank_allowBackpacks = true;
+server int napalm_battery_spawn_bias = 14;
+server bool napalm_persistent_spawning = false;
+
+server bool fiftyammag_allowBackpacks = true;
+server int am50mag_shellbox_spawn_bias = 14;
+server int am50mag_shell_spawn_bias = 14;
+server int am50mag_4mmag_spawn_bias = 14;
+server bool am50mag_persistent_spawning = false;
+
+server bool cawsmag_allowBackpacks = true;
+server int cawsmag_shellbox_spawn_bias = 14;
+server bool cawsmag_persistent_spawning = false;
+
+server bool colt355mag_allowBackpacks = true;
+server int colt355mag_shellbox_spawn_bias = 14;
+server bool colt355mag_persistent_spawning = false;
+
+server bool mac10mag_allowBackpacks = true;
+server int mac10mag_4mmag_spawn_bias = 14;
+server bool mac10mag_persistent_spawning = false;
+
+server bool mk23mag_allowBackpacks = true;
+server int socommag_4mmag_spawn_bias = 14;
+server bool socommag_persistent_spawning = false;
+
+server bool m165mag_allowBackpacks = true;
+server int m165mags_4mmag_spawn_bias = 14;
+server int m165mags_clipbox_spawn_bias = 14;
+server bool m165mags_persistent_spawning = false;
+
+server int wpgrenades_rocketbox_spawn_bias = 14;
+server int wpgrenades_7mm_spawn_bias = 14;
+server bool wpgrenades_persistent_spawning = false;
+
+server bool wpgrenade_allowBackpacks = true;
+server int wpgrenade_grenade_spawn_bias = 14;
+server bool wpgrenade_persistent_spawning = false;
+
+server int gasrenades_rocketbox_spawn_bias = 14;
+server int gasgrenades_7mm_spawn_bias = 14;
+server bool gasgrenades_persistent_spawning = false;
+
+server bool gasgrenade_allowBackpacks = true;
+server int gasgrenade_grenade_spawn_bias = 14;
+server bool gasgrenade_persistent_spawning = false;
+
+server bool g11mag_allowBackpacks = true;
+server int g11mag_shellbox_spawn_bias = 14;
+server int g11mag_clipbox_spawn_bias = 14;
+server bool g11mag_persistent_spawning = false;
+
+// 93R
+server bool raffica_allowBackpacks = true;
+server int raffica_pistol_spawn_bias = 9;
+server bool raffica_persistent_spawning = false;
+
+// M9S
+server bool m9s_allowBackpacks = true;
+server int m9s_pistol_spawn_bias = 9;
+server bool m9s_persistent_spawning = false;
+
+// M2HB
+server bool m2hb_allowBackpacks = true;
+server int m2hb_bfg_spawn_bias = 24;
+server bool m2hb_persistent_spawning = false;
+
+// Kharon
+server bool kharon_allowBackpacks = true;
+server int kharon_chainsaw_spawn_bias = 24;
+server bool kharon_persistent_spawning = false;
+
+//-----------------
+// Miscallaneous CVARs
+//-----------------
+
+// Not sure if any of these are going to be used anymore, not gonna remove them in case I fuck something up on accident. - [Ted]
+server int PB_HDWeps_ThingSpawnRate = 100;
+server float PB_HDWeps_ThingOverspawn = 0.5;
+server bool PB_HDWeps_AllowReplacement = true;

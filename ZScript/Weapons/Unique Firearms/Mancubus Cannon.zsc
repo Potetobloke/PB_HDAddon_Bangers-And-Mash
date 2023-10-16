@@ -1,0 +1,316 @@
+class HDMancCannon:HDWeapon{
+	default{
+		//$Category "Weapons/Hideous Destructor"
+		//$Title "burn thingy"
+		//$Sprite "CSAWA0"
+		weapon.selectionorder 20;
+		weapon.slotpriority 0.4;
+		weapon.slotnumber 5;
+		weapon.bobstyle "Alpha";
+		weapon.bobspeed 1.8;
+		weapon.kickback 2;
+		scale 0.8;
+		hdweapon.refid HDLD_MANCUGUNWEAPON;
+		inventory.pickupmessage "You got a modified mancubus's arm cannon! It somehow works.";
+		obituary "%o was roasted and toasted by %k.";
+		hdweapon.barrelsize 26,2,2;
+		tag "$TAG_MANCUBUSCANNON";
+	}
+
+	override string,double getpickupsprite(){return "MCN0Z0",0.9;}
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+		if(sb.hudlevel == 1){
+		
+			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HDNapalmTank")));
+			if(nextmagloaded>=700){
+				sb.drawimage("GTANK_H1",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM);
+			}else if(nextmagloaded<1){
+				sb.drawimage("GTANK_H1",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.);
+			}else sb.drawbar(
+				"GTANK_H1","GTANK_GR",
+				nextmagloaded,700,
+				(-46,-3),-1,
+				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
+			);
+		
+			sb.drawnum(hpl.countinv("HDNapalmTank"),-46,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+		}
+		if(!hdw.weaponstatus[1])sb.drawstring(
+			sb.mamountfont,"-----",(-16,-9),sb.DI_TEXT_ALIGN_RIGHT|
+			sb.DI_TRANSLATABLE|sb.DI_SCREEN_CENTER_BOTTOM,
+			Font.CR_DARKGRAY
+		);else if(hdw.weaponstatus[1]>0)sb.drawwepnum(hdw.weaponstatus[1],750);
+	}
+	override string gethelptext(){
+		return
+		WEPHELP_FIRE.."  Shoot Napalm Ball\n"
+		..WEPHELP_ALTFIRE.."  Shoot Napalm Stream\n"
+		..WEPHELP_RELOADRELOAD
+		..WEPHELP_UNLOADUNLOAD
+		;
+	}
+	override double gunmass(){
+		return 19;//+weaponstatus[MANCS_GASOLINE]<0?0:1;
+	}
+	override double weaponbulk(){
+		return 150+(weaponstatus[MANCS_GASOLINE]>=0?ENC_NAPALMTANK:0);
+	}
+	override void DropOneAmmo(int amt){
+		if(owner){
+			amt=clamp(amt,1,10);
+			owner.A_DropInventory("HDNapalmTank",1);
+		}
+	}
+	
+	action void A_MancGunFire(){
+		invoker.weaponstatus[MANCS_GASOLINE]-=10;
+
+		A_StartSound("weapons/bronto",CHAN_WEAPON);
+		A_StartSound("misc/fwoosh",CHAN_6);
+		//A_StartSound("weapons/manccannonignite",CHAN_7);
+		
+		int recoilside=randompick(-1,1);
+		
+		A_MuzzleClimb(
+					recoilside*5,-frandom(3.,5.),
+					recoilside*5,-frandom(3.,5.)
+		);
+		
+		//the shooting
+		
+		vector3 gpos=pos+gunpos((22,0,-getdefaultbytype("manjuice").height*0.6));
+		let ggg=manjuice(spawn("manjuice",gpos,ALLOW_REPLACE));
+
+		let hdp=hdplayerpawn(self);
+		
+		ggg.angle=hdp.gunangle;
+		ggg.pitch=hdp.gunpitch;
+
+		ggg.vel=vel+(cos(hdp.gunpitch)*(cos(hdp.gunangle),sin(hdp.gunangle)),-sin(hdp.gunpitch))*CSLUG_BALLSPEED;
+		}
+
+	action void A_FlamerFire(double flamevel = 45){
+		invoker.weaponstatus[MANCS_GASOLINE]-=5;
+
+		//A_StartSound("weapons/bronto",CHAN_WEAPON);
+		A_StartSound("misc/fwoosh",CHAN_6);
+		//A_StartSound("weapons/manccannonignite",CHAN_7);
+		
+		int recoilside=randompick(-1,1);
+		
+		A_MuzzleClimb(
+					recoilside*0.15,-frandom(0.01,0.2),
+					recoilside*0.15,-frandom(0.01,0.2)
+		);
+		
+		//the shooting
+		
+		vector3 gpos=pos+gunpos((11,0,-getdefaultbytype("HDFlamerProjectile").height*0.6));
+		let ggg=HDFlamerProjectile(spawn("HDFlamerProjectile",gpos,ALLOW_REPLACE));
+
+		let hdp=hdplayerpawn(self);
+		
+		ggg.angle=hdp.gunangle;
+		ggg.pitch=hdp.gunpitch;
+		
+		ggg.angle=angle+frandom(-15,15);
+
+		ggg.vel=vel+(cos(hdp.gunpitch)*(cos(hdp.gunangle),sin(hdp.gunangle)),-sin(hdp.gunpitch))*flamevel;
+		}
+
+	action void A_SmokeEmit(double smokevel = 3){
+		vector3 gpos=pos+gunpos((11,0,-getdefaultbytype("HDSmoke").height*0.6));
+		let ggg=HDSmoke(spawn("HDSmoke",gpos,ALLOW_REPLACE));
+
+		let hdp=hdplayerpawn(self);
+		
+		ggg.angle=hdp.gunangle+frandom(-15,15);
+		ggg.pitch=hdp.gunpitch;
+		
+		//ggg.angle=angle+frandom(-15,15);
+
+		ggg.vel=vel+(cos(hdp.gunpitch)*(cos(hdp.gunangle),sin(hdp.gunangle)),-sin(hdp.gunpitch))*smokevel;
+		}
+
+	states{
+		ready:
+		MCN0 A 1{
+			A_WeaponReady(WRF_ALL);
+		}
+		goto readyend;
+	select0:
+		MCN0 A 0 A_Overlay(2,"droop");
+		goto select0big;
+	deselect0:
+		MCN0 A 0;
+		goto deselect0big;
+		
+	droop:
+		TNT1 A 1{
+			if(pitch<frandom(5,8)&&(!gunbraced())){
+				if(countinv("IsMoving")>2 && countinv("PowerStrength")<1){    
+					A_MuzzleClimb(frandom(-0.1,0.1),
+						frandom(0.1,clamp(1-pitch,0.1,0.3)));
+				}else{
+					A_MuzzleClimb(frandom(-0.06,0.06),
+						frandom(0.1,clamp(1-pitch,0.06,0.12)));
+				}
+			}
+		}loop;
+		
+	fire:
+		MCN0 A 2 A_JumpIf(invoker.weaponstatus[MANCS_GASOLINE]>9,"shooty");
+		goto nope;
+	shooty:
+		MCN0 B 1 bright {if(invoker.weaponstatus[MANCS_GASOLINE]>9)A_MancGunFire();}
+		MCN0 CD 1 bright;
+		MCN0 EEFF 1;
+		MCN0 A 0; //{if(invoker.weaponstatus[MANCS_GASOLINE]>9)A_Refire("shooty");}
+		goto nope;
+		
+	altfire:
+		MCN0 A 2 A_JumpIf(invoker.weaponstatus[MANCS_GASOLINE]>4,"marinate");
+		goto nope;
+	marinate:
+		MCN0 B 0 A_StartSound("weapons/manccannonignite",CHAN_7);
+	marinate.cont:
+		MCN0 BC 1 bright {if(invoker.weaponstatus[MANCS_GASOLINE]>4)A_FlamerFire(frandom(60,75));}
+		MCN0 D 0 bright {if(invoker.weaponstatus[MANCS_GASOLINE]>4)A_Refire("marinate.cont");}
+	stopfire:
+		MCN0 DEE 1 bright {if(invoker.weaponstatus[MANCS_GASOLINE]>4)A_FlamerFire(35);}
+		MCN0 FFA 1;
+		goto nope;
+
+	reload:
+		MCN0 A 0{
+			if(
+				invoker.weaponstatus[MANCS_GASOLINE]>=750
+				||!countinv("HDNapalmTank")
+			){return resolvestate("nope");}
+			invoker.weaponstatus[0]&=~MANCF_JUSTUNLOAD;
+			return resolvestate("unmag");
+		}
+
+	user4:
+	unload:
+		MCN0 A 0{
+			if(invoker.weaponstatus[MANCS_GASOLINE]<0){
+				return resolvestate("nope");
+			}invoker.weaponstatus[0]|=MANCF_JUSTUNLOAD;return resolvestate(null);
+		}
+	unmag:
+		MCN0 A 1 offset(0,33) A_MuzzleClimb(-frandom(0.2,1.4),frandom(0.2,1.4));
+		MCN0 A 1 offset(0,35) A_MuzzleClimb(-frandom(0.6,0.9),frandom(0.6,0.9));
+		MCN0 A 1 offset(0,37) A_MuzzleClimb(-frandom(1.2,2.4),frandom(1.2,2.4));
+		MCN0 A 1 offset(0,39) A_MuzzleClimb(-frandom(1.2,2.4),frandom(1.2,2.4));
+		MCN0 A 2 offset(0,44);
+		MCN0 A 2 offset(0,52);
+		MCN0 A 3 offset(2,62);
+		MCN0 A 4 offset(4,74);
+		MCN0 A 7 offset(6,78);
+		MCN0 A 5
+		{
+		if(invoker.weaponstatus[MANCS_GASOLINE]>=0){
+				setweaponstate("unscrew");
+			}
+		}
+		MCN0 A 0{
+			//A_StartSound("weapons/flamertwist1",CHAN_WEAPON);
+			if(
+				!PressingUnload()&&!PressingReload()
+			){
+				setweaponstate("dropmag");
+			}else setweaponstate("pocketmag");
+		}
+		goto dropmag;
+	unscrew:
+		MCN0 A 6 offset(7,80)A_StartSound("weapons/flamertwist1",CHAN_WEAPON);
+		MCN0 A 3 offset(6,78);
+		MCN0 A 4 offset(7,79);
+		MCN0 A 6 offset(7,80)A_StartSound("weapons/flamertwist1",CHAN_WEAPON);
+		MCN0 A 3 offset(6,78);
+		MCN0 A 4 offset(7,79);
+		MCN0 A 6 offset(7,80)A_StartSound("weapons/flamertwist1",CHAN_WEAPON);
+		MCN0 A 0{
+			//A_StartSound("weapons/flamertwist1",CHAN_WEAPON);
+			if(
+				!PressingUnload()&&!PressingReload()
+			){
+				setweaponstate("dropmag");
+			}else setweaponstate("pocketmag");
+		}
+	dropmag:
+		MCN0 A 0{
+			if(invoker.weaponstatus[MANCS_GASOLINE]>=0){
+				HDMagAmmo.SpawnMag(self,"HDNapalmTank",invoker.weaponstatus[MANCS_GASOLINE]);
+			}
+			invoker.weaponstatus[MANCS_GASOLINE]=-1;
+		}goto magout;
+	pocketmag:
+		MCN0 A 6 offset(7,80){
+			if(invoker.weaponstatus[MANCS_GASOLINE]>=0){
+				HDMagAmmo.GiveMag(self,"HDNapalmTank",invoker.weaponstatus[MANCS_GASOLINE]);
+				A_StartSound("weapons/pocket");
+				A_MuzzleClimb(
+					randompick(-1,1)*frandom(-0.3,-1.2),
+					randompick(-1,1)*frandom(0.3,1.8)
+				);
+			}
+			invoker.weaponstatus[MANCS_GASOLINE]=-1;
+		}
+		MCN0 A 7 offset(6,81) A_StartSound("weapons/pocket");
+		goto magout;
+
+	magout:
+		MCN0 A 0 A_JumpIf(invoker.weaponstatus[0]&MANCF_JUSTUNLOAD,"reloadend");
+	loadmag:
+		MCN0 A 4 offset(7,79) A_MuzzleClimb(
+			randompick(-1,1)*frandom(-0.3,-1.2),
+			randompick(-1,1)*frandom(0.3,0.8)
+		);
+		MCN0 A 7 offset(6,78) A_StartSound("weapons/pocket");
+		MCN0 A 7 offset(6,78) A_StartSound("weapons/pocket");
+		MCN0 AAAA 10 offset(6,79) A_MuzzleClimb(
+			randompick(-1,1)*frandom(-0.3,-1.2),
+			randompick(-1,1)*frandom(0.3,0.8)
+		);
+		MCN0 A 6 offset(7,80)A_StartSound("weapons/flamertwist2",CHAN_WEAPON);
+		MCN0 A 6 offset(6,78);
+		MCN0 A 4 offset(7,79);
+		MCN0 A 6 offset(7,80)A_StartSound("weapons/flamertwist2",CHAN_WEAPON);
+		MCN0 A 3 offset(6,78);
+		MCN0 A 4 offset(7,79);
+		MCN0 A 6 offset(7,80)A_StartSound("weapons/flamertwist2",CHAN_WEAPON);
+		MCN0 A 0{
+			let mmm=HDMagAmmo(findinventory("HDNapalmTank"));
+			if(mmm)invoker.weaponstatus[MANCS_GASOLINE]=mmm.TakeMag(true);
+		}
+	reloadend:
+		MCN0 A 6 offset(5,72);
+		MCN0 A 5 offset(4,74)A_StartSound("weapons/csawclose",CHAN_WEAPON);
+		MCN0 A 4 offset(2,62);
+		MCN0 A 3 offset(0,52);
+		MCN0 A 4 offset(0,44);
+		MCN0 A 1 offset(0,37);
+		MCN0 A 1 offset(0,35);
+		MCN0 A 1 offset(0,33);
+		goto ready;
+
+	user3:
+		MCN0 A 0 A_MagManager("HDNapalmTank");
+		goto ready;
+
+	spawn:
+		MCN0 Z -1;
+	}
+	override void initializewepstats(bool idfa){
+		weaponstatus[MANCS_GASOLINE]=750;
+	}
+}
+
+enum manccannonstatus{
+	MANCF_JUSTUNLOAD=1,
+
+	MANCS_FLAGS=0,
+	MANCS_GASOLINE=1,
+};

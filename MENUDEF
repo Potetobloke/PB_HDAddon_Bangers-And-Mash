@@ -1,0 +1,1255 @@
+//-----------------
+// The Great Menu
+//-----------------
+
+/* This is organized in the way of:
+- Adding the option menu to options and the HDAddonMenu.
+- Main menu, where everything is housed.
+- Specific weapon menus.*/
+
+// Main Menu stuff
+AddOptionMenu "OptionsMenu" {
+	Submenu "$PBWEPS_MENU", "PBWepsMenu"
+}
+
+AddOptionMenu "HDAddonMenu" {
+	Submenu "$PBWEPS_MENU", "PBWepsMenu"
+}
+
+// Spawn Bias (for items that do replace)
+OptionValue "SpawnBias" {
+	-1,    "Disabled"
+	 0,    "Replace All"
+	 2,    "1 in 3"
+	 4,    "1 in 5"
+	 9,    "1 in 10"
+	 14,   "1 in 15"
+	 19,   "1 in 20"
+	 24,   "1 in 25"
+	 49,   "1 in 50"
+	 99,   "1 in 100"
+	 149,  "1 in 150"
+	 199,  "1 in 200"
+}
+
+OptionMenu "PBWepsMenu" {
+	Title "$PBWEPS_MENU"
+    StaticText ""
+	
+	StaticText "$MENU_PISTOLS_TITLE", "Yellow"
+	StaticText ""
+    Submenu "$TAG_AUTOMAG", "automagSpawning", 0, 1
+	StaticText ""
+    Submenu "$TAG_MK23", "mk23Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_93R", "93rSpawning", 0, 1
+	StaticText ""
+
+	StaticText "$MENU_SHOTGUNS_TITLE", "Red"
+    StaticText ""
+    Submenu "$TAG_CAWS", "cawsSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_STREETSWEEPER", "streetsweeperSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_URAGAN5", "uragan5Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_TERMINATOR", "terminatorSpawning", 0, 1
+	StaticText ""
+
+	StaticText "$MENU_MACHINEGUNS_TITLE", "Green"
+	StaticText ""
+    Submenu "$TAG_SMARTGUN", "smartgunSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_KELENKEN", "kelenkenSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_M2HB", "m2hbSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_M60", "m60Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_FAL", "falSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_M5165C", "m5165cSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_MAC10", "mac10Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_M9S", "m9sSpawning", 0, 1
+	StaticText ""
+
+	StaticText "$MENU_EXPLOSIVES_TITLE", "Brown"
+	StaticText ""
+    Submenu "$TAG_CGM25", "cgm25Spawning", 0, 1
+	StaticText ""
+    Submenu "$TAG_AT4", "at4Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_GASGRENADES", "gasgrenadeSpawning", 0, 1
+	StaticText ""
+
+	StaticText "$MENU_RIFLES_TITLE", "Orange"
+	StaticText ""
+    Submenu "$TAG_DEVINCENZIA", "devincenziaSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_STEYRACR", "steyracrSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_G11", "g11Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_LEVERGAT", "levergatSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_PSG1", "psg1Spawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_BUGERM22", "bugerm22Spawning", 0, 1
+	StaticText ""
+
+    StaticText "$MENU_ENERGYWEAPONS_TITLE", "Cyan"
+	StaticText ""
+    Submenu "$TAG_RAILGUN", "railgunSpawning", 0, 1
+	StaticText ""
+
+    StaticText "$MENU_INCENDIARYWEAPONS_TITLE", "Fire"
+	StaticText ""
+    Submenu "$TAG_MANCUBUSCANNON", "mancubuscannonSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_WPGRENADES", "wpgrenadeSpawning", 0, 1
+	StaticText ""
+
+	StaticText "$MENU_MELEEWEAPONS_TITLE", "DarkGrey"
+	StaticText ""
+	Submenu "$TAG_KNIFE", "knifeSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_FIREAXE", "fireaxeSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_SLEDGEHAMMER", "sledgehammerSpawning", 0, 1
+	StaticText ""
+	Submenu "$TAG_KHARON", "kharonSpawning", 0, 1
+	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS_TITLE", "Red"
+	StaticText ""
+	SafeCommand "$PBWEPS_RESETALLOPTIONS", "pbweps_reset_cvars"
+}
+
+// 4mm Firearms
+OptionMenu "g11Spawning" {
+    Title "$MENU_G11_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Orange"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_G11_NORMAL_VULCANETTE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "g11_normal_vulcanette_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar g11_normal_vulcanette_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_G11_SCOPED_VULCANETTE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "g11_scoped_vulcanette_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar g11_scoped_vulcanette_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_G11_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "g11_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText ""
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_G11_MAGAZINE_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "g11mag_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar g11mag_shellbox_spawn_bias"
+	// Till I confirm that this actually works. It probably doesn't. - [Ted]
+	/*StaticText "$MENU_G11_MAGAZINE_CLIPBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "g11mag_clipbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar g11mag_clipbox_spawn_bias"*/
+ 	StaticText ""
+
+	StaticText "$MENU_G11_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "g11_allowBackpacks", "OnOff"
+	StaticText "$MENU_G11_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "g11mag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPG11NORMALPERSISTENCY", "g11_normal_persistent_spawning", "OnOff"
+	Option "$MENU_WEPG11SCOPEDPERSISTENCY", "g11_scoped_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "g11mag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar g11_normal_persistent_spawning; resetcvar g11_scoped_persistent_spawning; resetcvar g11mag_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Orange"
+	SafeCommand "$MENU_RESETALLOPTIONS", "g11_reset_cvars"
+}
+
+// 5mm Firearms
+OptionMenu "m5165cSpawning" {
+    Title "$MENU_M5165C_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_M5165C_VULCANETTE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "m5165_vulcanette_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar m5165_vulcanette_spawn_bias"
+    StaticText "$MENU_M5165C_SMG_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "m5165_smg_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar m5165_smg_spawn_bias"
+	StaticText""
+
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Green"
+    StaticText "$MENU_M5165C_MAG_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "m165mags_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar m165mags_4mmag_spawn_bias"
+	// Commented out until guarenteed that this works. - [Ted]
+    /*StaticText "$MENU_M5165C_SMG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "m165mags_clipbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar m165mags_clipbox_spawn_bias"*/
+	StaticText""
+
+	StaticText "$MENU_M5165C_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "m5165_allowBackpacks", "OnOff"
+	StaticText "$MENU_M5165C_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "m165mag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "m5165_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "m165mags_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m5165_persistent_spawning; resetcvar m165mags_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "m5165_reset_cvars"
+}
+
+OptionMenu "bugerm22Spawning" {
+    Title "$MENU_BUGERM22_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Orange"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_BUGERM22_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "ruger1022_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar ruger1022_shellbox_spawn_bias"
+	StaticText""
+
+	StaticText "$MENU_BUGERM22_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "ruger1022_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "ruger1022_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar ruger1022_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Orange"
+	SafeCommand "$MENU_RESETALLOPTIONS", "ruger1022_reset_cvars"
+}
+
+// 6mm Firearms
+OptionMenu "steyracrSpawning" {
+    Title "$MENU_STEYRACR_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Orange"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_STEYRACR_THUNDERBUSTER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "steyracr_thunderbuster_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar steyracr_thunderbuster_spawn_bias"
+    StaticText "$MENU_STEYRACR_VULCANETTE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "steyracr_vulcanette_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar steyracr_vulcanette_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_STEYRACR_MAGS_BATTERY_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "acrmag_battery_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar acrmag_battery_spawn_bias"
+    StaticText "$MENU_STEYRACR_MAGS_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "acrmag_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar acrmag_4mmag_spawn_bias"
+    StaticText "$MENU_STEYRACR_MAGS_MORE_BATTERY_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "acrmags_battery_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar acrmags_battery_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_STEYRACR_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "steyracr_allowBackpacks", "OnOff"
+	StaticText "$MENU_STEYRACR_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKKPACKSALLOWED", "steyracrmag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "steyracr_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "acrmag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar steyracr_persistent_spawning; resetcvar acrmag_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Orange"
+	SafeCommand "$MENU_RESETALLOPTIONS", "steyracr_reset_cvars"
+}
+
+// 7mm Firearms
+OptionMenu "smartgunSpawning" {
+    Title "$MENU_SMARTGUN_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_SMARTGUN_BFG9K_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "smartgun_bfg9k_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar smartgun_bfg9k_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_SMARTGUN_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "smartgun_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "smartgun_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar smartgun_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "smartgun_reset_cvars"
+}
+
+OptionMenu "m60Spawning" {
+    Title "$MENU_M60_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_M60_THUNDERBUSTER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "m60_thunderbuster_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar m60_thunderbuster_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_M60_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "m60_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "m60_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m60_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "m60_reset_cvars"
+}
+
+OptionMenu "falSpawning" {
+    Title "$MENU_FAL_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_FAL_THUNDERBUSTER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "fal_thunderbuster_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar fal_thunderbuster_spawn_bias"
+    StaticText "$MENU_FAL_VULCANETTE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "fal_vulcanette_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar fal_vulcanette_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Green"
+    StaticText "$MENU_FAL_MAG_BATTERY_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "falmag_battery_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar falmag_battery_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_FAL_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "fal_allowBackpacks", "OnOff"
+	StaticText "$MENU_FAL_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "falmag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "fal_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "falmag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar fal_persistent_spawning; resetcvar falmag_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "fal_reset_cvars"
+}
+
+OptionMenu "psg1Spawning" {
+    Title "$MENU_PSG1_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Orange"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_PSG1_HUNTER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "psg1_hunter_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar psg1_hunter_spawn_bias"
+    StaticText "$MENU_PSG1_SLAYER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "psg1_slayer_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar psg1_slayer_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_PSG1_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "psg1_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "psg1_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar psg1_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Orange"
+	SafeCommand "$MENU_RESETALLOPTIONS", "psg1_reset_cvars"
+}
+
+// 9mm Firearms
+OptionMenu "93rSpawning" {
+    Title "$MENU_93R_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Yellow"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Yellow"
+    StaticText "$MENU_93R_PISTOL_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "raffica_pistol_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar raffica_pistol_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_93R_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "raffica_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Yellow"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "raffica_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar raffica_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Yellow"
+	SafeCommand "$MENU_RESETALLOPTIONS", "93r_reset_cvars"
+}
+
+OptionMenu "m9sSpawning" {
+    Title "$MENU_M9S_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_M9S_PISTOL_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "m9s_pistol_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar m9s_pistol_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_M9S_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "m9s_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "m9s_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m9s_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "m9s_reset_cvars"
+}
+
+// 12-Gauge Firearms
+OptionMenu "cawsSpawning" {
+    Title "$MENU_CAWS_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Red"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Red"
+    StaticText "$MENU_CAWS_VULCANETTE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "caws_vulcanette_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar caws_vulcanette_spawn_bias"
+    StaticText "$MENU_CAWS_SLAYER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "caws_slayer_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar caws_slayer_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Red"
+    StaticText "$MENU_CAWS_MAG_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "cawsmag_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar cawsmag_shellbox_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_CAWS_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "caws_allowBackpacks", "OnOff"
+	StaticText "$MENU_CAWS_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "cawsmag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Red"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "caws_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "cawsmag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar caws_persistent_spawning; resetcvar cawsmag_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Red"
+	SafeCommand "$MENU_RESETALLOPTIONS", "caws_reset_cvars"
+}
+
+OptionMenu "streetsweeperSpawning" {
+    Title "$MENU_STREETSWEEPER_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Red"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Red"
+    StaticText "$MENU_STREETSWEEPER_SLAYER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "sweeper_slayer_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar sweeper_slayer_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_STREETSWEEPER_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "sweeper_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Red"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "sweeper_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar sweeper_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Red"
+	SafeCommand "$MENU_RESETALLOPTIONS", "sweeper_reset_cvars"
+}
+
+OptionMenu "uragan5Spawning" {
+    Title "$MENU_URAGAN5_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Red"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Red"
+    StaticText "$MENU_URAGAN5_HUNTER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "uragan5_hunter_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar uragan5_hunter_spawn_bias"
+    StaticText "$MENU_URAGAN5_SLAYER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "uragan5_slayer_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar uragan5_slayer_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_URAGAN5_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "uragan5_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Red"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "uragan5_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar uragan5_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Red"
+	SafeCommand "$MENU_RESETALLOPTIONS", "uragan5_reset_cvars"
+}
+
+OptionMenu "terminatorSpawning" {
+    Title "$MENU_TERMINATOR_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Red"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Red"
+    StaticText "$MENU_TERMINATOR_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "terminator_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar terminator_shellbox_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_TERMINATOR_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "terminator_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Red"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "terminator_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar terminator_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Red"
+	SafeCommand "$MENU_RESETALLOPTIONS", "terminator_reset_cvars"
+}
+
+// 35mm Firearms
+// Does this even count as a machine gun anymore?????? it's more of a fucking autocannon but whatever it goes in machine guns anyways - [Ted]
+OptionMenu "kelenkenSpawning" {
+    Title "$MENU_KELENKEN_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_KELENKEN_BFG9K_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "kelenken_bfg9k_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar kelenken_bfg9k_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_KELENKEN_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "kelenken_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "kelenken_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar kelenken_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "kelenken_reset_cvars"
+}
+
+OptionMenu "devincenziaSpawning" {
+    Title "$MENU_DEVINCENZIA_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Orange"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_DEVINCENZIA_THUNDERBUSTER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "devincenzia_thunderbuster_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar devincenzia_thunderbuster_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_DEVINCENZIA_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "devincenzia_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "devincenzia_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar devincenzia_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Orange"
+	SafeCommand "$MENU_RESETALLOPTIONS", "devincenzia_reset_cvars"
+}
+
+// 45 ACP Firearms
+OptionMenu "mac10Spawning" {
+    Title "$MENU_MAC10_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_MAC10_PISTOL_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "mac10_pistol_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar mac10_pistol_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Green"
+    StaticText "$MENU_MAC10_MAG_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "mac10mag_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar mac10mag_4mmag_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MAC10_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "mac10_allowBackpacks", "OnOff"
+	StaticText "$MENU_MAC10_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "mac10mag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "mac10_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "mac10mag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar mac10_persistent_spawning; resetcvar mac10mag_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "mac10_reset_cvars"
+}
+
+OptionMenu "mk23Spawning" {
+    Title "$MENU_MK23_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Yellow"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Yellow"
+    StaticText "$MENU_MK23_PISTOL_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "mk23socom_pistol_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar mk23socom_pistol_spawn_bias"
+    StaticText "$MENU_MK23_AMMOBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "mk23socom_ammobox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar mk23socom_ammobox_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Yellow"
+    StaticText "$MENU_MK23_MAG_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "socommag_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar socommag_4mmag_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MK23_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "mk23socom_allowBackpacks", "OnOff"
+	StaticText "$MENU_MK23_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "mk23mag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Yellow"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "mk23socom_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "socommag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar mk23socom_persistent_spawning; resetcvar socommag_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Yellow"
+	SafeCommand "$MENU_RESETALLOPTIONS", "mk23_reset_cvars"
+}
+
+// 50 AM Firearms
+OptionMenu "automagSpawning" {
+    Title "$MENU_AUTOMAG_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Yellow"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Yellow"
+    StaticText "$MENU_AUTOMAG_FA_VULCANETTE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "automag_fa_vulcanette_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar automag_fa_vulcanette_spawn_bias"
+    StaticText "$MENU_AUTOMAG_FA_SLAYER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "automag_fa_slayer_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar automag_fa_slayer_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Yellow"
+    StaticText "$MENU_AUTOMAG_SA_HUNTER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "automag_sa_hunter_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar automag_sa_hunter_spawn_bias"
+    StaticText "$MENU_AUTOMAG_SA_PISTOL_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "automag_sa_pistol_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar automag_sa_pistol_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Yellow"
+    StaticText "$MENU_AUTOMAG_MAG_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "am50mag_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar am50mag_shellbox_spawn_bias"
+    StaticText "$MENU_AUTOMAG_MAG_SHELL_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "am50mag_shell_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar am50mag_shell_spawn_bias"
+    StaticText "$MENU_AUTOMAG_MAG_4MMAG_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "am50mag_4mmag_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar am50mag_4mmag_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_AUTOMAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "automag_allowBackpacks", "OnOff"
+	// Mag mag? Mag mag. - [Ted]
+	StaticText "$MENU_AUTOMAG_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "fiftyammag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Yellow"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPAUTOMAGFAPERSISTENCY", "automag_fa_persistent_spawning", "OnOff"
+	Option "$MENU_WEPAUTOMAGSAPERSISTENCY", "automag_sa_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "am50mag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar automag_fa_persistent_spawning; resetcvar automag_sa_persistent_spawning; resetcvar am50mag_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Yellow"
+	SafeCommand "$MENU_RESETALLOPTIONS", "automag_reset_cvars"
+}
+
+OptionMenu "levergatSpawning" {
+    Title "$MENU_LEVERGAT_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Orange"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Orange"
+    StaticText "$MENU_LEVERGAT_HUNTER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "levergat_hunter_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar levergat_hunter_spawn_bias"
+    StaticText "$MENU_LEVERGAT_SLAYER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "levergat_slayer_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar levergat_slayer_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_LEVERGAT_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "levergat_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Orange"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "levergat_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar levergat_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Orange"
+	SafeCommand "$MENU_RESETALLOPTIONS", "levergat_reset_cvars"
+}
+
+// 50 OMG Firearms
+OptionMenu "m2hbSpawning" {
+    Title "$MENU_M2HB_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_M2HB_BFG9000_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "m2hb_bfg_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar m2hb_bfg_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_M2HB_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "m2hb_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "m2hb_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar m2hb_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "m2hb_reset_cvars"
+}
+
+// 355 Firearms
+OptionMenu "colt355Spawning" {
+    Title "$MENU_COLT355_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Green"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Green"
+    StaticText "$MENU_COLT355_VULCANETTE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "colt355_vulcanette_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar colt355_vulcanette_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Green"
+    StaticText "$MENU_COLT355__MAG_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "colt355mag_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar colt355mag_shellbox_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_COLT355_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "colt355_allowBackpacks", "OnOff"
+	StaticText "$MENU_COLT355_MAG_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "colt355mag_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Green"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "colt355_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "colt355mag_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar colt355_persistent_spawning; resetcvar colt355mag_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Green"
+	SafeCommand "$MENU_RESETALLOPTIONS", "colt355_reset_cvars"
+}
+
+// Explosives
+OptionMenu "wpgrenadeSpawning" {
+    Title "$MENU_WPGRENADES_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_WP_GRENADES_ROCKETBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "wpgrenades_rocketbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar wpgrenades_rocketbox_spawn_bias"
+    StaticText "$MENU_WP_GRENADES_7MM_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "wpgrenades_7mm_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar wpgrenades_7mm_spawn_bias"
+	StaticText ""
+    StaticText "$MENU_WP_GRENADE_GRENADE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "wpgrenade_grenade_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar wpgrenade_grenade_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_WPGRENADE_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "wpgrenade_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_GRENADEPERSISTENCY", "wpgrenade_persistent_spawning", "OnOff"
+	Option "$MENU_GRENADEPACKPERSISTENCY", "wpgrenades_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar wpgrenade_persistent_spawning; resetcvar wpgrenades_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "wpgrenade_reset_cvars"
+}
+
+OptionMenu "gasgrenadeSpawning" {
+    Title "$MENU_TOXICGASGRENADES_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Brown"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Brown"
+    StaticText "$MENU_TG_GRENADES_ROCKETBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "gasrenades_rocketbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar gasrenades_rocketbox_spawn_bias"
+    StaticText "$MENU_TG_GRENADES_7MM_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "gasgrenades_7mm_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar gasgrenades_7mm_spawn_bias"
+	StaticText ""
+    StaticText "$MENU_TG_GRENADE_GRENADE_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "gasgrenade_grenade_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar gasgrenade_grenade_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_TOXICGASGRENADE_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "gasgrenade_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Brown"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_GRENADEPERSISTENCY", "gasgrenade_persistent_spawning", "OnOff"
+	Option "$MENU_GRENADEPACKPERSISTENCY", "gasgrenades_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar toxicgasgrenade_persistent_spawning; resetcvar toxicgasgrenades_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Brown"
+	SafeCommand "$MENU_RESETALLOPTIONS", "toxicgasgrenade_reset_cvars"
+}
+
+OptionMenu "cgm25Spawning" {
+    Title "$MENU_CGM25_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Brown"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Brown"
+    StaticText "$MENU_CGM25_ROCKETBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "cgm25_rocketbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar cgm25_rocketbox_spawn_bias"
+    StaticText "$MENU_CGM25_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "cgm25_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar cgm25_shellbox_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_CGM25_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "cgm25_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Brown"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "cgm25_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar cgm25_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Brown"
+	SafeCommand "$MENU_RESETALLOPTIONS", "cgm25_reset_cvars"
+}
+
+OptionMenu "at4Spawning" {
+    Title "$MENU_AT4_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Brown"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Brown"
+    StaticText "$MENU_AT4_ROCKETBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "at4_rocketbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar at4_rocketbox_spawn_bias"
+    StaticText "$MENU_AT4_SHELLBOX_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "at4_shellbox_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar at4_shellbox_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_AT4_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "at4_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Brown"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "at4_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar at4_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Brown"
+	SafeCommand "$MENU_RESETALLOPTIONS", "at4_reset_cvars"
+}
+
+// Unique Firearms
+OptionMenu "railgunSpawning" {
+    Title "$MENU_RAILGUN_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Cyan"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Cyan"
+    StaticText "$MENU_RAILGUN_BFG9K_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "railgun_bfg9k_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar railgun_bfg9k_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_RAILGUN_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "railgun_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Cyan"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "railgun_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar railgun_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Cyan"
+	SafeCommand "$MENU_RESETALLOPTIONS", "railgun_reset_cvars"
+}
+
+OptionMenu "mancubuscannonSpawning" {
+    Title "$MENU_MANCUBUSCANNON_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_MANCUBUSCANNON_THUNDERBUSTER_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "mancubuscannon_thunderbuster_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar mancubuscannon_thunderbuster_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MAGSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_NAPALMTANK_BATTERY_SPAWNTEXT", "White"
+	Option "$MENU_MAGSPAWNRATE", "napalm_battery_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETMAG", "resetcvar napalm_battery_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_MANCUBUSCANNON_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "mancubuscannon_allowBackpacks", "OnOff"
+	StaticText "$MENU_NAPALMTANKS_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "napalmtank_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "mancubuscannon_persistent_spawning", "OnOff"
+	Option "$MENU_MAGPERSISTENCY", "napalm_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar mancubuscannon_persistent_spawning; resetcvar napalm_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "mancubuscannon_reset_cvars"
+}
+
+// Melee Weapons
+OptionMenu "knifeSpawning" {
+    Title "$MENU_KNIFE_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_KNIFE_SHELL_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "knife_shell_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar knife_shell_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_KNIFE_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "combatknife_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "knife_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar knife_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "knife_reset_cvars"
+}
+
+OptionMenu "fireaxeSpawning" {
+    Title "$MENU_FIREAXE_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_FIREAXE_CHAINSAW_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "fireaxe_chainsaw_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar fireaxe_chainsaw_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_KNIFE_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "fireaxe_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "fireaxe_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar fireaxe_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "fireaxe_reset_cvars"
+}
+
+OptionMenu "sledgehammerSpawning" {
+    Title "$MENU_SLEDGEHAMMER_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_SLEDGEHAMMER_CHAINSAW_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "sledgehammer_chainsaw_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar sledgehammer_chainsaw_spawn_bias"
+ 	StaticText ""
+
+	StaticText "$MENU_SLEDGEHAMMER_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "sledgehammer_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "sledgehammer_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar sledgehammer_persistent_spawning"
+ 	StaticText ""
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "sledgehammer_reset_cvars"
+}
+
+OptionMenu "kharonSpawning" {
+    Title "$MENU_KHARON_TITLE"
+    StaticText ""
+
+   	StaticText "$MENU_NOTICE", "Fire"
+    StaticText "$MENU_SPAWNRATE_TEXT1", "White"
+    StaticText "$MENU_SPAWNRATE_TEXT2", "White"
+    StaticText ""
+
+// Kharon doesn't spawn on anything to my knowledge but gonna keep this here anyways. - [Ted but sliced in half]
+/*	StaticText "$MENU_WEPSPAWNOPTIONS", "Fire"
+    StaticText "$MENU_KHARON_CHAINSAW_SPAWNTEXT", "White"
+	Option "$MENU_WEPSPAWNRATE", "kharon_chainsaw_spawn_bias", "SpawnBias"
+	SafeCommand "$MENU_RESETWEP", "resetcvar kharon_chainsaw_spawn_bias"
+ 	StaticText ""*/
+
+	StaticText "$MENU_KHARON_BACKPACKS", "White"
+	Option "$MENU_BACKPACKSALLOWED", "kharon_allowBackpacks", "OnOff"
+ 	StaticText ""
+
+// Read earlier comment. - [Ted but illiterate]
+/*	StaticText "$MENU_PERSISTENCYOPTIONS", "Fire"
+    StaticText "$MENU_PERSISTENCY_TEXT", "White"
+	Option "$MENU_WEPPERSISTENCY", "kharon_persistent_spawning", "OnOff"
+	SafeCommand "$MENU_RESETPERSISTENCY", "resetcvar kharon_persistent_spawning"
+ 	StaticText ""*/
+
+	StaticText "$MENU_RESETOPTIONS", "Fire"
+	SafeCommand "$MENU_RESETALLOPTIONS", "kharon_reset_cvars"
+}
