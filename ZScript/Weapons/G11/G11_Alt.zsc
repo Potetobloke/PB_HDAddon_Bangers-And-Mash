@@ -88,7 +88,6 @@ class HDG11Rifle_Scoped:HDWeapon{
 		if(hdw.weaponstatus[0]&ZM66F_GLMODE)sb.drawgrenadeladder(hdw.airburst,bob);
 		else{
 		vector2 bobb=bob*1.25;
-		//bobb.y=clamp(bobb.y,-8,8);
 		
 		sb.drawimage(
 			"G11S_004",(0,7)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,

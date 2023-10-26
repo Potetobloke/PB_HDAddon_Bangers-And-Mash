@@ -66,8 +66,9 @@ Sounds = from base HD
 Sprites = Captain J
 Sounds = Mike MacDee (Robocop.pk3)
 
----Aralite M35A1 HPC---
-Sprites = Sgt. Mark IV
+---Volt M35A1 HPC---
+New Sprites = TG5
+old Sprites = Sgt. Mark IV
 Sounds = I forgot :(
 
 ---H&M HS776 SmartGun---

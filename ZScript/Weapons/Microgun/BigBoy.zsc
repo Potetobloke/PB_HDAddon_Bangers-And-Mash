@@ -3,7 +3,7 @@ const HDLD_SMARTGUN="smr";
 class HDMicrogun:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"
-		//$Title "PS-451"
+		//$Title "H&M HS76A1 SmartGun"
 		//$Sprite "P20PA0"
 
 		-hdweapon.reverseguninertia
@@ -199,13 +199,13 @@ class HDMicrogun:HDWeapon{
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel==1){
 			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD_PB_7mmBeltBox")));
-			if(nextmagloaded>=250){
+			if(nextmagloaded>=150){
 				sb.drawimage("7MBXNORM",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(1,1));
 			}else if(nextmagloaded<1){
 				sb.drawimage("MBX1B0",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(1,1));
 			}else sb.drawbar(
 				"7MBXNORM","7MBXGRAY",
-				nextmagloaded,250,
+				nextmagloaded,150,
 				(-49,-3),-1,
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
@@ -213,7 +213,7 @@ class HDMicrogun:HDWeapon{
 
 			if(weaponstatus[MCRGS_AMMO]>0){
 				sb.DrawNum(hdw.weaponstatus[MCRGS_AMMO], -16, -22, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_RIGHT, Font.CR_RED);
-				sb.drawwepnum(hdw.weaponstatus[MCRGS_AMMO],250);
+				sb.drawwepnum(hdw.weaponstatus[MCRGS_AMMO],150);
 			}
 			//if(weaponstatus[MCRGS_TARGETTER]!=1)
 				sb.drawwepcounter(hdw.weaponstatus[MCRGS_TARGETTER],
@@ -380,7 +380,7 @@ class HDMicrogun:HDWeapon{
 		SMR1 A 0;
 		#### A 0{
 			invoker.weaponstatus[0]&=~MCRGF_JUSTUNLOAD;
-			if(invoker.weaponstatus[MCRGS_AMMO]>=250)setweaponstate("nope");}
+			if(invoker.weaponstatus[MCRGS_AMMO]>=150)setweaponstate("nope");}
 			goto unmag;
 	user4:
 	unload:
@@ -467,7 +467,7 @@ class HDMicrogun:HDWeapon{
 
 	}
 	override void InitializeWepStats(bool idfa){
-		weaponstatus[MCRGS_AMMO]=250;
+		weaponstatus[MCRGS_AMMO]=150;
 		weaponstatus[0]&=~MCRGS_AMMO;
 		if(!idfa){
 			weaponstatus[0]=0;

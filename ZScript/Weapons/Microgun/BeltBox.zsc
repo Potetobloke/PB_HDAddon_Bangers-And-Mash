@@ -2,8 +2,8 @@ const HDLD_776_BELTBOX="7bx";
 const HDLD_776BELTLINK="7lk";
 
 
-const ENC_776BELTBOX_EMPTY=11.5;
-const ENC_776BELTBOX_FILLED=11.5+250*ENC_776_LOADED;
+const ENC_776BELTBOX_EMPTY=10.5;
+const ENC_776BELTBOX_FILLED=10.5+150*ENC_776_LOADED;
 
 class HD_PB_7mmBeltBox:HDMagAmmo{
 	default{
@@ -11,7 +11,7 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 		//$Title "7.76mm LMG Box"
 		//$Sprite "RMAGA0"
 
-		hdmagammo.maxperunit 250;
+		hdmagammo.maxperunit 150;
 		hdmagammo.roundtype "SevenMilAmmo";
 		hdmagammo.roundbulk ENC_776_LOADED;
 		hdmagammo.magbulk ENC_776BELTBOX_EMPTY;

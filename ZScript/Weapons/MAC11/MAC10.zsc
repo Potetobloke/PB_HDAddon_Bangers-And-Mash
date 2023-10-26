@@ -127,15 +127,15 @@ class HDMAC10:HDHandgun{
 		int cx,cy,cw,ch;
 		[cx,cy,cw,ch]=screen.GetClipRect();
 		vector2 scc;
-		vector2 bobb=bob*1.6;
+		vector2 bobb=bob*1.25;
 
 		{
 			sb.SetClipRect(
-				-8+bob.x,-2+bob.y,16,10,
+				-16+bob.x,-32+bob.y,32,40,
 				sb.DI_SCREEN_CENTER
 			);
 			scc=(0.5,0.5);
-			bobb.y=clamp(bobb.y,-8,8);
+			
 		}
 		if(weaponstatus[MACG_STOCK]>0){
 		//stock

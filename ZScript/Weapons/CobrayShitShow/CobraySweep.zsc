@@ -207,11 +207,10 @@ class HDStreetSweeper:HDWeapon{
 		int cx,cy,cw,ch;
 		[cx,cy,cw,ch]=screen.GetClipRect();
 		sb.SetClipRect(
-			-16+bob.x,-4+bob.y,32,16,
+			-16+bob.x,-32+bob.y,32,40,
 			sb.DI_SCREEN_CENTER
 		);
-		vector2 bobb=bob*3;
-		bobb.y=clamp(bobb.y,-8,8);
+		vector2 bobb=bob*1.1;
 		sb.drawimage(
 			"frntsite",(0,0)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
 			alpha:0.9
@@ -472,7 +471,7 @@ class HDStreetSweeper:HDWeapon{
 		SWPG A 2 offset(0,32);
 		SWPG A 2 A_JumpIf(!pressingaltfire(),"readyend");
 		goto readyend;
-		
+	
 	reload:
 	unload:
 		SWPG C 3 A_OpenGate();

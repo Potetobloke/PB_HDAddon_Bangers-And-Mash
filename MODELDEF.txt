@@ -1,36 +1,13 @@
-/*Model HDRiotShield
+/*Model HERPBot
 {
-   Path "models/riotshield"
-   Model 0 "shield.obj"
-   Skin 0 "shield.png"
-   Scale 11.5 11.5 11.5
-   Offset 1 1 -20
+   Path "models/m2hb"
+   Model 0 "browning.obj"
+   Skin 0 "browning.png"
+   Scale 50.5 50.5 50.5
+   Offset 0 0 0
    USEACTORPITCH
 
-   Frame RSH0 z 0 "frame01"
-}
-
-Model HDRiotShield_Front
-{
-   Path "models/riotshield"
-   Model 0 "shield.obj"
-   Skin 0 "shield.png"
-   Scale 11.5 11.5 11.5
-   Offset -12.1 0.1 -1.1
-   USEACTORPITCH
-   USEROTATIONCENTER
-
-   Frame RSH0 z 0 "frame01"
-}
-
-Model HDRiotShield_Permanent
-{
-   Path "models/riotshield"
-   Model 0 "shield.obj"
-   Skin 0 "shield.png"
-   Scale 11.5 11.5 11.5
-   USEACTORPITCH
-   Offset 1 0 0
-
-   Frame RSH0 z 0 "frame01"
-}
+   FrameIndex HERP A 0 0
+   FrameIndex HERP B 0 1
+   FrameIndex HERP C 0 3
+}*/

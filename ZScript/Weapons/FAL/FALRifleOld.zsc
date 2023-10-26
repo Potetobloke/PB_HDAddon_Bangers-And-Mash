@@ -145,11 +145,10 @@ class HD_FNFAL:HDWeapon{
 		int cx,cy,cw,ch;
 		[cx,cy,cw,ch]=screen.GetClipRect();
 		sb.SetClipRect(
-			-16+bob.x,-4+bob.y,32,16,
+			-16+bob.x,-32+bob.y,32,40,
 			sb.DI_SCREEN_CENTER
 		);
-		vector2 bobb=bob*3;
-		bobb.y=clamp(bobb.y,-8,8);
+		vector2 bobb=bob*1.1;
 		sb.drawimage(
 			"FALS_001",(0,-3)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
 			alpha:0.9,scale:(1.0,1.0)
@@ -220,7 +219,7 @@ class HD_FNFAL:HDWeapon{
 		}goto nope;
 		
 	fire:
-		#### A 2;
+		#### A 1;
 	fire2:
 		F4LG A 0 A_JumpIf(invoker.weaponstatus[FALG_MAG]<0,2);
 		FALG A 0;

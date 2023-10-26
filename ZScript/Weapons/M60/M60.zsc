@@ -60,8 +60,8 @@ class HD_M60:HDWeapon{
 	}
 	override void DropOneAmmo(int amt){
 		if(owner){
-			amt=clamp(amt,1,250);
-			if(owner.countinv("HD50OMGAmmo"))owner.A_DropInventory("HD50OMGAmmo",amt*250);
+			amt=clamp(amt,1,150);
+			if(owner.countinv("SevenMilAmmo"))owner.A_DropInventory("SevenMilAmmo",amt*150);
 			else owner.A_DropInventory("HD_PB_7mmBeltBox",amt);
 		}
 	}
@@ -77,19 +77,19 @@ class HD_M60:HDWeapon{
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel==1){
 			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD_PB_7mmBeltBox")));
-			if(nextmagloaded>=250){
+			if(nextmagloaded>=150){
 				sb.drawimage("7MBXNORM",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(1,1));
 			}else if(nextmagloaded<1){
 				sb.drawimage("MBX1B0",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(1,1));
 			}else sb.drawbar(
 				"7MBXNORM","7MBXGRAY",
-				nextmagloaded,250,
+				nextmagloaded,150,
 				(-49,-3),-1,
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
 			sb.drawnum(hpl.countinv("HD_PB_7mmBeltBox"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
 		}
-		sb.drawwepnum(hdw.weaponstatus[M60S_MAG],250);
+		sb.drawwepnum(hdw.weaponstatus[M60S_MAG],150);
 		//if(hdw.weaponstatus[M60S_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));
 		
 		if(hdw.weaponstatus[M60S_CHAMBER]==2){sb.drawwepdot(-26,-17,(3,2));
@@ -116,8 +116,8 @@ class HD_M60:HDWeapon{
 			-16+bob.x,-4+bob.y,32,16,
 			sb.DI_SCREEN_CENTER
 		);
-		vector2 bobb=bob*3;
-		bobb.y=clamp(bobb.y,-8,8);
+		vector2 bobb=bob*1.1;
+		
 		sb.drawimage(
 			"M60_ST01",(0,1.5)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
 			alpha:0.98,scale:(1.1,1)
@@ -227,9 +227,9 @@ class HD_M60:HDWeapon{
 			A_StartSound("weapons/m60/fire",CHAN_WEAPON,CHANF_OVERLAP,1,pitch:frandom(0.95,1));
 			invoker.weaponstatus[M60S_CHAMBER]=1;
 			invoker.weaponstatus[M60S_HEAT]+=7;
-			invoker.shotcount+=frandom(5,7);
+			invoker.shotcount+=frandom(5,8);
 			
-			if(invoker.shotcount>120)
+			if(invoker.shotcount>130)
 			{
 				A_PlaySkinSound(SKINSOUND_XDEATH,"*xdeath");
 				invoker.shotcount=0;
@@ -303,7 +303,7 @@ class HD_M60:HDWeapon{
 		GPM0 A 0;
 		#### A 0{
 			invoker.weaponstatus[0]&=~M60F_JUSTUNLOAD;
-			if(invoker.weaponstatus[M60S_MAG]>=250&&invoker.weaponstatus[M60S_LOADED]>0)setweaponstate("nope");
+			if(invoker.weaponstatus[M60S_MAG]>=150&&invoker.weaponstatus[M60S_LOADED]>0)setweaponstate("nope");
 			else if(HDMagAmmo.NothingLoaded(self,"HD_PB_7mmBeltBox"))
 			{setweaponstate("nope");}
 		}goto unmag;
@@ -406,7 +406,7 @@ class HD_M60:HDWeapon{
 	}
 	override void initializewepstats(bool idfa){
 		weaponstatus[0]=0;
-		weaponstatus[M60S_MAG]=250;
+		weaponstatus[M60S_MAG]=150;
 		weaponstatus[M60S_CHAMBER]=2;
 		weaponstatus[M60S_LOADED]=1;
 	}

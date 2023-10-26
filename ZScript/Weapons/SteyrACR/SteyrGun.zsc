@@ -96,7 +96,7 @@ class HD_SteyrACR:HDWeapon{
 		float scaledyoffset=41.9;
 		if(hdw.weaponstatus[0]&ZM66F_GLMODE)sb.drawgrenadeladder(hdw.airburst,bob);
 		else{
-		vector2 bobb=bob*1.25;
+		vector2 bobb=bob*1.1;
 		//bobb.y=clamp(bobb.y,-8,8);
 		
 				sb.drawimage(

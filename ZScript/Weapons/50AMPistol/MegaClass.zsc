@@ -81,14 +81,22 @@ class HD_AutoMag:HDHandgun{
 		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
 		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
 	){
+	
+		
+	
 		int scaledyoffset=47;
 			double dotoff=max(abs(bob.x),abs(bob.y));
 			if(dotoff<20){
 				sb.drawimage(
-					whichdot,(0,0)+bob*1.6,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
-					alpha:0.8-dotoff*0.04
+					whichdot,(0,0)+bob*1.2,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+					alpha:0.8-dotoff*0.01
 				);
 			}
+		
+		int cx,cy,cw,ch;
+		[cx,cy,cw,ch]=screen.GetClipRect();
+		vector2 scc;
+		
 			sb.drawimage(
 				"MCS_0000",(0,0)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER
 			);

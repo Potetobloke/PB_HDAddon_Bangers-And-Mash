@@ -144,8 +144,8 @@ class HD_M2HB:HDWeapon{
 			-16+bob.x,-8+bob.y,32,20,
 			sb.DI_SCREEN_CENTER
 		);
-		vector2 bobb=bob*3;
-		bobb.y=clamp(bobb.y,-8,8);
+		vector2 bobb=bob*1.1;
+
 		sb.drawimage(
 			"M2HBftst",(0,-4)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
 			alpha:0.9,scale:(0.65,0.65)

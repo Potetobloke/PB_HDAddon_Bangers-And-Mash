@@ -87,8 +87,7 @@ class HDG11Rifle:HDWeapon{
 				-24+bob.x,-16+bob.y,40,32,
 				sb.DI_SCREEN_CENTER
 			);
-		vector2 bobb=bob*3;
-		bobb.y=clamp(bobb.y,-8,8);
+		vector2 bobb=bob*1.1;
 		
 		sb.drawimage(
 			"G11S_001",(0,0)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
