@@ -241,8 +241,8 @@ class HDColt355:HDWeapon{
 		C9MF A 0{
 			let bbb=HDBulletActor.FireBullet(self,"HDB_355",speedfactor:1.25);
 			if(
-				frandom(0,ceilingz-floorz)<bbb.speed*(masterball?0.4:0.3)
-			)A_AlertMonsters(masterball?512:256);
+				frandom(0,ceilingz-floorz)<bbb.speed*(0.4)
+			)A_AlertMonsters(512);
 			
 			invoker.weaponstatus[COLT9S_HEAT]+=5;
 
