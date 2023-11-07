@@ -312,7 +312,32 @@ class PB_Colt9mm_Spawn:IdleDummy{
 			}stop;
 		}
 	}
+	
+class PB_LeverGat_Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDLeverGun(spawn("HDLeverGun",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
 
+				spawn("HD355BoxPickup",pos+(8,0,2),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+
+class PB_BeowulfRifle_Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDSurvivalistRifleFNV(spawn("HDSurvivalistRifleFNV",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("HD50AM_Mag",pos+(8,0,2),ALLOW_REPLACE);
+				spawn("HD50AM_Mag",pos+(2,0,1),ALLOW_REPLACE);
+				spawn("HD50AM_Mag",pos+(-3,3,1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
 
 class PB_HKCAWS_Spawn:IdleDummy{
 	states{
@@ -491,6 +516,7 @@ class PB_AmmoBoxRep:HDInvRandomSpawner{
 		dropitem "PB_ClipBoxPickup2",256,4;
 		dropitem "PB_MK23SOCOMSpawn",256,3;
 		dropitem "PB_Ruger1022Spawn",256,1;
+		dropitem "PB_BeowulfRifle_Spawn", 256, 1;
 		dropitem "PB_5mmBoxPickup",256,2;
 		dropitem "PB_50AMBoxPickup",256,1;
 		dropitem "HD6mmFlechetteBoxPickup",256,1;
@@ -604,7 +630,7 @@ class PB_HDHunterRep:HDInvRandomSpawner{
 	dropitem "HD_AutoMag", 256, 6;
 	dropitem "HD_AutoMagFA", 256, 4;
 	dropitem "HD_Uragan5Spawn", 256, 2;
-	dropitem "HDLeverGun", 256, 5;
+	dropitem "PB_LeverGat_Spawn", 256, 5;
 	}
 }
 
@@ -613,10 +639,11 @@ class PB_HDSlayerRep:HDInvRandomSpawner{
 	+weaponspawn
 	dropitem "PB_HDAutoMagSpawn_SA", 256, 6;
 	dropitem "PB_HDAutoMagSpawn_FA", 256, 5;
+	dropitem "PB_BeowulfRifle_Spawn", 256, 4;
 	dropitem "HDStreetSweeper", 256, 2;
 	dropitem "HD_Uragan5Spawn", 256, 3;
 	dropitem "PB_HKCAWS_Spawn", 256, 4;
-	dropitem "HDLeverGun", 256, 4;
+	dropitem "PB_LeverGat_Spawn", 256, 4;
 	dropitem "PB_PSG1_Spawn", 256, 1;
 	}
 }
@@ -634,6 +661,7 @@ class PB_VulcanetteRep:HDInvRandomSpawner{
 	dropitem "PB_Colt9mm_Spawn", 256, 5;
 	dropitem "HD_SteyrACR", 256, 4;
 	dropitem "HD_CAWSGUN", 256, 3;
+	dropitem "PB_BeowulfRifle_Spawn", 256, 5;
 	}
 }
 

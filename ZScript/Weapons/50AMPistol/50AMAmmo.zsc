@@ -66,6 +66,7 @@ class HD50AM_Mag:HDMagAmmo{
 	}
 	override void GetItemsThatUseThis(){
 		itemsthatusethis.push("HD_AutoMag");
+		itemsthatusethis.push("HDSurvivalistRifleFNV");
 	}
 	states{
 	spawn:

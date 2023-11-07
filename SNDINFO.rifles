@@ -15,6 +15,11 @@ weapons/levergun/fire1 Sounds/LeverGun/LVGShot1.ogg
 weapons/levergun/cock1 Sounds/LeverGun/LVGCock1.ogg
 weapons/levergun/cock2 Sounds/LeverGun/LVGCock2.ogg
 
+weapons/beowulfrifle/fire Sounds/colt50/Fire.ogg
+
+weapons/beowulfrifle/cock Sounds/Colt9mm/Colt9mmCock.ogg
+weapons/beowulfrifle/fwd Sounds/Colt9mm/Colt9mmFwd.ogg
+
 weapons/G11fire Sounds/G11/G11Fire.ogg
 weapons/G11fire2 Sounds/G11/G11Supp.ogg
 

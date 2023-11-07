@@ -62,6 +62,7 @@ class PB_AmmoHandler : EventHandler {
 			
 		case 'HDRevolverAmmo':
 			PushItem(T, "HDColt355");
+			PushItem(T, "HDLeverGun");
 			break;
 			
 	//my main ammo types have now been moved to a fork of bulletlib
@@ -77,7 +78,8 @@ class PB_AmmoHandler : EventHandler {
 		
 		case 'HD50AM_Ammo':
 			PushItem(T, "HD_AutoMag");
-			PushItem(T, "HDLeverGun");
+			PushItem(T, "HDSurvivalistRifleFNV");
+			//PushItem(T, "HDLeverGun");
 			break;
 		
 		//GetItemsThatUseThis doesn't work properly for some reason?????

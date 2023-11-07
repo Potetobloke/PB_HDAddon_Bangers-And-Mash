@@ -125,6 +125,9 @@ version "4.10"
 #include "ZScript/Weapons/Kelenken/Kelenken.zsc"
 #include "ZScript/Weapons/Kelenken/KelenkenBox.zsc"
 
+//Sawyer R50 "Grendel" Rifle
+#include "ZScript/Weapons/SurvivalistRifle/SurvivalistRifle.zsc"
+
 //Replacers
 #include "ZScript/Misc/ItemReplacer.zsc"
 #include "ZScript/Misc/ItemSpawns.zsc"
