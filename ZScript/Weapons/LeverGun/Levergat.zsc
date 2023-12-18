@@ -86,7 +86,7 @@ class HDLeverGun:HDWeapon{
 			sb.DI_SCREEN_CENTER
 		);
 		vector2 bobb=bob*1.1;
-		bobb.y=clamp(bobb.y,-8,8);
+		//bobb.y=clamp(bobb.y,-8,8);
 		if(hdw.WeaponStatus[LEVS_SCOPE])
 		{
 		sb.drawimage(
