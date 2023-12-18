@@ -95,11 +95,11 @@ class HD_M5165:HDWeapon{
 		int cx,cy,cw,ch;
 		[cx,cy,cw,ch]=screen.GetClipRect();
 		sb.SetClipRect(
-			-16+bob.x,-32+bob.y,32,40,
+			-16+bob.x,-32+bob.y,32,50,
 			sb.DI_SCREEN_CENTER
 		);
-		vector2 bobb=bob*1.1;
-		bobb.y=clamp(bobb.y,-1,1);
+		vector2 bobb=bob*1.2;
+		//bobb.y=clamp(bobb.y,-1,1);
 		sb.drawimage(
 			"A18S_001",(0,0.9)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
 			alpha:0.9,scale:(0.9,0.9)
