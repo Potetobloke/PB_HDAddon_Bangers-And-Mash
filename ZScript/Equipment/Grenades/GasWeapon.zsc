@@ -9,7 +9,7 @@ class HDGasGrenades:HDGrenadethrower{
 		weapon.selectionorder 1020;
 		weapon.slotpriority 1;
 		weapon.slotnumber 0;
-		tag "''Roller'' Toxic Gas Grenades";
+		tag "''Skunk'' Gas Grenades";
 		hdgrenadethrower.ammotype "HDGasGrenadeAmmo";
 		hdgrenadethrower.throwtype "HDGasGrenadeThrown";
 		hdgrenadethrower.spoontype "HDGasGrenadeSpoon";
@@ -137,9 +137,9 @@ class HDGasGrenadeAmmo:HDAmmo{
 		inventory.amount 1;
 		scale 0.35;
 		inventory.maxamount 50;
-		inventory.pickupmessage "Picked up a ''Roller'' Toxic Gas Grenade.";
+		inventory.pickupmessage "Picked up a ''Skunk'' Gas Grenade.";
 		inventory.pickupsound "weapons/pocket";
-		tag "''Roller'' Toxic Gas Grenades";
+		tag "''Skunk'' Gas Grenades";
 		hdpickup.refid HDLD_GRE_GAS;
 		hdpickup.bulk ENC_GASGRENADE;
 		+INVENTORY.KEEPDEPLETED
@@ -170,7 +170,7 @@ class HDGasGrenadeP:HDUPK{
 		scale 0.35;height 3;radius 3;
 		hdupk.amount 1;
 		hdupk.pickuptype "HDGasGrenadeAmmo";
-		hdupk.pickupmessage "Picked up a ''Roller'' Toxic Gas Grenade.";
+		hdupk.pickupmessage "Picked up a ''Skunk'' Gas Grenade.";
 		hdupk.pickupsound "weapons/rifleclick2";
 		stamina 1;
 	}

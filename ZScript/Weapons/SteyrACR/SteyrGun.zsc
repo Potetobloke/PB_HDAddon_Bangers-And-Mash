@@ -56,7 +56,7 @@ class HD_SteyrACR:HDWeapon{
 		}
 	}
 	override string,double getpickupsprite(){
-		return "ACRP"..((weaponstatus[SACRS_MAG]<0)?"B":"A").."0";
+		return "ACRP"..((weaponstatus[SACRS_MAG]<0)?"B":"A").."0",1.;
 	}
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel==1){
@@ -422,7 +422,6 @@ class HD_SteyrACR:HDWeapon{
 
 			int firemode=getloadoutvar(input,"firemode",1);
 			if(firemode>=0){
-				weaponstatus[0]&=~ZM66F_NOFIRESELECT;
 				weaponstatus[SACRS_AUTO]=clamp(firemode,0,2);
 			}
 	}
@@ -431,7 +430,7 @@ class HD_SteyrACR:HDWeapon{
 enum steyracrstatus{
 	SACRF_JUSTUNLOAD=1,
 	SACRF_GRENADELOADED=4,
-	SACRF_NOLAUNCHER=8,
+	SACRF_ROCKETMODE=8,
 	SACRF_GLMODE=16,
 
 	SACRS_FLAGS=0,

@@ -29,6 +29,15 @@ weapons/xm556microgun/fire Sounds/Microgun/MCRGfire.wav
 
 weapons/smartgun/beep Sounds/SmartGun/Beep.ogg
 
+weapons/stinger/beep 		Sounds/Stinger/Beep.ogg
+weapons/stinger/beep/locked Sounds/Stinger/BeepStart.ogg
+
+weapons/stinger/open		Sounds/Stinger/STEject.ogg
+weapons/stinger/load		Sounds/Stinger/STLoad.ogg
+weapons/stinger/close		Sounds/Stinger/STLock.ogg
+
+weapons/stinger/bounce		Sounds/Stinger/STBounce.ogg
+
 $volume weapons/xm556microgun/speen 0.5
 $volume weapons/xm556microgun/speenup 0.5
 $volume weapons/xm556microgun/speendown 0.5
@@ -63,6 +72,7 @@ weapons/gau/killeverything Sounds/GAU/Fire.ogg
 weapons/pwrailgun/fire Sounds/Railgun/Fire.ogg
 weapons/pwrailgun/fail Sounds/Railgun/Fail.ogg
 weapons/pwrailgun/charge Sounds/Railgun/Charge.ogg
+weapons/pwrailgun/warn Sounds/Railgun/ChargeWarn.ogg
 
 $alias weapons/pwrailgun/cock1 weapons/psg1/cock1
 $alias weapons/pwrailgun/cock2 weapons/psg1/cock2

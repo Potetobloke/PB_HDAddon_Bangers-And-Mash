@@ -1,0 +1,140 @@
+
+
+//GRENADE
+
+class HDSmokeGrenadeRoller:HDFragGrenadeRoller{
+	//int fuze;
+	int gasamount;
+	int gotkicked;
+	default{
+			bouncetype "doom";bouncesound "misc/fragknock";
+		radius 2;height 2;damagetype "none";
+		scale 0.35;
+		obituary "%o was gassed by %k.";
+		radiusdamagefactor 0.04;pushfactor 1.4;maxstepheight 2;
+		mass 42;
+	}
+	
+	override bool used(actor user){
+		angle=user.angle;
+		A_StartSound(bouncesound);
+		if(hdplayerpawn(user)&&hdplayerpawn(user).incapacitated)A_ChangeVelocity(4,0,1,CVF_RELATIVE);
+		else A_ChangeVelocity(12,0,4,CVF_RELATIVE);
+		
+		return true;
+	}
+	
+	states{
+	
+	spawn:
+		GGR1 A 0 nodelay{
+			HDMobAI.Frighten(self,512);
+		}
+	spawn2:
+		#### AAA 2{
+			if(abs(vel.z-keeprolling.z)>10)A_StartSound("misc/fragknock",CHAN_BODY);
+			else if(floorz>=pos.z)A_StartSound("misc/fragroll");
+			keeprolling=vel;
+			if(abs(vel.x)<0.4 && abs(vel.y)<0.4) setstatelabel("death");
+		}loop;
+	bounce:
+		---- A 0{
+			bmissile=false;
+			vel*=0.2;
+		}goto spawn2;
+	death:
+		---- A 2{
+			if(abs(vel.z-keeprolling.z)>3){
+				A_StartSound("misc/fragknock",CHAN_BODY);
+				keeprolling=vel;
+			}
+			if(abs(vel.x)>0.4 || abs(vel.y)>0.4) setstatelabel("spawn");
+		}wait;
+		
+	nomore:
+		---- A 0 A_StopSound(CHAN_WEAPON);
+		/*---- A 1 {
+		bsolid=false;bpushable=false;bmissile=false;bnointeraction=true;bshootable=false;
+		}*/
+		---- A 1 A_Fadeout(0.01);
+		loop;
+	}
+	override void tick(){
+	
+		if(fuze>140){
+			keeprolling=vel;
+			hdactor.tick();
+		}
+
+		if(isfrozen())return;
+		else if(bnointeraction){
+			//nexttic
+			if(CheckNoDelay()){
+				if(tics>0)tics--;  
+				while(!tics){
+					if(!SetState(CurState.NextState)){
+						return;
+					}
+				}
+			}
+			return;
+		}else{
+			fuze++;
+			if(fuze>=140){
+				gasamount++;
+			if(gasamount==1){A_StartSound("weapons/grenade/gas/start",CHAN_7,CHANF_OVERLAP,0.95);}
+			if(gasamount>=1&&gasamount<=451){
+			
+			Bool Left = Random (True,False);
+
+		static const string smktx[]=
+		{
+			"smokey0","smokey1","smokey2","smokey3"
+		};
+		int dec = Random[Spam](0,3);
+
+		for ( int i=0; i<6; i++ )
+		{
+		
+		A_SpawnParticleEx(
+			"FFFFFF",
+			TexMan.CheckForTexture(smktx[dec]),
+			style: STYLE_Translucent,
+			flags: SPF_RELATIVE|SPF_ROLL,
+			lifetime: TICRATE * FRandom (2,5),
+			size: frandom(1.5,2.7),
+			angle: 0.,
+			xoff: FRandom (3,-3),
+			yoff: FRandom (3,-3),
+			zoff: 0.,
+			velx: FRandom (1.5,-1.5),
+			vely: FRandom (1.5,-1.5),
+			velz: FRandom (0.6,2.4),
+			accelx: 0,
+			accely: 0,
+			accelz: -0.025,
+			startalphaf: 0.95,
+			fadestepf: -0.001,
+			sizestep: 0.8,
+			startroll:random(90,360),
+			rollvel: Left ? 0.5 : -0.5,
+			rollacc: Left ? -0.001 : 0.001
+		);
+		}
+				
+				A_StartSound("weapons/grenade/gas/end",CHAN_6,CHANF_OVERLAP,frandom(0.5,0.85)
+				,pitch:frandom(0.75,1.25),starttime:frandom(0,3));HDMobAI.Frighten(self,1024);}
+				
+				if(CheckNoDelay()){
+					if(tics>0)tics--;  
+					while(!tics){
+						if(!SetState(CurState.NextState)){
+							return;
+						}
+					}
+				}
+				return;
+			}else hdactor.tick();
+		}
+	}
+}

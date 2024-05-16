@@ -1,4 +1,4 @@
-const HDLD_AT4="AT4";
+const HDLD_AT4="EAT";
 
 class HDAT4_WEP:HDWeapon{
 	default{
@@ -13,16 +13,17 @@ class HDAT4_WEP:HDWeapon{
 		weapon.kickback 30;
 		weapon.bobrangex 0.21;
 		weapon.bobrangey 0.86;
+		+hdweapon.fitsinbackpack
 		scale 0.6;
-		inventory.pickupmessage "You got the disposable rocket launcher!";
+		inventory.pickupmessage "You got the disposable rocket launcher";
 		obituary "%o's remains can no longer be identified thanks to %k's green tube.";
-		hdweapon.barrelsize 32,2.1,2;
-		tag "RAT-84";
+		hdweapon.barrelsize 32,3.1,2;
+		tag "EAT-17 Expendable Anti-Tank";
 		hdweapon.refid HDLD_AT4;
 	}
 	override string pickupmessage(){
-		if(weaponstatus[1]&AT4S_CHAMBER)return string.format("%s It is used.",super.pickupmessage());
-		else return string.format("%s It has a round.",super.pickupmessage());
+		if(weaponstatus[1]&AT4S_CHAMBER)return string.format("%s. It is used.",super.pickupmessage());
+		else return string.format("%s! It has a round.",super.pickupmessage());
 		return super.pickupmessage();
 	}
 	
@@ -37,19 +38,29 @@ class HDAT4_WEP:HDWeapon{
 		}
 	override double gunmass(){
 		double amt=weaponstatus[AT4S_CHAMBER];
-		return 7+amt;
+		return 12+amt;
 	}
 	override double weaponbulk(){
-		int rkt=weaponstatus[AT4S_CHAMBER];
-		if(rkt<0)return 95;
-		else return 95;
+		int rkt=weaponstatus[AT4S_DEPLOYED];
+		if(rkt<=0)return 65;
+		else return 85;
 	}
-	override string,double getpickupsprite(){return "AT4PA0",0.7;}
+	override string,double getpickupsprite(){return "M72PA0",0.7;}
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel==1){
-			sb.drawnum(hpl.countinv("HDAT4_WEP"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+			//sb.drawnum(hpl.countinv("HDAT4_WEP"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
 		}
-		if(hdw.weaponstatus[AT4S_CHAMBER]>1)sb.drawwepdot(-16,-10,(5,3));
+		if(hdw.weaponstatus[AT4S_CHAMBER]>1)
+		{
+			sb.drawrect(-22,-15,3,2);
+			sb.drawrect(-18,-15,2,2);
+			sb.drawrect(-26,-17,4,6);
+			sb.drawrect(-30,-16,4,4);
+		}
+		else
+		{
+			sb.drawrect(-18,-15,2,2);
+		}
 	}
 	
 	action void A_FireAT4(){
@@ -91,7 +102,6 @@ class HDAT4_WEP:HDWeapon{
 		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
 		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
 	){
-	if(scopeview){
 		int cx,cy,cw,ch;
 		[cx,cy,cw,ch]=screen.GetClipRect();
 		sb.SetClipRect(
@@ -99,7 +109,6 @@ class HDAT4_WEP:HDWeapon{
 			sb.DI_SCREEN_CENTER
 		);
 		vector2 bobb=bob*1.1;
-		bobb.y=clamp(bobb.y,-8,8);
 		sb.drawimage(
 			"AT4_ST02",(16,20)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
 			alpha:0.9
@@ -108,7 +117,6 @@ class HDAT4_WEP:HDWeapon{
 		sb.drawimage(
 			"AT4_ST01",(0,-5)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER
 		);
-		}
 	}
 	
 	override string gethelptext(){
@@ -121,17 +129,32 @@ class HDAT4_WEP:HDWeapon{
 	states{
 	select0:
 		AT4G A 0;
-		goto select0small;
+		AT4G A 0 
+		{
+			if(invoker.weaponstatus[AT4S_DEPLOYED]>0||invoker.weaponstatus[AT4S_CHAMBER]<2)
+			{setweaponstate("select0big");}
+		}
+		goto select0bfg;
 	deselect0:
 		AT4G A 0;
-		goto deselect0small;
+		AT4G A 0 
+		{
+			if(invoker.weaponstatus[AT4S_CHAMBER]<2)
+			{setweaponstate("deselect0big");}
+			else invoker.weaponstatus[AT4S_DEPLOYED]=0;
+		}
+		goto deselect0bfg;
 	ready:
-		AT4G A 1 A_WeaponReady(WRF_ALL);
+		AT4G A 1 
+		{
+			A_WeaponReady(WRF_ALL);
+			invoker.weaponstatus[AT4S_DEPLOYED]=1;
+		}
 		goto readyend;
 	fire:
 		AT4G A 1 offset(0,34){
 			if(invoker.weaponstatus[AT4S_CHAMBER]<2){
-				setweaponstate("readyend");
+				setweaponstate("nope");
 				return;
 			}
 			A_FireAT4();
@@ -140,12 +163,12 @@ class HDAT4_WEP:HDWeapon{
 			A_StartSound("weapons/AT4fire",CHAN_WEAPON);
 			A_StartSound("weapons/rockignite",CHAN_AUTO);
 			A_StartSound("weapons/rockboom",5);
-			invoker.weaponstatus[AT4S_CHAMBER]=1;
+			invoker.weaponstatus[AT4S_CHAMBER]--;
 			invoker.weaponstatus[AT4S_HEAT]+=86;
 		}
 		AT4G B 2 A_MuzzleClimb(-frandom(0.9,1.),-frandom(1.3,1.6),frandom(0.5,0.6),frandom(0.6,0.8));
 		AT4G A 5;
-		goto readyend;
+		goto nope;
 	flash:
 		TNT1 A 1 bright{
 			HDFlashAlpha(0,true);
@@ -168,8 +191,9 @@ class HDAT4_WEP:HDWeapon{
 		}
 		TNT1 A 0;
 	spawn:
-		AT4P AB -1 nodelay{
+		M72P ABC -1 nodelay{
 			if(invoker.weaponstatus[AT4S_CHAMBER]<2)frame=1;
+			else if(invoker.weaponstatus[AT4S_DEPLOYED]<=0)frame=2;
 		}
 	}
 	override void InitializeWepStats(bool idfa){
@@ -185,14 +209,14 @@ enum AT4status{
 
 	AT4S_STATUS=0,
 	AT4S_CHAMBER=1,
-	AT4S_HEAT=2,
+	AT4S_DEPLOYED=2,
+	AT4S_HEAT=3,
 };
 
 class HDHEAT_AT4:RocketGrenade{
 	default{
 		+forcepain
-		scale 0.44; woundhealth 2800;
-		stamina 7;
+		scale 0.37; woundhealth 1800;
 		decal "BrontoScorch";
 	}
 	override void ExplodeSlowMissile(line blockingline,actor blockingobject){
@@ -201,83 +225,146 @@ class HDHEAT_AT4:RocketGrenade{
 		//bounce
 		//nothing here - HEAT will always explode
 
-		//damage
-		if(blockingobject){
-			int dmgg=random(240,300);
-			double dangle=absangle(angle,angleto(blockingobject));
-			if(dangle<20){
-				dmgg+=random(3000,4000);
-				if(hd_debug)A_Log("CRIT!");
-			}else if(dangle<40)dmgg+=random(600,1200);
-			blockingobject.damagemobj(self,target,dmgg,"Piercing");
-		}else doordestroyer.destroydoor(self);
-
 		//explosion
-		if(!inthesky){
-			A_SprayDecal("BrontoScorch",16);
-			A_HDBlast(
-				pushradius:512,pushamount:128,fullpushradius:256,
-				fragradius:256*stamina,fragtype:"HDB_fragRL",
-				immolateradius:128,immolateamount:random(10,20),
-				immolatechance:isrocket?random(1,stamina):15
-			);
+		if(inthesky){
+			distantnoise.make(self,"world/rocketfar");
+			let aaa=spawn("IdleDummy",pos);
+			if(!!aaa){
+				aaa.stamina=30;
+				aaa.setz(clamp(aaa.pos.z,aaa.floorz,aaa.ceilingz));
+				aaa.A_StartSound("world/explode",CHAN_BODY,CHANF_OVERLAP);
+			}
+		}else{
 			actor xpl=spawn("Gyrosploder",self.pos-(0,0,1),ALLOW_REPLACE);
+			xpl.target=target;xpl.master=master;xpl.stamina=stamina;
 			actor aaa=Spawn("WallChunker",pos,ALLOW_REPLACE);
 			xpl=spawn("HDExplosion",pos,ALLOW_REPLACE);aaa.vel.z=2;
 			xpl=spawn("HDExplosion_Long",pos,ALLOW_REPLACE);aaa.vel.z=0;
 			aaa=spawn("HDExplosion",pos,ALLOW_REPLACE);aaa.vel.z=2;
-			//aaa=spawn("HDExplosion_Long",pos,ALLOW_REPLACE);aaa.vel.z=0;
-			//aaa.scale.x=stamina*0.15;
-		//aaa.scale.y=stamina*0.15;
-		}else distantnoise.make(self,"world/rocketfar");
-		A_SpawnChunks("HDB_frag",180,100,700+50*stamina);
+			aaa=spawn("HDExplosion_Long",pos,ALLOW_REPLACE);aaa.vel.z=0;
+			aaa.scale.x=1.5;
+			aaa.scale.y=1.5;
 
+			//damage
+			HEATShot(self,192);
+
+			A_SprayDecal("BrontoScorch",16);
+		}
+		A_HDBlast(
+			pushradius:328,pushamount:128,fullpushradius:96,
+			fragradius:HDCONST_ONEMETRE*(10+0.2*stamina),fragtype:"HDB_fragRL",
+			immolateradius:128,immolateamount:random(3,60),
+			immolatechance:isrocket?random(1,stamina):25
+		);
+		A_SpawnChunksFrags("HDB_fragRL",180);
 		destroy();return;
 	}
 	states{
 	spawn:
-		MISL A 0 nodelay{primed=true;}
-		goto spawnrocket;
-	spawnrocket:
-		---- A 0{
-			if(!inthesky){
-				brockettrail=true;
-				Gunsmoke();
-				A_StartSound("weapons/rocklaunch",CHAN_VOICE);
+		MISL A 3 nodelay{
+			primed=true;
+			if(Wads.CheckNumForName("id",0)!=-1){scale.x=0.24;scale.y=0.24;}
+		}
+		goto spawn1;
+	}
+	static void HEATShot(actor caller,double squirtamt){
+		vector3 originalpos=caller.pos;
+
+		//do a series of linetracers to drill through everything
+		caller.A_SprayDecal("BigScorch",squirtamt);
+		array<actor>hitactors;hitactors.clear();
+		flinetracedata sqtrace;
+		do{
+			caller.linetrace(
+				caller.angle,
+				squirtamt,
+				caller.pitch,
+				data:sqtrace
+			);
+
+			caller.setorigin(sqtrace.hitlocation-sqtrace.hitdir,false);
+			if(sqtrace.hitactor){
+				int dmgg=int(frandom(70,240+squirtamt));
+				int dangle=int(absangle(caller.angle,caller.angleto(sqtrace.hitactor)));
+				bool crapshot=dangle>40;
+				if(dangle<20){
+					dmgg+=int((180-dangle)*squirtamt*frandom(0.4,0.45));
+					if(hd_debug)console.printf("CRIT!");
+				}else if(!crapshot)dmgg+=int(frandom(100,400-dangle+squirtamt*2));
+				int originalhealth=sqtrace.hitactor.health;
+				sqtrace.hitactor.damagemobj(
+					caller,caller.target,dmgg,crapshot?"Slashing":"Piercing",
+					crapshot?0:DMG_NO_ARMOR
+				);
+				int fdmg=0;
+				if(sqtrace.hitactor){
+					fdmg=originalhealth-sqtrace.hitactor.health;
+					if(
+						sqtrace.hitactor.health>0
+						&&(fdmg<<3)<sqtrace.hitactor.spawnhealth()
+					)break;
+					else{
+						hitactors.push(sqtrace.hitactor);
+						sqtrace.hitactor.bnonshootable=true;
+					}
+				}
+				squirtamt-=max(8,fdmg>>6);
+			}else{
+				doordestroyer.destroydoor(caller,maxwidth:squirtamt*frandom(1.3,1.6),dedicated:true);
+				squirtamt-=max(16,sqtrace.distance);
+			}
+		}while(squirtamt>0);
+		for(int i=0;i<hitactors.size();i++){
+			if(hitactors[i])hitactors[i].bnonshootable=false;
+		}
+		vector3 finalpos=caller.pos;
+		caller.setorigin(originalpos,false);
+
+		if(finalpos!=originalpos){
+			int iii=int((finalpos-originalpos).length());
+			vector3 trailpos=(0,0,0);
+			vector3 vu=caller.vel.unit();
+			vector3 vu2=vu*4;
+			for(int i=0;i<iii;i++){
+				trailpos+=vu;
+				caller.A_SpawnParticle(
+					"white",
+					SPF_FULLBRIGHT,
+					5,
+					frandom(0.04,0.07)*(iii-i*0.5),
+					caller.angle,
+					trailpos.x+frandom(-12,12),trailpos.y+frandom(-12,12),trailpos.z+frandom(-12,12),
+					vu2.x,vu2.y,vu2.z,
+					0,0,0.6,
+					sizestep:4
+				);
 			}
 		}
-		---- AAA 0{
-			actor sss=spawn("HDGunSmoke",pos-vel*0.1+(0,0,-4),ALLOW_REPLACE);
-			sss.vel=vel*-0.06+(frandom(-2,2),frandom(-2,2),frandom(-2,2));
-		}
-	spawnrocket2:
-		#### A 1{
-			if(self is "HDHEAT_AT4")frame=0;
-			if(stamina>0){  
+	}
+	
+	states{
+	spawn:
+		ROCQ A 3;
+	spawnrocket:
+		#### A 2{
+			{  
 				if(!inthesky){
 					brockettrail=true;
 					actor sss=spawn("HDGunsmoke",pos,ALLOW_REPLACE);
+					A_StartSound("weapons/rocklaunch",5);
 					sss.vel=vel*0.1;
-				}else{
-					brockettrail=false;
-					bgrenadetrail=false;
 				}
 				A_ChangeVelocity(
-					cos(pitch)*350,0,
-					sin(-pitch)*350+1,CVF_RELATIVE
+					cos(pitch)*60,0,
+					sin(-pitch)*60,CVF_RELATIVE
 				);
 				stamina--;
 			}
 		}
-		---- A 0{
-			if(primed){
-				if(!inthesky)A_StartSound("weapons/rocklaunch",5);
-			}else{
-				primed=true;
-				brockettrail=false;
-				if(!inthesky)bgrenadetrail=true;
-			}
-		}loop;
+		wait;
+	death:
+		TNT1 A 1;
+		stop;
 	}
 }
 
@@ -314,8 +401,8 @@ class HD_Backblast:manjuice{
 		missiletype "manjuicetrail";
 		speed 60;
 		scale 0.9;
-		seesound "misc/fwoosh";deathsound "imp/shotx";
-		activesound "misc/firecrkl";
+		seesound "misc/fwoosh";deathsound "misc/fwoosh";
+		activesound "misc/fwoosh";
 	}
 	states{
 	spawn:

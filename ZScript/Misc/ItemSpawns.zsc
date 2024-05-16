@@ -353,6 +353,20 @@ class PB_HKCAWS_Spawn:IdleDummy{
 		}
 	}
 	
+class PB_Stinger_Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HDCGM25_WEP(spawn("HDCGM25_WEP",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("StingerTubeRound",pos+(8,0,2),ALLOW_REPLACE);
+				spawn("StingerTubeRound",pos+(2,0,1),ALLOW_REPLACE);
+				spawn("StingerTubeRound",pos+(-3,3,1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
+	
 class PB_SteyrACR_MultiMagSpawn:IdleDummy{
 	states{
 	spawn:
@@ -533,7 +547,7 @@ class PB_AmmoBoxRep:HDInvRandomSpawner{
 class PB_RocketboxDrop:HDInvRandomSpawner{
 	default{
 		dropitem "HDAT4_WEP",256,2;
-		dropitem "HDCGM25_WEP",256,1;
+		//dropitem "HDCGM25_WEP",256,1;
 		dropitem "HD8mmECAmmoBox",256,1;
 		//prioritize these over mod stuff
 		dropitem "RocketBigPickup",256,14;
@@ -568,7 +582,7 @@ class PB_ShellBoxRandom:HDInvRandomSpawner{
 		dropitem "PB_5mmBoxPickup",256,1;
 		dropitem "PB_50AMBoxPickup",256,1;
 		dropitem "HDAT4_WEP",256,1;
-		dropitem "HDCGM25_WEP",256,1;
+		//dropitem "HDCGM25_WEP",256,1;
 		dropitem "HDWilliePeteGrenadePickup",256,1;
 		dropitem "HDGasGrenadePickup",256,1;
 		dropitem "HD_CAWSMag",256,5;
@@ -664,6 +678,16 @@ class PB_VulcanetteRep:HDInvRandomSpawner{
 	dropitem "PB_BeowulfRifle_Spawn", 256, 5;
 	}
 }
+
+class PB_RocketLauncherRep:HDInvRandomSpawner{
+	default{
+	+weaponspawn
+	//dropitem "HD_FNFAL", 256, 5;
+	dropitem "HD_Stinger_Spawn", 256, 4;
+	//dropitem "LiberatorRandom", 256, 3;
+	}
+}
+
 
 class PB_PlasmaRep:HDInvRandomSpawner{
 	default{

@@ -47,7 +47,7 @@ class HDMinebeaPM9:HDHandgun{
 	override void DropOneAmmo(int amt){
 		if(owner){
 			amt=clamp(amt,1,10);
-			if(owner.countinv("HD45ACPAmmo"))owner.A_DropInventory("HD45ACPAmmo",amt*30);
+			if(owner.countinv("HDPistolAmmo"))owner.A_DropInventory("HDPistolAmmo",amt*30);
 			else owner.A_DropInventory("HD9mMag30",amt);
 		}
 	}
@@ -307,7 +307,7 @@ user4:
 			else if(HDMagAmmo.NothingLoaded(self,"HD9mMag30")){
 				if(
 					invoker.weaponstatus[PM9S_MAG]<0
-					&&countinv("HD45ACPAmmo")
+					&&countinv("HDPistolAmmo")
 				)setweaponstate("loadchamber");
 				else setweaponstate("nope");
 			}

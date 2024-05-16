@@ -25,6 +25,8 @@ weapons/manccannonignite Sounds/Flamers/IgniteHeavy.ogg
 weapons/flamerstart Sounds/Flamers/FireStart.wav
 weapons/flamerstop Sounds/Flamers/FireEnd.wav
 
+
+
 weapons/fusionpistolfire 		Sounds/FusionPistol/FPFire.ogg
 weapons/fusionpistolfire2		Sounds/FusionPistol/FPFire2.ogg
 weapons/fusionpistolcharge		Sounds/FusionPistol/FPCharge.ogg

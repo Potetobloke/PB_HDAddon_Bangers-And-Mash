@@ -1,0 +1,4 @@
+HardwareShader Texture HDXCAM_OICW {
+	Name "NVScope"
+	Shader "nvsight.fp" 330
+}

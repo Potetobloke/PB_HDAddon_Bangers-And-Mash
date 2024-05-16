@@ -22,10 +22,10 @@ override void CheckReplacement(ReplaceEvent e) {
 		case 'CellRandom' 				: if (!random(0, 1)) {e.Replacement = "PB_CellRandom";}			break;
 		case 'CellPackRandom' 			: if (!random(0, 1)) {e.Replacement = "PB_CellPackRandom";}		break;
 	//Grenade Spawns
-		case 'RocketBoxRandom' 			: if (!random(0, 3)) {e.Replacement = "RocketBox_PBGrenades";}	break;
-		case 'BlurSphereReplacer' 		: if (!random(0, 6)) {e.Replacement = "BlurSphere_PBGrenades";}	break;
-		case 'BlueFrag' 				: if (!random(0, 8)) {e.Replacement = "HelmFrag_PBGrenades";}	break;
-		case 'HelmFrag' 				: if (!random(0, 8)) {e.Replacement = "BlueFrag_PBGrenades";}	break;
+		case 'RocketBoxRandom' 			: if (!random(0, 5)) {e.Replacement = "RocketBox_PBGrenades";}	break;
+		case 'BlurSphereReplacer' 		: if (!random(0, 7)) {e.Replacement = "BlurSphere_PBGrenades";}	break;
+		case 'BlueFrag' 				: if (!random(0, 18)) {e.Replacement = "HelmFrag_PBGrenades";}	break;
+		case 'HelmFrag' 				: if (!random(0, 18)) {e.Replacement = "BlueFrag_PBGrenades";}	break;
 		
 	//DONT REPLACE THE WEAPONS OR AMMO DIRECTLY!!!
 	
@@ -34,7 +34,8 @@ override void CheckReplacement(ReplaceEvent e) {
 		case 'ShotgunReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_HDHunterRep";}		break;
 		case 'SSGReplaces' 				: if (!random(0, 1)) {e.Replacement = "PB_HDSlayerRep";}		break;
 		case 'ChaingunReplaces' 		: if (!random(0, 1)) {e.Replacement = "PB_VulcanetteRep";}		break;
-		case 'PlasmaReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_PlasmaRep";}			break;
+		case 'RocketReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_PlasmaRep";}			break;
+		case 'PlasmaReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_RocketLauncherRep";}	break;
 		case 'BFG9000'		 			: if (!random(0, 2)) {e.Replacement = "PB_BFG9000Rep";}			break;
 	//HexaDoken's Bossmerg bolt-action shotgun support
 		case 'BossbergShotgunReplaces' 	: if (!random(0, 1)) {e.Replacement = "PB_HDHunterRep";}		break;
@@ -46,6 +47,7 @@ override void CheckReplacement(ReplaceEvent e) {
 		}
 	e.IsFinal = false;
 	}
+	
 }
 
 //i as might as well stick the grenade spawns here

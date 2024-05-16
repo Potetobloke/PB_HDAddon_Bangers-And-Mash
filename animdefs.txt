@@ -7,6 +7,10 @@ cameratexture HDXHCAM5_PB 100 161
 cameratexture HDXHCAM6_PB 120 193
 cameratexture HDXHCAM7_PB 128 112
 
+//nightvis
+
+cameratexture HDXCAM_OICW 720 720
+
 //idea shamelessly stolen from kinsie's JPF
 
 warp2 texture WPS0A0 0.7

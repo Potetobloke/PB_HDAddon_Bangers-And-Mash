@@ -34,6 +34,11 @@ class HD_FNFAL:HDWeapon{
 		return super.pickupmessage();
 	}
 	
+	override void tick(){
+		super.tick();
+		drainheat(FALG_HEAT,2);
+	}
+	
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
 	override hdweapon GetSpareWeapon(actor newowner,bool reverse){return GetSpareWeaponRegular(newowner,reverse);}
 	override double gunmass(){
@@ -258,6 +263,7 @@ class HD_FNFAL:HDWeapon{
 
 			A_AlertMonsters();
 			A_StartSound("weapons/FALshot",CHAN_WEAPON,volume:1.5,pitch:invoker.weaponstatus[0]&FALF_RECAST?1.025:1);
+			invoker.weaponstatus[FALG_HEAT]+=7;
 			invoker.weaponstatus[FALG_CHAMBER]=1;
 			invoker.weaponstatus[0]&=~FALF_RECAST;
 		}
@@ -329,11 +335,11 @@ class HD_FNFAL:HDWeapon{
 				||invoker.weaponstatus[FALG_MAG]<1
 			)setweaponstate("nope");
 		}
-		#### A 2 offset(-2,36);
-		#### B 2 offset(-3,38) {A_Chamber();A_StartSound("weapons/falchamber",CHAN_6,volume:0.6);}
+		//#### A 2 offset(-2,36);
+		#### B 2 offset(-3,38) {A_Chamber();A_StartSound("weapons/falchamber2",CHAN_6,volume:0.8);}
 		#### B 2 offset(-4,39);
 		#### B 3 offset(-5,38);
-		#### A 2 offset(-2,36) A_StartSound("weapons/falchamber2",CHAN_6,volume:0.8);
+		#### A 2 offset(-2,36); //{A_Chamber();A_StartSound("weapons/falchamber2",CHAN_6,volume:0.8);}
 		#### A 1 offset(0,34);
 		goto readyend;
 		
@@ -403,7 +409,7 @@ class HD_FNFAL:HDWeapon{
 		FALG F 4 A_StartSound("weapons/FALdrumout",CHAN_WEAPON);
 		FALG G 5{
 			A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4));
-			A_StartSound("weapons/smgmagmove",CHAN_WEAPON);
+			//A_StartSound("weapons/smgmagmove",CHAN_WEAPON);
 		}
 		FALG H 4 A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4));
 		FALG I 3;
@@ -439,7 +445,7 @@ class HD_FNFAL:HDWeapon{
 		FAL2 F 4 A_StartSound("weapons/FALmagout",CHAN_WEAPON);
 		FAL2 G 2{
 			A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4));
-			A_StartSound("weapons/smgmagmove",CHAN_WEAPON);
+			//A_StartSound("weapons/smgmagmove",CHAN_WEAPON);
 		}
 		FAL2 H 2 A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4));
 		FAL2 I 2;
@@ -507,7 +513,7 @@ class HD_FNFAL:HDWeapon{
 		FALG I 26 offset(2,34) A_StartSound("weapons/pocket",CHAN_WEAPON);
 		FALG I 7 offset(4,34) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
 		FALG J 7 offset(3,38) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
-		FALG K 7 offset(2,34) A_StartSound("weapons/smgmagmove",CHAN_WEAPON);
+		FALG K 7 offset(2,34); //A_StartSound("weapons/smgmagmove",CHAN_WEAPON);
 		FALG L 6 offset(3,38);
 		FALG M 3 offset(0,34);
 		FALG N 3 {
@@ -601,4 +607,5 @@ enum HDFALstatus{
 	FALG_AUTO=3, //0 semi, 1 burst, 2 auto
 	FALG_MAGTYPE=4,  //0 drum, 1 box mag
 	FALG_RECASTS=5,
+	FALG_HEAT=6,
 }

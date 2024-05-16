@@ -74,6 +74,12 @@ class HDFortuneRailgun:HDWeapon{
 		}
 	}
 	
+	override void DetachFromOwner()
+	{
+		if(owner){owner.A_StopSound(11);}
+		super.DetachFromOwner();
+	}
+	
 	override void DrawSightPicture(
 		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
 		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
@@ -123,7 +129,7 @@ class HDFortuneRailgun:HDWeapon{
 			
 			if(dotoff<40)sb.drawimage(
 				"RLG_RET",(0,scaledyoffset)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
-				alpha:0.2+(hdw.weaponstatus[RLGG_TIMER]*0.025)-dotoff*0.07,scale:(1.5,1.5)
+				alpha:0.2+(clamp((hdw.weaponstatus[RLGG_TIMER]*0.025),0.2,1))-dotoff*0.07,scale:(1.5,1.5)
 			);
 			
 			/*if(dotoff<40)sb.drawimage(
@@ -207,6 +213,7 @@ class HDFortuneRailgun:HDWeapon{
 	override string gethelptext(){
 		return
 		WEPHELP_FIRESHOOT
+		..WEPHELP_ALTFIRE.."  Cancel charge\n"
 		..WEPHELP_RELOAD.."  Load chamber\n"
 		..WEPHELP_ALTRELOAD.."  Swap to dynamo"
 		
@@ -276,14 +283,29 @@ class HDFortuneRailgun:HDWeapon{
 			//A_StartSound("weapons/plasidle",12);
 			invoker.weaponstatus[RLGG_TIMER]+=3;
 			if(invoker.weaponstatus[RLGG_TIMER]>128){
+				setweaponstate("prefire.warn");
+				return;
+			}
+		}
+		RLGW A 0 A_Refire("prefire.hold");
+		goto epic.fail;
+	prefire.warn:
+		RLGW A 0 A_StartSound("weapons/pwrailgun/warn",11,CHANF_OVERLAP);
+	prefire.warnloop:
+		RLGW A 1 
+		{
+			//A_StartSound("weapons/plasidle",12);
+			invoker.weaponstatus[RLGG_TIMER]+=3;
+			if(invoker.weaponstatus[RLGG_TIMER]>256){
 				setweaponstate("shoot");
 				return;
 			}
 		}
-		RLGW A 1 A_Refire("prefire.hold");
-		goto epic.fail;
+		RLGW A 0 A_Refire("prefire.warnloop");
+		goto shoot;
 	shoot:
 		RLGW A 1 offset(0,34){
+			A_StopSound(11);
 			A_GunFlash();
 			invoker.weaponstatus[RLGG_CHAMBER]--;
 			invoker.weaponstatus[RLGG_TIMER]=0;

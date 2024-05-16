@@ -204,6 +204,15 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 		//shit happens
 		HDBleedingWound.inflict(punchee,int(dmg*=invoker.strength*frandom(1.2,1.6)),frandom(5,8));
 
+		if(punchee.bnoblood)
+		{
+			punchee.A_StartSound("weapons/kharonwall",CHAN_7,CHANF_OVERLAP,volume:0.5,pitch:1.1);
+		}
+		else
+		{
+			punchee.A_StartSound("weapons/kharoncut",CHAN_7,CHANF_OVERLAP,volume:0.5,pitch:1.1);
+		}
+
 		//other effects
 		if(
 			onr
@@ -246,7 +255,6 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 				else pch=punchee.getclassname();
 			A_Log(string.format("Punched %s for %i damage!",pch,dmg));
 		}
-		punchee.A_StartSound("weapons/kharonflesh",CHAN_7,volume:0.6);
 		if(punchee.health>0)punchee.damagemobj(self,self,int(dmg),"slashing");
 		//else HDF.Give(punchee,"SawGib",dmg*0.2);
 
@@ -524,7 +532,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 				else 
 				{
 				HDBleedingWound.inflict(tracer,35,7);
-				A_StartSound("weapons/kharonflesh",CHAN_7,volume:0.6);
+				A_StartSound("weapons/kharoncut",CHAN_7,volume:0.6);
 				}
 			}
 		}

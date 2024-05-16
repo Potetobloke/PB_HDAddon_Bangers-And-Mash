@@ -33,6 +33,10 @@ class PB_AmmoHandler : EventHandler {
 			PushItem(T, "HDTerminatorSG"); // BEST SHOTGUN IN THE WHOLE GAME
 			PushItem(T, "HD_CAWSGUN");
 			break;
+			
+		case 'HDSlugAmmo':
+			PushItem(T, "HD_CAWSGUN");
+			break;
 
 		case 'FourMilAmmo':
 			PushItem(T, "HDG11Rifle");

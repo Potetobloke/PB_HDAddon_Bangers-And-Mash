@@ -16,9 +16,9 @@ $random weapons/kharonwall {Kharon/WL1 Kharon/WL2}
 Kharon/WL1 Sounds/MeleeStuff/KharonWall1.wav
 Kharon/WL2 Sounds/MeleeStuff/KharonWall2.wav
 
-$random weapons/kharonflesh {Kharon/HT1 Kharon/HT2}
-Kharon/HT1 Sounds/MeleeStuff/KharonFlesh1.wav
-Kharon/HT2 Sounds/MeleeStuff/KharonFlesh2.wav
+$random weapons/kharoncut {Kharon/Hit1 Kharon/Hit2}
+Kharon/Hit1 Sounds/MeleeStuff/KharonFlesh1.wav
+Kharon/Hit2 Sounds/MeleeStuff/KharonFlesh2.wav
 
 $limit weapons/swing 0
 $limit weapons/axewall 0

@@ -345,8 +345,8 @@ class HDKharon:HD_PB_UnarmedWeapon{
 		}
 		else 
 		{
-		punchee.A_StartSound("weapons/kharonflesh",CHAN_BODY,0,0.5);
-		if(dmg*2>punchee.health)punchee.A_StartSound("weapons/kharonflesh",CHAN_7,0,1);
+		punchee.A_StartSound("weapons/kharoncut",CHAN_BODY,0,0.5);
+		if(dmg*2>punchee.health)punchee.A_StartSound("weapons/kharoncut",CHAN_7,0,1);
 		//if(dmg*2>punchee.health)punchee.A_StartSound("weapons/kharonsplat",CHAN_6,0,1);
 		}
 		

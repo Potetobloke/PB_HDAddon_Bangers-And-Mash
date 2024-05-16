@@ -178,16 +178,16 @@ class HDMK23SOCOM:HDHandgun{
 			)
 		)return;
 		
-		a_spawnparticle(
-						"ff 00 00",SPF_FULLBRIGHT|SPF_RELVEL|SPF_NOTIMEFREEZE,
+		a_spawnparticleex(
+						"ff 00 00",TexMan.CheckForTexture("lasfx000"),STYLE_ADD,SPF_FULLBRIGHT|SPF_RELVEL|SPF_NOTIMEFREEZE,
 						lifetime:1,frandom(3.1,3.5),0,
 						laserOfs.x,
 						laserOfs.y,
 						laserOfs.z,
 						startalphaf:1
 					);
-		a_spawnparticle(
-						"ff 00 00",SPF_FULLBRIGHT|SPF_RELVEL|SPF_NOTIMEFREEZE,
+		a_spawnparticleex(
+						"ff 00 00",TexMan.CheckForTexture("lasfx000"),STYLE_ADD,SPF_FULLBRIGHT|SPF_RELVEL|SPF_NOTIMEFREEZE,
 						lifetime:4,frandom(4.1,4.9),0,
 						laserOfs.x,
 						laserOfs.y,

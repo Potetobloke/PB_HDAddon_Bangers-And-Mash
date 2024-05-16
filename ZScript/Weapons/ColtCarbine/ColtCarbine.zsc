@@ -145,12 +145,12 @@ class HDColt355:HDWeapon{
 		);
 		vector2 bobb=bob*1.1;
 		sb.drawimage(
-			"CLT9_ST1",(0,-2.75)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
-			alpha:0.98,scale:(0.75,0.75)
+			"CLT9_ST1",(0,-3.35)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+			alpha:0.98,scale:(1.05,1.05)
 		);
 		sb.SetClipRect(cx,cy,cw,ch);
 		sb.drawimage(
-			"CLT9_ST2",(0,-11.5)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP
+			"CLT9_ST2",(0,-13.85)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,scale:(1.30,1.30)
 		);
 	}
 	states{
@@ -467,6 +467,7 @@ class HDColt355:HDWeapon{
 		}
 	}
 	override void initializewepstats(bool idfa){
+		weaponspecial = 1337;
 		weaponstatus[0]=0;
 		weaponstatus[COLT9S_MAG]=25;
 		weaponstatus[COLT9S_CHAMBER]=2;

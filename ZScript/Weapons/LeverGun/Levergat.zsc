@@ -55,7 +55,7 @@ class HDLeverGun:HDWeapon{
 		if(hdw.weaponstatus[0]&LEVF_SELECTFIRE)sb.drawwepcounter(hdw.weaponstatus[0]&LEVF_FIREMODE,
 			-22,-10,"RBRSA3A7","STFULAUT"
 		);
-		sb.drawwepnum(hdw.weaponstatus[LEVS_MAG],10);
+		sb.drawwepnum(hdw.weaponstatus[LEVS_MAG],12);
 		if(hdw.weaponstatus[LEVS_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));
 	}
 	override string gethelptext(){
@@ -150,9 +150,19 @@ class HDLeverGun:HDWeapon{
 	}
 	override void DropOneAmmo(int amt){
 		if(owner){
-			amt=clamp(amt,1,10);
-			if(owner.countinv("HDRevolverAmmo"))owner.A_DropInventory("HDRevolverAmmo",amt*10);
+			amt=clamp(amt,1,12);
+			if(owner.countinv("HDRevolverAmmo"))owner.A_DropInventory("HDRevolverAmmo",amt*12);
 		}
+	}
+	
+	int handrounds;
+	override void DetachFromOwner(){
+		if(handrounds>0){
+			if(owner)owner.A_DropItem("HDRevolverAmmo",handrounds);
+			else A_DropItem("HDRevolverAmmo",handrounds);
+		}
+		handrounds=0;
+		super.detachfromowner();
 	}
 	
 	action void A_SetAltHold(bool which){
@@ -361,7 +371,7 @@ class HDLeverGun:HDWeapon{
 		---- A 1 bright{
 			HDFlashAlpha(64);
 			A_Light1();
-			let bbb=HDBulletActor.FireBullet(self,"HDB_355",speedfactor:2.65);
+			let bbb=HDBulletActor.FireBullet(self,"HDB_355",speedfactor:1.95);
 			if(
 				frandom(0,ceilingz-floorz)<bbb.speed*0.3
 			)A_AlertMonsters(256);
@@ -391,7 +401,7 @@ class HDLeverGun:HDWeapon{
 		}
 		---- A 0{
 			int mg=invoker.weaponstatus[LEVS_MAG];
-			if(mg==10)setweaponstate("reloaddone");
+			if(mg==12)setweaponstate("reloaddone");
 		}
 	loadhand:
 		---- A 0 A_JumpIfInventory("HDRevolverAmmo",1,"loadhandloop");
@@ -399,22 +409,22 @@ class HDLeverGun:HDWeapon{
 	loadhandloop:
 		---- A 4{
 			int hnd=min(
-				countinv("HDRevolverAmmo"),1,
-				10-invoker.weaponstatus[LEVS_MAG]
+				countinv("HDRevolverAmmo"),3,
+				12-invoker.weaponstatus[LEVS_MAG]
 			);
 			if(hnd<1){
 				setweaponstate("reloaddone");
 				return;
 			}else{
 				A_TakeInventory("HDRevolverAmmo",hnd,TIF_NOTAKEINFINITE);
-				invoker.weaponstatus[LEVS_HAND]=hnd;
+				invoker.handrounds=hnd;
 				A_StartSound("weapons/pocket",9,volume:0.25);
 			}
 		}
 	loadone:
-		---- A 2 offset(16,50) A_JumpIf(invoker.weaponstatus[LEVS_HAND]<1,"loadhandnext");
+		---- A 2 offset(16,50) A_JumpIf(invoker.handrounds<1,"loadhandnext");
 		---- A 4 offset(14,46){
-			invoker.weaponstatus[LEVS_HAND]--;
+			invoker.handrounds--;
 			invoker.weaponstatus[LEVS_MAG]++;
 			A_StartSound("weapons/rifleclick2",8);
 		}loop;
@@ -485,7 +495,7 @@ class HDLeverGun:HDWeapon{
 		stop;
 	}
 	override void initializewepstats(bool idfa){
-		weaponstatus[LEVS_MAG]=10;
+		weaponstatus[LEVS_MAG]=12;
 		weaponstatus[LEVS_CHAMBER]=2;
 		weaponstatus[LEVS_ZOOM]=20;
 	}
@@ -498,13 +508,14 @@ enum levgatstatus{
 	LEVF_FIREMODE=2,
 	LEVF_JUSTUNLOAD=4,
 	LEVF_ALTHOLDING=8,
+	LEVF_HOLDING=16,
 	
-	LEVS_ZOOM,
-	LEVS_SCOPE,
-	LEVS_FLAGS,
-	LEVS_MAG,
-	LEVS_CHAMBER, //0 empty, 1 spent, 2 loaded
-	LEVS_HAMMER, //0 down, 1 up
-	LEVS_HAND
+	LEVS_ZOOM=1,
+	LEVS_SCOPE=2,
+	LEVS_FLAGS=3,
+	LEVS_MAG=4,
+	LEVS_CHAMBER=5, //0 empty, 1 spent, 2 loaded
+	LEVS_HAMMER=6, //0 down, 1 up
+	LEVS_HAND=7,
 }
 	

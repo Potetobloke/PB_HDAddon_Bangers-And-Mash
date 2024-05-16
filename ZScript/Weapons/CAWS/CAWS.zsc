@@ -264,9 +264,6 @@ class HD_CAWSGUN:HDShotgun{
 	user3:
 		---- A 0 A_MagManager("HD_CAWSMag");
 		goto ready;
-	altfire:
-	althold:
-		goto nope;
 	hold:
 		CWSG A 0{
 			if(
@@ -288,7 +285,7 @@ class HD_CAWSGUN:HDShotgun{
 		}goto nope;
 		
 	fire:
-		CWSG A 3;
+		CWSG A 2;
 	fire2:
 		CWSG A 1 offset(0,33){
 			if(invoker.weaponstatus[CAWSG_CHAMBER]==2){
@@ -305,7 +302,7 @@ class HD_CAWSGUN:HDShotgun{
 		}
 		#### C 1 offset(0,34);
 		#### A 1 offset(0,33);
-		#### A 2 offset(0,32);
+		#### A 2 offset(0,32){if(invoker.weaponstatus[0]&CAWSF_LOWROF)A_SetTics(4);}
 		#### A 0 offset(0,32){
 			if(invoker.weaponstatus[CAWSG_AUTO]==1)A_ReFire("fire2");
 			A_WeaponReady(WRF_NOFIRE);
@@ -347,7 +344,7 @@ class HD_CAWSGUN:HDShotgun{
 				||invoker.weaponstatus[CAWSG_MAG]<1
 			)setweaponstate("nope");
 		}
-		#### A 2 offset(-2,36);
+		#### A 2 offset(-2,36) A_WeaponBusy();
 		#### C 3 offset(-3,38) {A_Chamber();A_StartSound("weapons/cawsboltback",CHAN_6,volume:0.6);}
 		#### B 4 offset(-4,39);
 		#### B 5 offset(-5,38);

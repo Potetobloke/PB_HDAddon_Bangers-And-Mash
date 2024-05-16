@@ -87,6 +87,7 @@ class HDMancCannon:HDWeapon{
 		
 		ggg.angle=hdp.gunangle;
 		ggg.pitch=hdp.gunpitch;
+		ggg.target=self;
 
 		ggg.vel=vel+(cos(hdp.gunpitch)*(cos(hdp.gunangle),sin(hdp.gunangle)),-sin(hdp.gunpitch))*CSLUG_BALLSPEED;
 		}
@@ -114,6 +115,7 @@ class HDMancCannon:HDWeapon{
 		
 		ggg.angle=hdp.gunangle;
 		ggg.pitch=hdp.gunpitch;
+		ggg.target=self;
 		
 		ggg.angle=angle+frandom(-15,15);
 

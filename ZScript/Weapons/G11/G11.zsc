@@ -16,22 +16,31 @@ class HDG11Rifle:HDWeapon{
 		weapon.selectionorder 18;
 		weapon.slotnumber 4;
 		scale 0.75;
-		inventory.pickupmessage "You got the G26A1!";
-		hdweapon.barrelsize 26,1,2.25;
+		inventory.pickupmessage "You got the Dual Purpose Infantry Rifle!";
+		hdweapon.barrelsize 26,3,2.25;
 		hdweapon.refid HDLD_G11;
-		tag "H&M G26A1 Assault Rifle";
+		tag "H&M G26A1 DPIR";
 	}
 	
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
 	override hdweapon GetSpareWeapon(actor newowner,bool reverse,bool doselect){return GetSpareWeaponRegular(newowner,reverse,doselect);}
 
-	override double gunmass(){
-		return 6.5;
+	override double gunmass()
+	{
+		return 8.9+(weaponstatus[G11S_MAG]*0.01)+(weaponstatus[G11S_GLTUBE]);
 	}
+	
+	override string pickupmessage(){
+		if(weaponstatus[0] & G11F_WAIFUSIGHT)return string.format("%s There's something wrong with this.",super.pickupmessage());
+		return super.pickupmessage();
+	}
+	
 	override double weaponbulk(){
-		double blx=96;
+		double blx=125;
+
 		int mgg=weaponstatus[G11S_MAG];
-		return blx+(mgg<0?0:(ENC_G11MAG_E_LOADED+mgg*ENC_426_LOADED));
+		int glt=weaponstatus[G11S_GLTUBE];
+		return blx+(mgg<0?0:(ENC_G11MAG_LOADED+mgg*ENC_426_LOADED))+(ENC_ROCKETLOADED*glt);
 	}
 	
 	override void failedpickupunload(){
@@ -45,7 +54,7 @@ class HDG11Rifle:HDWeapon{
 		}
 	}
 	override string,double getpickupsprite(){
-		return "G11P"..((weaponstatus[G11S_MAG]<0)?"B":"A").."0";
+		return "G11P"..((weaponstatus[G11S_MAG]<0)?"F":"E").."0",1.;
 	}
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel==1){
@@ -55,80 +64,328 @@ class HDG11Rifle:HDWeapon{
 			}else if(nextmagloaded<1){
 				sb.drawimage("G11EMPTY",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.);
 			}else sb.drawbar(
-				"G11NORM","G11GREY",
+				"G11NORM","GI1GREY",
 				nextmagloaded,45,
 				(-46,-3),-1,
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
 			sb.drawnum(hpl.countinv("HDG11Mag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+			
+			sb.drawimage("ROQPA0",(-62,-4),sb.DI_SCREEN_CENTER_BOTTOM,scale:(0.6,0.6));
+			sb.drawnum(hpl.countinv("HDRocketAmmo"),-56,-8,sb.DI_SCREEN_CENTER_BOTTOM);
 		}
-		sb.drawwepcounter(hdw.weaponstatus[G11S_AUTO],
-			-22,-10,"RBRSA3A7","STBURAUT","STFULAUT"
-		);
+
 		sb.drawwepnum(hdw.weaponstatus[G11S_MAG],45);
 		if(hdw.weaponstatus[G11S_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));
+		
+		int lod=max(hdw.weaponstatus[G11S_MAG],0);
+		sb.drawwepnum(hdw.weaponstatus[G11S_MAG],45);
+		if(hdw.weaponstatus[G11S_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));
+		
+		if(hdw.weaponstatus[0]&G11F_GLMODE){
+			int ab=hdw.airburst;
+			sb.drawstring(
+				sb.mAmountFont,ab?string.format("%.2f",ab*0.01):"--.--",
+				(-22,-15),sb.DI_SCREEN_CENTER_BOTTOM|sb.DI_TEXT_ALIGN_RIGHT,
+				ab?Font.CR_WHITE:Font.CR_BLACK
+			);
+			sb.drawrect(-26,-33+min(16,ab>>9),4,1);
+			sb.drawrect(-23,-32,1,16);
+			sb.drawrect(-25,-32,1,16);
+		}else{
+			sb.drawnum(hdw.weaponstatus[G11S_ZOOM],
+			-30,-22,sb.DI_SCREEN_CENTER_BOTTOM|sb.DI_TEXT_ALIGN_RIGHT,Font.CR_DARKGRAY
+			);
+				sb.drawwepcounter(hdw.weaponstatus[G11S_AUTO],
+			-22,-10,"RBRSA3A7","STBURAUT","STFULAUT"
+		);
+		}
+		
+		
+		for(int i=clamp(hdw.weaponstatus[G11S_GLTUBE],0,4);i>0;i--){
+			sb.drawrect(-20,-21+i*3.5,4,2.6);
+		}
 	}
+	
 	override string gethelptext(){
+	
+		bool glmode=(weaponstatus[0]&G11F_GLMODE);
+		bool scmode=(weaponstatus[0]&G11F_SCOPEMODE);
+	
 		return
 		WEPHELP_FIRESHOOT
-		..WEPHELP_RELOAD.."  Reload\n"
-		..WEPHELP_FIREMODE.."  Semi/Burst/Auto\n"
+		..(WEPHELP_ALTFIRE..(glmode?("  Rifle mode\n"):("  GL mode\n")))
+		..WEPHELP_RELOAD.."  Reload mag\n"
+		..WEPHELP_ALTRELOAD.."	Reload GL\n"
+		..(WEPHELP_USE.."+"..WEPHELP_ALTFIRE..(scmode?("  Standard scope mode\n"):("  Night Vision Scope mode\n")))
+		//..WEPHELP_USE.."+"..WEPHELP_RELOAD.."  Reload chamber\n"
+		..(glmode?(WEPHELP_FIREMODE.."+"..WEPHELP_UPDOWN.."  Airburst\n")
+			:(
+			(WEPHELP_FIREMODE.."  Semi/Burst/Auto\n"..WEPHELP_ZOOM.."+"..WEPHELP_FIREMODE.."  Zoom\n")))
 		..WEPHELP_MAGMANAGER
-		..WEPHELP_UNLOADUNLOAD
+		..WEPHELP_UNLOAD..(glmode?("  Unload GL"):("  Unload mag\n"))
 		;
 	}
+	int rangefinder;
+	
+	//Thank you Caligari87 for telling me how to make the nightvision scope
+	
 	override void DrawSightPicture(
 		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
 		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
 	){
-		int cx,cy,cw,ch;
-		[cx,cy,cw,ch]=screen.GetClipRect();
-			sb.SetClipRect(
-				-24+bob.x,-16+bob.y,40,32,
-				sb.DI_SCREEN_CENTER
-			);
-		vector2 bobb=bob*1.1;
+		float scaledyoffset=41.9;
+		vector2 frontoffs=(0,scaledyoffset)+bob*2;
+		let cam  = texman.CheckForTexture("HDXCAM_ZM66",TexMan.Type_Any);
+		//let cam  = texman.CheckForTexture("HDXCAM_OICW",TexMan.Type_Any);
+		double degree=(hdw.weaponstatus[G11S_ZOOM])*0.1;
+		double deg=1/degree;
+		double camSize = texman.GetSize(cam);
 		
-		sb.drawimage(
-			"G11S_001",(0,0)+bobb,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
-			alpha:0.9
-		);
-		sb.SetClipRect(cx,cy,cw,ch);
-		sb.drawimage(
-			"G11S_000",(0,-1)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP
-		);
+				let reticle = texman.CheckForTexture(
+					(hdw.weaponstatus[0] & G11F_GLMODE)? "G11_RT02" : "G11_RT01",TexMan.Type_Any);
+				
+				let reticlealt = texman.CheckForTexture(
+					(hdw.weaponstatus[0] & G11F_GLMODE)? "G11_RT02" : "G11_YUKI",TexMan.Type_Any);
+					
+				let reticlealt1 = texman.CheckForTexture(
+					(hdw.weaponstatus[0] & G11F_GLMODE)? "G11_RT02" : "G11_WJAK",TexMan.Type_Any);
+					
+				let reticlealt2 = texman.CheckForTexture(
+					(hdw.weaponstatus[0] & G11F_GLMODE)? "G11_RT02" : "G11_TPSR",TexMan.Type_Any);
+		
+		if(hdw.weaponstatus[0]&G11F_GLMODE)
+		{
+		//sb.drawgrenadeladder(hdw.airburst,bob);
+		
+				vector2 bobb=bob*1.1;
+		//bobb.y=clamp(bobb.y,-8,8);
+		
+				sb.drawimage(
+					"G11S_005",(0,0)+bob*1.05,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+					scale:(1.0,1.0)
+				);
+				
+				//sb.drawgrenadeladder(hdw.airburst,bob);
+				
+			if(scopeview){
+				double degree=(hdw.weaponstatus[G11S_ZOOM])*0.1;
+				
+				sb.drawimage(
+					"G11S_006",(0,0)+bob*1.05,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+					scale:(1.0,1.0)
+				);
+		
+				sb.drawimage(
+					"G11S_006",(0,0)+bob*1.05,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+					scale:(1.0,1.0)
+				);
+		
+				int scaledwidth=57;
+				int cx,cy,cw,ch;
+				[cx,cy,cw,ch]=screen.GetClipRect();
+				sb.SetClipRect(
+					-28+bob.x,13+bob.y,scaledwidth,scaledwidth,
+					sb.DI_SCREEN_CENTER
+				);
+				
+				sb.fill(color(255,0,0,0),
+					bob.x-30,scaledyoffset+bob.y-30,
+					60,60,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER
+				);
+		
+				
+				if(hdw.weaponstatus[0]&G11F_SCOPEMODE){
+					texman.setcameratotexture(hpc,"HDXCAM_OICW",180*0.1);
+					let cam  = texman.CheckForTexture("HDXCAM_OICW",TexMan.Type_Any);
+					sb.DrawCircle(cam,(0,scaledyoffset)+bob*3,.075,usePixelRatio:true);
+				}
+				else
+				{
+					texman.setcameratotexture(hpc,"HDXCAM_ZM66",180*0.1);
+					let cam  = texman.CheckForTexture("HDXCAM_ZM66",TexMan.Type_Any);
+					sb.DrawCircle(cam,(0,scaledyoffset)+bob*3,.075,usePixelRatio:true);
+				}
+				
+				if((bob.y/fov)<0.4){
+					let reticleScale = camSize / texman.GetSize(reticle);
+					{
+						if(weaponstatus[0]&G11F_WAIFUSIGHT)
+						{
+							sb.DrawCircle(reticlealt,frontoffs,393*reticleScale, bob*4, 10.5*0.09);
+						}
+						else 
+						{
+							sb.DrawCircle(reticle,frontoffs,393*reticleScale, bob*4, 10.5*0.09);
+						}
+					}
+				}
+				
+				if(
+					(level.time&(1|2))
+					||rangefinder>14
+				)sb.drawnum(rangefinder,
+					4+bob.x,17+bob.y,sb.DI_SCREEN_CENTER,Font.CR_RED,0.5
+				);
+				
+					int airburst=hdw.airburst;
+					
+				sb.SetClipRect(cx,cy,cw,ch);
+				sb.drawimage(
+					"G11S_008",(0,scaledyoffset)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+					scale:(1.0,1.0)
+				);
+				
+				sb.drawstring(sb.mAmountFont,string.format("%.2f",airburst*0.01),
+				(9.5+bob.x,72+bob.y),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_RIGHT,
+				airburst?Font.CR_WHITE:Font.CR_DARKGRAY);
+			}
+		}
+		
+		else{
+		vector2 bobb=bob*1.1;
+		//bobb.y=clamp(bobb.y,-8,8);
+		
+				sb.drawimage(
+					"G11S_005",(0,0)+bob*1.05,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+					scale:(1.0,1.0)
+				);
+			if(scopeview){
+				double degree=(hdw.weaponstatus[G11S_ZOOM])*0.1;
 
+				sb.drawimage(
+					"G11S_006",(0,0)+bob*1.05,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+					scale:(1.0,1.0)
+				);
+		
+				int scaledwidth=57;
+				int cx,cy,cw,ch;
+				[cx,cy,cw,ch]=screen.GetClipRect();
+				sb.SetClipRect(
+					-28+bob.x,13+bob.y,scaledwidth,scaledwidth,
+					sb.DI_SCREEN_CENTER
+				);
+				
+				sb.fill(color(255,0,0,0),
+					bob.x-30,scaledyoffset+bob.y-30,
+					60,60,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER
+				);
+		
+				if(hdw.weaponstatus[0]&G11F_SCOPEMODE){
+					texman.setcameratotexture(hpc,"HDXCAM_OICW",degree);
+					let cam  = texman.CheckForTexture("HDXCAM_OICW",TexMan.Type_Any);
+					sb.DrawCircle(cam,(0,scaledyoffset)+bob*3,.075,usePixelRatio:true);
+				}
+				else
+				{
+					texman.setcameratotexture(hpc,"HDXCAM_ZM66",degree);
+					let cam  = texman.CheckForTexture("HDXCAM_ZM66",TexMan.Type_Any);
+					sb.DrawCircle(cam,(0,scaledyoffset)+bob*3,.075,usePixelRatio:true);
+				}
+				
+				if((bob.y/fov)<0.3){
+					let reticleScale = camSize / texman.GetSize(reticle);
+					{
+						if(weaponstatus[G11S_GAGRETICLE]==1)
+						{
+							sb.DrawCircle(reticlealt,frontoffs,393*reticleScale, bob*4, 1.6*deg);
+						}
+						else if(weaponstatus[G11S_GAGRETICLE]==2)
+						{
+							sb.DrawCircle(reticlealt1,frontoffs,393*reticleScale, bob*4, 1.6*deg);
+						}
+						else if(weaponstatus[G11S_GAGRETICLE]==3)
+						{
+							sb.DrawCircle(reticlealt2,frontoffs,393*reticleScale, bob*4, 1.6*deg);
+						}
+						else
+						{
+							sb.DrawCircle(reticle,frontoffs,393*reticleScale, bob*4, 1.6*deg);
+						}
+						//sb.DrawCircle(reticle2,frontoffs,393*reticleScale, bob*4, 2.2*deg);
+					}
+				}
+				
+				if(
+					(level.time&(1|2))
+					||rangefinder>14
+				)sb.drawnum(rangefinder,
+					4+bob.x,17+bob.y,sb.DI_SCREEN_CENTER,Font.CR_RED,0.5
+				);
+				
+				sb.SetClipRect(cx,cy,cw,ch);
+				sb.drawimage(
+					"G11S_008",(0,scaledyoffset)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+					scale:(1.0,1.0)
+				);
+				sb.drawnum(int(degree*10),
+					3+bob.x,72+bob.y,sb.DI_SCREEN_CENTER,Font.CR_BLACK
+				);
+			}
+		}
 	}
+	
 	states{
 	select0:
 	TNT1 A 0;
-		G11G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
-		G11G A 0;
-		#### # 0;
+		GI1G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GI1G A 0;
+		#### # 0 A_Overlay(12,"rangefinder.overlay");
 		goto select0big;
 	deselect0:
-		G11G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
-		G11G A 0;
+		GI1G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GI1G A 0;
 		#### # 0;
 		goto deselect0big;
+		
+	rangefinder.overlay:
+		TNT1 A 1
+		{
+		//update rangefinder
+			if(
+				!(level.time&(1|2|4|8))
+				&&max(abs(vel.x),abs(vel.y),abs(vel.z))<2
+				&&(
+					!player.cmd.pitch
+					&&!player.cmd.yaw
+				)
+			){
+				vector3 gunpos=gunpos();
+				flinetracedata frt;
+				linetrace(
+					angle,
+					512*HDCONST_ONEMETRE,
+					pitch,
+					flags:TRF_NOSKY|TRF_ABSOFFSET,
+					offsetz:gunpos.z,
+					offsetforward:gunpos.x,
+					offsetside:gunpos.y,
+					data:frt
+				);
+				invoker.rangefinder=double(frt.distance*(1./HDCONST_ONEMETRE));
+			}
+		}
+		loop;
 
 	ready:
-		G11G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
-		G11G A 0;
+		GI1G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GI1G A 0;
 		#### # 1{
 			A_SetCrosshair(21);
 			invoker.weaponstatus[G11S_RATCHET]=0;
-			A_WeaponReady(WRF_ALL);
+			
+			if(pressingfiremode()&&invoker.weaponstatus[0]&G11F_GLMODE){setweaponstate("abadjust");}
+			else if(pressingzoom()){A_ZoomAdjust(G11S_ZOOM,20,50);}
+			
+			else A_WeaponReady(WRF_ALL);
+			
 			}
 		goto readyend;
 	user3:
 		---- A 0 A_MagManager("HDG11Mag");
 		goto ready;
-	altfire:
-	althold:
-		goto nope;
 	hold:
-		G11G A 0{
+		GI1G A 0{
 			if(
 				//full auto
 				invoker.weaponstatus[G11S_AUTO]==2
@@ -143,15 +400,162 @@ class HDG11Rifle:HDWeapon{
 	firemode:
 		---- # 1{
 			int aut=invoker.weaponstatus[G11S_AUTO];
+			//if(invoker.weaponstatus[0]&G11F_GLMODE)setweaponstate("abadjust");
 			if(aut>=2)invoker.weaponstatus[G11S_AUTO]=0;
 			else if(aut<0)invoker.weaponstatus[G11S_AUTO]=0;
 			else invoker.weaponstatus[G11S_AUTO]++;
 		}goto nope;
+	
+	abadjust:
+		---- A 1 A_AirburstReady();
+		---- A 0 A_JumpIf(pressingfiremode(),"abadjust");
+		goto readyend;
+		
+	firefrag:
+		#### A 1{
+			if(invoker.weaponstatus[G11S_GLTUBE]<=0){
+				setweaponstate("nope");
+				return;
+			}
+			A_FireHDGL();
+			invoker.weaponstatus[G11S_GLTUBE]--;
+			A_StartSound("weapons/grenadeshot",CHAN_WEAPON);
+		}
+		#### C 2{
+			A_ZoomRecoil(0.95);
+			A_MuzzleClimb(
+				0,0,0,0,
+				-1.2,-3.,
+				-1.,-2.8
+			);
+		}
+		#### D 2;
+		#### A 0;
+		goto nope;
+	
+	unloadgrenade:
+		#### B 4{
+			if(invoker.weaponstatus[G11S_GLTUBE]<1)setweaponstate("nope");
+		}
+		#### B 1 offset(2,34);
+		#### B 1 offset(4,36) A_MuzzleClimb(-frandom(1.2,2.4),frandom(1.2,2.4));
+		#### B 1 offset(10,38);
+		#### B 4 offset(12,40){
+			A_MuzzleClimb(-frandom(1.2,2.4),frandom(1.2,2.4));
+			A_StartSound("weapons/grenopen",CHAN_WEAPon,CHANF_OVERLAP);
+		}
+		#### B 2 offset(11,38);
+	unloadgrenade2:
+		#### B 0 A_JumpIf(invoker.weaponstatus[G11S_GLTUBE]<1,"unloadgrenadeend");
+		#### B 10 offset(12,40) A_StartSound("weapons/rockreload",8,CHANF_OVERLAP);
+		#### B 9 offset(10,38){
+			{
+				invoker.weaponstatus[G11S_GLTUBE]--;
+			}
+			if(
+				A_JumpIfInventory("HDRocketAmmo",0,"null")
+				||(!PressingUnload()&&!PressingReload())
+			){
+				A_SpawnItemEx(
+					"HDRocketAmmo",10,0,height-16,vel.x,vel.y,vel.z+2,
+					0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION
+				);
+			}else{
+				A_StartSound("weapons/pocket",9);
+				A_GiveInventory("HDRocketAmmo",1);
+			}
+		}
+		#### B 5 offset(10,36);
+		#### B 4 offset(10,36){
+			if(health<40)A_SetTics(4);
+		}
+		#### B 0 A_JumpIf(!pressingunload(),"unloadgrenadeend");
+		goto unloadgrenade2;
+	unloadgrenadeend:
+		#### B 1 offset(8,38) A_StartSound("weapons/grenopen",CHAN_WEAPON,CHANF_OVERLAP);
+		#### B 1 offset(4,36);
+		#### B 1 offset(2,34);
+		goto nope;
+		
+	altreload:
+	reload.grenade:
+		#### A 0 A_JumpIf(
+			(invoker.weaponstatus[G11S_GLTUBE]>=2)||!countinv("HDRocketAmmo"),
+			"nope"
+		);
+		#### B 1 offset(2,34);
+		#### B 1 offset(4,36) A_MuzzleClimb(-frandom(1.2,2.4),frandom(1.2,2.4));
+		#### B 1 offset(10,38);
+		#### B 4 offset(12,40){
+			A_MuzzleClimb(-frandom(1.2,2.4),frandom(1.2,2.4));
+			A_StartSound("weapons/grenopen",CHAN_WEAPON,CHANF_OVERLAP);
+		}
+		#### B 10 offset(11,38);
+	reload.grenade2:
+		#### B 0 A_JumpIf(
+			invoker.weaponstatus[G11S_GLTUBE]>=2
+			||!countinv("HDRocketAmmo"),
+			"reload.grenadeend"
+		);
+		#### B 9 offset(10,38) A_StartSound("weapons/pocket",9);
+		#### B 2 offset(12,40)A_StartSound("weapons/rockreload",8);
+		#### B 3 offset(10,38){
+			if(!countinv("HDRocketAmmo"))return;
+			A_TakeInventory("HDRocketAmmo",1,TIF_NOTAKEINFINITE);
+			invoker.weaponstatus[G11S_GLTUBE]++;
+		}
+		#### BB 1 offset(10,34);
+		#### B 4 offset(11,38) A_StartSound("weapons/pocket",9);
+		#### B 5 offset(10,37);
+		#### # 0 A_JumpIf(!pressingaltreload(),"reload.grenadeend");
+		loop;
+	reload.grenadeend:
+		#### B 5 offset(10,36) A_StartSound("weapons/grenopen",CHAN_WEAPON,CHANF_OVERLAP);
+		#### B 1 offset(8,38);
+		#### B 1 offset(4,36);
+		#### B 1 offset(2,34);
+		goto nope;	
+	
+	altfire:
+		GI1G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GI1G A 0;
+		#### # 0 
+		{
+			if(pressinguse())setweaponstate("altfire.sc");
+		}
+		#### # 1 offset(0,33);
+		#### # 2 offset(-2,35)
+		{
+			A_StartSound("weapons/rifleclick2",CHAN_6,CHANF_OVERLAP,0.1);
+			invoker.weaponstatus[0]^=G11F_GLMODE;
+			A_SetCrosshair(21);
+			A_SetHelpText();
+			
+			//A_WeaponBusy();
+		}
+		#### # 1 offset(-1,33);
+		goto nope;
+	altfire.sc:
+		GI1G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GI1G A 0;
+		#### # 1 offset(0,33);
+		#### # 2 offset(2,35)
+		{
+			A_StartSound("weapons/rifleclick2",CHAN_6,CHANF_OVERLAP,0.3,pitch:0.9);
+			invoker.weaponstatus[0]^=G11F_SCOPEMODE;
+			A_SetCrosshair(21);
+			A_SetHelpText();
+			
+			//A_WeaponBusy();
+		}
+		#### # 1 offset(1,33);
+		goto nope;
+		
 	fire:
-		G11G # 1;
-		G11G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,"fire_nomag");
+		GI1G # 1 {if(invoker.weaponstatus[G11S_FLAGS]&G11F_GLMODE)setweaponstate("firefrag");}
+		GI1G B 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,"fire_nomag");
 	fire2:
-		G11G C 1{
+		GI1G C 1{
 			if(invoker.weaponstatus[G11S_CHAMBER]==2){
 				A_GunFlash();
 			}else{
@@ -159,7 +563,7 @@ class HDG11Rifle:HDWeapon{
 				else setweaponstate("dryfire");
 			}
 		}
-		G11G D 1{
+		GI1G D 1{
 
 			if(invoker.weaponstatus[G11S_MAG]>0){
 				invoker.weaponstatus[G11S_MAG]--;
@@ -172,7 +576,7 @@ class HDG11Rifle:HDWeapon{
 			}
 			A_WeaponReady(WRF_NOFIRE);
 		}
-		G11G A 0
+		GI1G A 0
 		{
 		if(invoker.weaponstatus[G11S_AUTO]==2)
 			{A_SetTics(2);}
@@ -182,11 +586,11 @@ class HDG11Rifle:HDWeapon{
 		#### A 0 A_ReFire();
 		goto nope;
 	itsover:
-		G11G D 1;
-		G11G A 0;
+		GI1G D 1;
+		GI1G A 0;
 		goto nope;
 	fire_nomag:
-		G11G E 0{
+		GI1G E 0{
 			if(invoker.weaponstatus[G11S_CHAMBER]==2){
 				A_GunFlash();
 			}else{
@@ -194,8 +598,8 @@ class HDG11Rifle:HDWeapon{
 				else setweaponstate("dryfire");
 			}
 		}
-		G11G E 1 A_WeaponOffset(frandom(-2,2),frandom(30,34));
-		G11G E 0{
+		GI1G E 1 A_WeaponOffset(frandom(-2,2),frandom(30,34));
+		GI1G E 0{
 
 			if(invoker.weaponstatus[G11S_MAG]>0){
 				invoker.weaponstatus[G11S_MAG]--;
@@ -211,7 +615,7 @@ class HDG11Rifle:HDWeapon{
 			}
 			A_WeaponReady(WRF_NOFIRE);
 		}
-		G11G B 1
+		GI1G B 1
 		{
 		if(invoker.weaponstatus[G11S_AUTO]==2)
 			{A_SetTics(2);}
@@ -220,12 +624,12 @@ class HDG11Rifle:HDWeapon{
 		goto nope;
 	
 		dryfire:
-		G11G E 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
-		G11G D 0;
-		G11G # 1;
+		GI1G E 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GI1G D 0;
+		GI1G # 1;
 		goto nope;
 	flash:
-		G11F A 1 bright{
+		GI1F A 1 bright{
 			A_Light1();
 			HDFlashAlpha(-16);
 			A_StartSound("weapons/g11fire",CHAN_WEAPON,CHANF_OVERLAP);
@@ -241,14 +645,15 @@ class HDG11Rifle:HDWeapon{
 				-0.2,-frandom(0.3,0.4),
 				-frandom(0.2,1.1),-frandom(1.0,1.5)
 			);
+			A_ZoomRecoil(0.975);
 			A_AlertMonsters();
 		}
 		goto lightdone;
 
 
 	unloadchamber:
-		G12C A 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
-		G11C A 0;
+		GI2C A 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GI1C A 0;
 		#### # 2 A_JumpIf(invoker.weaponstatus[G11S_CHAMBER]<1,"nope");
 		#### B 3;
 		#### D 4 A_StartSound("weapons/G11Wind",CHAN_6);
@@ -265,8 +670,8 @@ class HDG11Rifle:HDWeapon{
 		#### DBA 3;
 		goto nope;
 	loadchamber:
-		G12C A 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
-		G11C A 0;
+		GI2C A 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,2);
+		GI1C A 0;
 		#### # 2 A_JumpIf(invoker.weaponstatus[G11S_CHAMBER]<1,"nope");
 		#### B 3;
 		#### D 4 A_StartSound("weapons/G11Wind",CHAN_6);
@@ -282,15 +687,19 @@ class HDG11Rifle:HDWeapon{
 		goto nope;
 	user4:
 	unload:
-		G11G # 0{
+		GI1G # 0{
 			invoker.weaponstatus[0]|=G11F_JUSTUNLOAD;
 			if(
+				invoker.weaponstatus[G11S_FLAGS]&G11F_GLMODE
+			){
+				setweaponstate("unloadgrenade");
+			}else if(
 				invoker.weaponstatus[G11S_MAG]>=0
 			)setweaponstate("unmag");
 			else if(invoker.weaponstatus[G11S_CHAMBER]>0)setweaponstate("unloadchamber");
 		}goto nope;
 	reload:
-		G11G # 0{
+		GI1G # 0{
 			invoker.weaponstatus[0]&=~G11F_JUSTUNLOAD;
 			if(invoker.weaponstatus[G11S_MAG]>=45)setweaponstate("nope");
 			else if(HDMagAmmo.NothingLoaded(self,"HDG11Mag")){
@@ -303,19 +712,19 @@ class HDG11Rifle:HDWeapon{
 		}goto unmag;
 	unmag:
 	#### # 0 A_SetCrosshair(21);
-		G12C A 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,"ununmag");
-		G11R A 3;
-		G11R B 3;
-		G11R D 4;
-		G11R EFG 4;
-		G11R H 3 A_StartSound("weapons/G11MagOut",CHAN_WEAPON);
-		G11R I 4{
+		GI2C A 0 A_JumpIf(invoker.weaponstatus[G11S_MAG]<0,"ununmag");
+		GI1R A 3;
+		GI1R B 3;
+		GI1R D 4;
+		GI1R EFG 4;
+		GI1R H 3 A_StartSound("weapons/G11MagOut",CHAN_WEAPON);
+		GI1R I 4{
 			A_MuzzleClimb(0.3,0.4);
 			A_StartSound("weapons/G11Wind2",CHAN_WEAPON);
 		}
-		G11R JKLM 3;
-		G11R O 2;
-				G11R O 0{
+		GI1R JKLM 3;
+		GI1R O 2;
+				GI1R O 0{
 			int magamt=invoker.weaponstatus[G11S_MAG];
 			if(magamt<0){
 				setweaponstate("magout");
@@ -335,7 +744,7 @@ class HDG11Rifle:HDWeapon{
 			}
 		}
 	pocketmag:
-		G11R MO 7 A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+		GI1R MO 7 A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
 	magout:
 		#### M 0{
 			if(invoker.weaponstatus[0]&G11F_JUSTUNLOAD)setweaponstate("reloadend");
@@ -343,22 +752,22 @@ class HDG11Rifle:HDWeapon{
 		}
 		goto loadmag;
 	ununmag:
-		G12R AB 3;
-		G12R CDE 4;
+		GI2R AB 3;
+		GI2R CDE 4;
 	goto pocketmag;
 	loadmag:
-		G11R M 0 A_StartSound("weapons/pocket",CHAN_WEAPON);
-		G11R M 6 A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
-		G11R O 6 A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
-		G11R LKJIH 3;
-		G11R N 3{
+		GI1R M 0 A_StartSound("weapons/pocket",CHAN_WEAPON);
+		GI1R M 6 A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+		GI1R O 6 A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+		GI1R LKJIH 3;
+		GI1R N 3{
 			let mmm=hdmagammo(findinventory("HDG11Mag"));
 			if(mmm){
 				invoker.weaponstatus[G11S_MAG]=mmm.TakeMag(true);
 				A_StartSound("weapons/smgmagclick",CHAN_BODY);
 			}
 		}
-		G11R GFED 3;
+		GI1R GFED 3;
 		#### # 0
 		{
 					if(
@@ -367,7 +776,7 @@ class HDG11Rifle:HDWeapon{
 			)setweaponstate("reloadend");
 		}
 	chamber:
-		G11C B 3;
+		GI1C B 3;
 		#### D 4 A_StartSound("weapons/G11Wind",CHAN_6);
 		#### C 5{
 			invoker.weaponstatus[G11S_MAG]--;
@@ -376,7 +785,7 @@ class HDG11Rifle:HDWeapon{
 			A_StartSound("weapons/G11Click",CHAN_6);
 		}
 		#### DBA 3;
-		G11R P 3;
+		GI1R P 3;
 		goto nope;
 
 	reloadend:
@@ -384,26 +793,42 @@ class HDG11Rifle:HDWeapon{
 		#### BAP 3;
 		goto nope;
 	reloadend_empty:
-		G12R BAF 3;
+		GI2R BAF 3;
 		goto nope;
 
 
 	spawn:
-		G11P AB -1 nodelay{
+		G11P EF -1 nodelay{
 			if(invoker.weaponstatus[G11S_MAG]<0)frame=1;
 		}
 	}
-	override void initializewepstats(bool idfa){
-		weaponspecial = 1337;
-		weaponstatus[0]=0;
+	override void InitializeWepStats(bool idfa){
 		weaponstatus[G11S_MAG]=45;
 		weaponstatus[G11S_CHAMBER]=2;
-		if(!idfa)weaponstatus[G11S_AUTO]=0;
+		weaponstatus[G11S_GLTUBE]=2;
+		
+		if(!idfa && !owner){
+			weaponstatus[G11S_ZOOM]=30;
+			weaponstatus[G11S_AUTO]=0;
+		}
+	}
+	override void loadoutconfigure(string input)
+	{
+		/*int yuki=getloadoutvar(input,"yuki",1);
+		if(yuki>0)
+		{
+			weaponstatus[0]|=G11F_WAIFUSIGHT;
+		}*/
+			int gag=getloadoutvar(input,"gag",1);
+			if(gag>0)weaponstatus[G11S_GAGRETICLE]=clamp(gag,0,5);
 	}
 }
 
 enum g11status{
 	G11F_JUSTUNLOAD=1,
+	G11F_GLMODE=2,
+	G11F_SCOPEMODE=4,
+	G11F_WAIFUSIGHT=8,
 
 	G11S_FLAGS=0,
 	G11S_MAG=1,
@@ -411,4 +836,8 @@ enum g11status{
 	G11S_AUTO=3, //0 semi, 1 burst, 2 auto
 	G11S_RATCHET=4,
 	G11S_ZOOM=5,
+	G11S_GLTUBE=6,
+	G11S_AIRBURST=7,
+	G11S_GLMODE=8,
+	G11S_GAGRETICLE=8,
 };

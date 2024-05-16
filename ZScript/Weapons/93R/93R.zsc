@@ -18,7 +18,7 @@ class HDRafficaPistol:HDHandgun{
 		weapon.bobspeed 2.5;
 		weapon.bobstyle "normal";
 		obituary "$OB_PISTOL";
-		inventory.pickupmessage "$PICKUP_PISTOL";
+		inventory.pickupmessage "You got the burst pistol!";
 		tag "Mouletta 97R ''Raffica''";
 		hdweapon.refid HDLD_RAFFICAPISTOL;
 		hdweapon.barrelsize 19,0.3,0.5;

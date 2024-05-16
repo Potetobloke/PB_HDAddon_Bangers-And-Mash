@@ -8,12 +8,12 @@ class HD_PBGasEmit:HDPuff{
 		obituary "%o smelled something really bad.";
 		scale 0.75;gravity 0.05;alpha 0.285; //0.7
 		hdpuff.fadeafter 12000;
-		hdpuff.decel 0.96;
+		hdpuff.decel 0.96; //0.96
 		hdpuff.fade 0.98; //0.96
 		hdpuff.grow 0.043;
 		hdpuff.minalpha 0.003;
 		BounceCount 999;
-		BounceFactor 20;
+		BounceFactor 60;
 		Height 2;
 		Radius 2;
 		-NOCLIP
@@ -24,12 +24,15 @@ class HD_PBGasEmit:HDPuff{
 	
 	// For the UAS resperator support, integrated by Mohl
 	service RespStatus;
-	bool IsPlayerUsingRespirator(HDPlayerPawn ppp){
-		// prematurely returns if ppp is not a player pointer, 
-		// or if the service is not available. 
-		if(!ppp || !respstatus)return false;
-		// returns the status of the resperator. 
-		return int(RespStatus.GetInt("IsWorn", objectArg:ppp));
+	bool IsPlayerUsingRespirator(int pnum) {
+		ServiceIterator i = ServiceIterator.Find("UaS_RespiratorStatus");
+		service RespStatus;
+		while (RespStatus = i.Next()) {
+			int RespActive = int(RespStatus.GetInt("IsWorn", objectArg:players[pnum].mo));
+			console.printf("player "..pnum.." Resp "..RespActive);
+			return RespActive;
+		}
+		return false;
 	}
 	
 	override void postbeginplay(){
@@ -47,7 +50,7 @@ class HD_PBGasEmit:HDPuff{
 		
 	}
 	
-	action void A_PoisonAoE (double aoeRadius, int damage, int duration
+	/*action void A_PoisonAoE (double aoeRadius, int damage, int duration
 	, int period, name damageType) {
             BlockThingsIterator itr = BlockThingsIterator.Create(self,128);
             while (itr.next()) {
@@ -59,10 +62,13 @@ class HD_PBGasEmit:HDPuff{
 				if (next.bNOBLOOD)
                     continue; 
 				// here we check if the player is wearing a resperator. 
-				if (next.countinv("UaS_Respirator") && invoker.IsPlayerUsingRespirator(HDPlayerPawn(next)))
-					continue;
+				//if (next.checkinventory("UaS_Respirator") && invoker.IsPlayerUsingRespirator(HDPlayerPawn(next)))
+				//	continue;
 					
 				//if (next.countinv("UaS_Respirator") && invoker.IsPlayerUsingRespirator(HDPlayerPawn(next)))
+				//	continue;
+				
+				//if (invoker.IsPlayerUsingRespirator(pnum))
 				//	continue;
 					
                 double dist = Distance3D(next);
@@ -72,7 +78,48 @@ class HD_PBGasEmit:HDPuff{
                 continue;
                 next.PoisonMobj(self, target, damage, duration, period, damageType);
 		}
-	}
+	}*/
+	action void A_PoisonAoE(double aoeRadius, int damage) {
+	
+					For(let ccc = BlockThingsIterator.Create(self,aoeRadius); ccc.Next();){
+					If(!ccc.thing||Distance3D(ccc.thing)>aoeRadius||!ccc.thing.CheckSight(self)){Continue;}
+					
+					//this shit has caused me a headache
+					//thank you renegade4339 for solving this issue
+					let plr = HDPlayerPawn(ccc.thing);
+					let mob = HDMobBase(ccc.thing);
+					
+					If(ccc.thing.bISMONSTER&&ccc.thing.health>0)
+					{
+						let mob = HDMobBase(ccc.thing);
+					
+						If(ccc.thing is "HDMobBase")
+						{
+							//special cases for when a mob should be resistant to gas
+							if (!ccc.thing.countinv("WornRadsuit"))
+							{
+							target=mob;
+							if(mob.stunned<=128)mob.stunned+=damage;	
+							}
+						}
+					}
+					
+					Else If(ccc.thing is "HDPlayerPawn"&&ccc.thing.health>0)
+					{
+					
+						if (!ccc.thing.countinv("WornRadsuit"))
+						{
+							target=plr;
+							//if(random(0,4))plr.A_Pain();
+							if(plr.stunned<=128){plr.stunned+=damage;}
+							if(plr.fatigue<=16){plr.fatigue++;}
+							plr.A_SetBlend("00 00 00",0.3,64,"00 00 00",0);
+						}
+					}
+					
+				}
+			}
+			
 	states{
 	spawn:
 		GAS1 AABB 1 
@@ -82,43 +129,38 @@ class HD_PBGasEmit:HDPuff{
 					CVF_RELATIVE
 				);
 		GAS1 CDEEEFF 1 {
-		A_PoisonAoE(32,30,20,frandom(29,33),"drowning");
+		//A_PoisonAoE(32,10,10,frandom(29,33));
 		A_ChangeVelocity(
 					frandom(-1,1),frandom(-1,1),
 					0.21,
 					CVF_RELATIVE
 				);}
 		GAS1 FGGG 1 {
-		A_PoisonAoE(32,30,20,frandom(29,33),"drowning");
+		//A_PoisonAoE(32,10,10,frandom(29,33));
 		A_ChangeVelocity(
 					frandom(-3.9,3.9),frandom(-3.9,3.9),
 					frandom(-1.9,1.9),
 					CVF_RELATIVE
 				);}
 		GAS1 HHH 1 {
-		A_PoisonAoE(64,30,20,frandom(29,33),"drowning");
+		//A_PoisonAoE(64,10,10,frandom(29,33));
 		A_ChangeVelocity(
 					frandom(-2.9,2.9),frandom(-2.9,2.9),
 					frandom(-0.9,0.9),
 					CVF_RELATIVE
 				);}
 	hurt1:
-		GAS1 FFFFFFFFGGGGGGGGHHHHHHHHIIIIIIIIJJJJJJJJ 1 
-		{A_PoisonAoE(128,12,10,frandom(29,33),"drowning");
-		//		A_ChangeVelocity(
-		//			frandom(-1.9,1.9),frandom(-1.5,1.5),
-		//			frandom(-1.9,1.9),
-		//			CVF_RELATIVE
-		//		);
-		
+		GAS1 FGHIJ 8 
+		{A_PoisonAoE(128,frandom(1,2));
 				A_ChangeVelocity(
-					frandom(-0.9,0.9),frandom(-0.9,0.9),
-					frandom(-0.9,0.9),
+					frandom(-1.9,1.9),frandom(-1.5,1.5),
+					frandom(-1.9,1.9),
 					CVF_RELATIVE
-				);}
+				);
+		}
 	hurtloop:
-		GAS1 FFFFFFFFGGGGGGGGHHHHHHHHIIIIIIIIJJJJJJJJ 1 
-		{A_PoisonAoE(128,8,10,frandom(29,33),"drowning");
+		GAS1 FGHIJ 8 
+		{A_PoisonAoE(128,frandom(1,2));
 		//		A_ChangeVelocity(
 		//			frandom(-1.9,1.9),frandom(-1.5,1.5),
 		//			frandom(-1.9,1.9),
@@ -126,8 +168,8 @@ class HD_PBGasEmit:HDPuff{
 		//		);
 		
 				A_ChangeVelocity(
-					frandom(-0.2,0.2),frandom(-0.2,0.2),
-					frandom(-0.2,0.2),
+					frandom(-1.5,1.5),frandom(-1.5,1.5),
+					frandom(-1.5,1.5),
 					CVF_RELATIVE
 				);}
 		loop;
@@ -146,7 +188,7 @@ class HD_PBGasEmit2:HD_PBGasEmit{
 	}
 	states{
 	spawn:
-		GAS2 AAAAABBBBBCCCCCDDDDDEEEEEFFFFFGGGGGHHHHHIIIIIJJJJJKKKKKLLLLLMMMMMNNNNNOOOOOOPPPPPQQQQQRRRRRSSSSSTTTTT 1 A_PoisonAoE(64,1,2,0,"drowning");
+		GAS2 AAAAABBBBBCCCCCDDDDDEEEEEFFFFFGGGGGHHHHHIIIIIJJJJJKKKKKLLLLLMMMMMNNNNNOOOOOOPPPPPQQQQQRRRRRSSSSSTTTTT 1 A_PoisonAoE(64,1);
 	}
 }
 
@@ -237,12 +279,13 @@ class HDGasGrenadeRoller:HDFragGrenadeRoller{
 			if(fuze>=140){
 				gasamount++;
 			if(gasamount==1){A_StartSound("weapons/grenade/gas/start",CHAN_7,CHANF_OVERLAP,0.95);}
-			if(gasamount>=1&&gasamount<=451){actor xpl=spawn("HD_PBGasEmit",self.pos-(frandom(-4,4),0,frandom(-4,4)));
+			if(gasamount>=1&&gasamount<=851){actor xpl=spawn("HD_PBGasEmit",self.pos-(frandom(-8,8),0,frandom(-8,8)));
 				A_StartSound("weapons/grenade/gas/end",CHAN_6,CHANF_OVERLAP,frandom(0.5,0.85)
 				,pitch:frandom(0.75,1.25),starttime:frandom(0,3));HDMobAI.Frighten(self,1024);}
 			
-			if(gasamount>=1&&gasamount<=201){
-				A_Recoil(frandom(-0.95,0.1));A_SetAngle(angle+frandom(-45,45),SPF_INTERPOLATE);}
+			//if(gasamount>=1&&gasamount<=851){
+				//A_Recoil(frandom(-0.95,0.1));A_SetAngle(angle+frandom(-45,45),SPF_INTERPOLATE);}
+				//}
 				
 				if(CheckNoDelay()){
 					if(tics>0)tics--;  
@@ -296,7 +339,7 @@ class HDGasGrenadeThrown:HDFragGrenade{
 			
 			gasamount++;
 			if(gasamount==1){A_StartSound("weapons/grenade/gas/start",CHAN_7,CHANF_OVERLAP,0.95);}
-			if(gasamount>=1&&gasamount<=451){actor xpl=spawn("HD_PBGasEmit",self.pos-(frandom(-4,4),0,frandom(-4,4)));
+			if(gasamount>=1&&gasamount<=851){actor xpl=spawn("HD_PBGasEmit",self.pos-(frandom(-4,4),0,frandom(-4,4)));
 				A_StartSound("weapons/grenade/gas/end",CHAN_6,CHANF_OVERLAP,frandom(0.5,0.85)
 				,pitch:frandom(0.75,1.25),starttime:frandom(0,3));HDMobAI.Frighten(self,1024);}
 			if(gasamount>=1&&gasamount<=201){

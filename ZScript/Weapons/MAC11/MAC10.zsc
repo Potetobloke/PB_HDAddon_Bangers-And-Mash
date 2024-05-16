@@ -304,7 +304,7 @@ class HDMAC10:HDHandgun{
 				frandom(0,ceilingz-floorz)<bbb.speed*0.3
 			)A_AlertMonsters(256);
 
-			A_ZoomRecoil(0.995);
+			A_ZoomRecoil(min(0.95,0.99-0.05*min(invoker.weaponstatus[MACS_AUTO],1)));
 			A_StartSound("weapons/MAC11Shot",CHAN_WEAPON,CHANF_OVERLAP);
 			invoker.weaponstatus[MACS_CHAMBER]=1;
 		}

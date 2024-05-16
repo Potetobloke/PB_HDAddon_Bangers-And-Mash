@@ -29,7 +29,7 @@ weapons/G11Click Sounds/G11/G11Click.wav
 weapons/G11Wind Sounds/G11/G11Wind.wav
 ammo/g11break Sounds/G11/G11Break.ogg
 
-weapons/steyracr/fire Sounds/SteyrACR/Fire.ogg
+weapons/steyracr/fire Sounds/SteyrACR/ACRFire.ogg
 
 $alias weapons/steyracr/cock1 weapons/libchamber
 $alias weapons/steyracr/cock2 weapons/libchamber

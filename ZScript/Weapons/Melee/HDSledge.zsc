@@ -308,7 +308,6 @@ class HDSledgehammer:HD_PB_UnarmedWeapon{
 		
 		hdmobbase.forcepain(punchee);
 		HDBleedingWound.inflict(punchee,int(dmg*=invoker.strength*frandom(1.2,1.6)),frandom(5,8));
-		//hdmobbase.stunned=+40;(punchee);
 		
 		//punchee.setstatelabel("falldown");
 		

@@ -1,7 +1,8 @@
 class HDB_426_Suppressed:HDB_426{
 	default{
 	hdbulletactor.distantsound "world/riflefar";
-	hdbulletactor.distantsoundvol 0.05;
+	hdbulletactor.distantsoundvol 0.01;
+	speed HDCONST_MPSTODUPT*850;
 	}
 }
 
@@ -16,23 +17,28 @@ class HDG11Rifle_Scoped:HDWeapon{
 		weapon.selectionorder 16;
 		weapon.slotnumber 4;
 		scale 0.75;
-		inventory.pickupmessage "You got the G26SD!";
+		inventory.pickupmessage "You got the G26SD Covert";
 		hdweapon.barrelsize 26,1,2.25;
 		hdweapon.refid HDLD_G11_Scoped;
-		tag "H&M G26SD Service Rifle";
+		tag "H&M G26SD Covert"; //G26A1 Infantry
 	}
 	
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
 	override hdweapon GetSpareWeapon(actor newowner,bool reverse,bool doselect){return GetSpareWeaponRegular(newowner,reverse,doselect);}
 
-	override double gunmass(){
-		return 6.9;
+
+	override double gunmass()
+	{
+		return 6.9+weaponstatus[G11S_MAG]*0.01;
 	}
+	
 	override double weaponbulk(){
-		double blx=108;
+		double blx=102;
+
 		int mgg=weaponstatus[G11S_MAG];
-		return blx+(mgg<0?0:(ENC_G11MAG_E_LOADED+mgg*ENC_426_LOADED));
+		return blx+(mgg<0?0:(ENC_G11MAG_LOADED+mgg*ENC_426_LOADED));
 	}
+	
 	override void failedpickupunload(){
 		failedpickupunloadmag(G11S_MAG,"HDG11Mag");
 	}

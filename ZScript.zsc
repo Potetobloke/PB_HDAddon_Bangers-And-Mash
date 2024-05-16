@@ -49,6 +49,7 @@ version "4.10"
 
 //Austere M17 Flechette Rifle
 #include "ZScript/Weapons/SteyrACR/SteyrGun.zsc"
+//#include "ZScript/Weapons/SteyrACR/SteyrAICW.zsc"
 #include "ZScript/Weapons/SteyrACR/SteyrAmmo.zsc"
 
 //mk23 socom
@@ -89,7 +90,7 @@ version "4.10"
 
 //Disposable big boys
 #include "ZScript/Weapons/AT-4/AT4.zsc"
-#include "ZScript/Weapons/AT-4/CGM25.zsc"
+#include "ZScript/Weapons/AT-4/Stinger.zsc"
 //#include "ZScript/Weapons/AT-4/RPO.zsc"
 //Big MG
 #include "ZScript/Weapons/Microgun/BigBoy.zsc"
@@ -100,6 +101,7 @@ version "4.10"
 #include "ZScript/Equipment/Grenades/WPGrenade_Projectile.zsc"
 #include "ZScript/Equipment/Grenades/WPGWeapon.zsc"
 #include "ZScript/Equipment/Grenades/GasGrenade_Projectile.zsc"
+#include "ZScript/Equipment/Grenades/SmokeGrenade_Projectile.zsc"
 #include "ZScript/Equipment/Grenades/GasWeapon.zsc"
 
 #include "ZScript/Equipment/Grenades/ConcNade_Projectile.zsc"

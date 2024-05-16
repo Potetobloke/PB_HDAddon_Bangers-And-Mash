@@ -273,7 +273,7 @@ class HD_AutoMag:HDHandgun{
 			)A_AlertMonsters(256);
 			
 			invoker.weaponstatus[PI50_CHAMBER]=1;
-			A_ZoomRecoil(0.995);
+			A_ZoomRecoil(0.91);
 			A_MuzzleClimb(-frandom(1.4,2.2),-frandom(0.4,1.6));
 		}
 		#### B 1 bright; //A_StartSound("weapons/pistol",CHAN_WEAPON,1.0);
