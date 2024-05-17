@@ -298,6 +298,20 @@ class PB_SteyrACR_Spawn:IdleDummy{
 			}stop;
 		}
 	}
+	
+class PB_SteyrAICW_Spawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=HD_SteyrAICW(spawn("HD_SteyrAICW",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("PB_HDSteyrACRMag",pos+(8,0,2),ALLOW_REPLACE);
+				spawn("PB_HDSteyrACRMag",pos+(2,0,1),ALLOW_REPLACE);
+				spawn("RocketBigPickup",pos+(-3,3,1),ALLOW_REPLACE);
+			}stop;
+		}
+	}
 
 class PB_Colt9mm_Spawn:IdleDummy{
 	states{
@@ -331,7 +345,8 @@ class PB_BeowulfRifle_Spawn:IdleDummy{
 		TNT1 A 0 nodelay{
 			let www=HDSurvivalistRifleFNV(spawn("HDSurvivalistRifleFNV",pos,ALLOW_REPLACE));
 			HDF.TransferSpecials(self,www,HDF.TS_ALL);
-
+			if(!random(0,2))www.weaponstatus[COLT50CS_OPTIC]++;
+			
 				spawn("HD50AM_Mag",pos+(8,0,2),ALLOW_REPLACE);
 				spawn("HD50AM_Mag",pos+(2,0,1),ALLOW_REPLACE);
 				spawn("HD50AM_Mag",pos+(-3,3,1),ALLOW_REPLACE);
@@ -682,7 +697,7 @@ class PB_VulcanetteRep:HDInvRandomSpawner{
 class PB_RocketLauncherRep:HDInvRandomSpawner{
 	default{
 	+weaponspawn
-	//dropitem "HD_FNFAL", 256, 5;
+	dropitem "PB_SteyrAICW_Spawn", 256, 5;
 	dropitem "HD_Stinger_Spawn", 256, 4;
 	//dropitem "LiberatorRandom", 256, 3;
 	}

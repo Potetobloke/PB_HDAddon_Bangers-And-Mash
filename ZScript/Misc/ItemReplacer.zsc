@@ -34,8 +34,8 @@ override void CheckReplacement(ReplaceEvent e) {
 		case 'ShotgunReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_HDHunterRep";}		break;
 		case 'SSGReplaces' 				: if (!random(0, 1)) {e.Replacement = "PB_HDSlayerRep";}		break;
 		case 'ChaingunReplaces' 		: if (!random(0, 1)) {e.Replacement = "PB_VulcanetteRep";}		break;
-		case 'RocketReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_PlasmaRep";}			break;
-		case 'PlasmaReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_RocketLauncherRep";}	break;
+		case 'PlasmaReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_PlasmaRep";}			break;
+		case 'RLReplaces' 				: if (!random(0, 1)) {e.Replacement = "PB_RocketLauncherRep";}	break;
 		case 'BFG9000'		 			: if (!random(0, 2)) {e.Replacement = "PB_BFG9000Rep";}			break;
 	//HexaDoken's Bossmerg bolt-action shotgun support
 		case 'BossbergShotgunReplaces' 	: if (!random(0, 1)) {e.Replacement = "PB_HDHunterRep";}		break;

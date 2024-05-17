@@ -78,6 +78,7 @@ class PB_AmmoHandler : EventHandler {
 			
 		case 'HD6mmFlechetteAmmo':
 			PushItem(T, "HD_SteyrACR");
+			PushItem(T, "HD_SteyrAICW");
 			break;
 		
 		case 'HD50AM_Ammo':
@@ -89,6 +90,7 @@ class PB_AmmoHandler : EventHandler {
 		//GetItemsThatUseThis doesn't work properly for some reason?????
 		case 'PB_HDSteyrACRMag':
 			PushItem(T, "HD_SteyrACR");
+			PushItem(T, "HD_SteyrAICW");
 			break;
 		}
 	}

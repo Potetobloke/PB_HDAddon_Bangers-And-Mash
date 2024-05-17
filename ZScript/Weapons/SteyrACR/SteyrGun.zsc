@@ -83,7 +83,7 @@ class HD_SteyrACR:HDWeapon{
 		return
 		WEPHELP_FIRESHOOT
 		..WEPHELP_RELOAD.."  Reload mag\n"
-		..WEPHELP_FIREMODE.."  Semi/Burst\n"
+		..WEPHELP_FIREMODE.."  Semi/Burst/Auto\n"
 		..WEPHELP_ZOOM.."+"..WEPHELP_FIREMODE.."+"..WEPHELP_UPDOWN.."  Zoom\n"
 		..WEPHELP_MAGMANAGER
 		..WEPHELP_UNLOAD.."  Unload magazine"
@@ -428,7 +428,8 @@ class HD_SteyrACR:HDWeapon{
 }
 
 enum steyracrstatus{
-	SACRF_JUSTUNLOAD=1,
+	SACRF_FLAGS=1,
+	SACRF_JUSTUNLOAD=2,
 	SACRF_GRENADELOADED=4,
 	SACRF_ROCKETMODE=8,
 	SACRF_GLMODE=16,

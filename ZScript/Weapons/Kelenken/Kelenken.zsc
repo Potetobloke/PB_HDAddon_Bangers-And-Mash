@@ -53,10 +53,10 @@ class HD_ATCKelenken:HDWeapon{
 	){
 			int scaledyoffset=47;
 			double dotoff=max(abs(bob.x),abs(bob.y));
-			if(dotoff<30){
+			if(dotoff<20){
 				sb.drawimage(
-					whichdot,(0,0)+bob*1.18,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
-					alpha:0.8-dotoff*0.01
+					whichdot,(0,0)+bob*1.6,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+					alpha:0.8-dotoff*0.04
 				);
 			}
 			sb.drawimage(

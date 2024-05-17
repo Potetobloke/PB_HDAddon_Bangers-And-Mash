@@ -32,7 +32,7 @@ class HD_SteyrAICW:HDWeapon{
 	override hdweapon GetSpareWeapon(actor newowner,bool reverse){return GetSpareWeaponRegular(newowner,reverse);}
 	
 	override double gunmass(){
-		return 14.5+weaponstatus[SACRS_MAG]*0.02;
+		return 13.5+weaponstatus[SACRS_MAG]*0.02;
 	}
 	override double weaponbulk(){
 		double blx=135;
@@ -72,45 +72,135 @@ class HD_SteyrAICW:HDWeapon{
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
 			sb.drawnum(hpl.countinv("PB_HDSteyrACRMag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+			
+			sb.drawimage("ROQPA0",(-62,-4),sb.DI_SCREEN_CENTER_BOTTOM,scale:(0.6,0.6));
+			sb.drawnum(hpl.countinv("HDRocketAmmo"),-56,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+			
 		}
-		sb.drawwepcounter(hdw.weaponstatus[SACRS_AUTO],
-			-22,-10,"RBRSA3A7","STBURAUT","STFULAUT"
+		
+		if(hdw.weaponstatus[0]&SACRF_GLMODE){
+			int ab=hdw.airburst;
+			sb.drawstring(
+				sb.mAmountFont,ab?string.format("%.2f",ab*0.01):"--.--",
+				(-22,-15),sb.DI_SCREEN_CENTER_BOTTOM|sb.DI_TEXT_ALIGN_RIGHT,
+				ab?Font.CR_WHITE:Font.CR_BLACK
+			);
+			sb.drawrect(-26,-33+min(16,ab>>9),4,1);
+			sb.drawrect(-23,-32,1,16);
+			sb.drawrect(-25,-32,1,16);
+		}
+		else
+		{
+			sb.drawwepcounter(hdw.weaponstatus[SACRS_AUTO],
+				-22,-10,"RBRSA3A7","STBURAUT","STFULAUT"
+			);
+			sb.drawwepnum(hdw.weaponstatus[SACRS_MAG],42);
+			if(hdw.weaponstatus[SACRS_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));
+		}
+		
+		if(hdw.weaponstatus[SACRS_GLROUND]>=1)
+		{
+			sb.drawrect(-20,-19,4,2.6);
+		}
+		
+		sb.drawstring(
+			sb.pnewsmallfont,((weaponstatus[0]&SACRF_ROCKETMODE)?"RKT":"GL"),
+			(-39,-22),sb.DI_TEXT_ALIGN_CENTER|sb.DI_TRANSLATABLE|sb.DI_SCREEN_CENTER_BOTTOM,
+			Font.CR_WHITE,scale:(0.4,0.4)
 		);
-		sb.drawwepnum(hdw.weaponstatus[SACRS_MAG],42);
-		if(hdw.weaponstatus[SACRS_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));
+		
 	}
+
 	override string gethelptext(){
+	
+		bool glmode=(weaponstatus[0]&SACRF_GLMODE);
+		bool rlmode=(weaponstatus[0]&SACRF_ROCKETMODE);
+	
 		return
 		WEPHELP_FIRESHOOT
+		..(WEPHELP_ALTFIRE..(glmode?("  Rifle mode\n"):("  Launcher mode\n")))
 		..WEPHELP_RELOAD.."  Reload mag\n"
-		..WEPHELP_FIREMODE.."  Semi/Burst\n"
-		..WEPHELP_ZOOM.."+"..WEPHELP_FIREMODE.."+"..WEPHELP_UPDOWN.."  Zoom\n"
+		..WEPHELP_ALTRELOAD.."	Reload launcher\n"
+		..(WEPHELP_USE.."+"..WEPHELP_ALTFIRE..(rlmode?("  Grenade mode\n"):("  Rocket mode\n")))
+		//..WEPHELP_USE.."+"..WEPHELP_RELOAD.."  Reload chamber\n"
+		..(glmode?(WEPHELP_FIREMODE.."+"..WEPHELP_UPDOWN.."  Airburst\n")
+			:(
+			(WEPHELP_FIREMODE.."  Semi/Burst/Auto\n"..WEPHELP_ZOOM.."+"..WEPHELP_FIREMODE.."  Zoom\n")))
 		..WEPHELP_MAGMANAGER
-		..WEPHELP_UNLOAD.."  Unload magazine"
+		..WEPHELP_UNLOAD..(glmode?("  Unload launcher"):("  Unload mag\n"))
 		;
 	}
+
+
 	override void DrawSightPicture(
 		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
 		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
 	){
 		float scaledyoffset=41.9;
-		if(hdw.weaponstatus[0]&ZM66F_GLMODE)sb.drawgrenadeladder(hdw.airburst,bob);
-		else{
 		vector2 bobb=bob*1.1;
-		//bobb.y=clamp(bobb.y,-8,8);
 		
+		if(hdw.weaponstatus[0]&SACRF_GLMODE)
+		{
+			sb.drawimage(
+				"ACR_TOP",(0,0)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+				scale:(1.0,1.0)
+			);
+	
+			if(scopeview)
+			{
+				double degree=4.;
+				double deg=1/degree;
+				int scaledwidth=57;
+				int cx,cy,cw,ch;
+				[cx,cy,cw,ch]=screen.GetClipRect();
+				sb.SetClipRect(
+					-28+bob.x,13+bob.y,scaledwidth,scaledwidth,
+					sb.DI_SCREEN_CENTER
+				);
+				
+				sb.fill(color(255,0,0,0),
+					bob.x-30,scaledyoffset+bob.y-30,
+					60,60,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER
+				);
+				
+				texman.setcameratotexture(hpc,"HDXCAM_RLAUN",degree);
+				let cam  = texman.CheckForTexture("HDXCAM_RLAUN",TexMan.Type_Any);
+				double camSize = texman.GetSize(cam);
+				sb.DrawCircle(cam,(0,scaledyoffset)+bob*5,.085,usePixelRatio:true);
+
+				screen.SetClipRect(cx,cy,cw,ch);
+
 				sb.drawimage(
-					"ACR_TOP",(0,0)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+					"rlret",(0,scaledyoffset)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+					scale:(0.82,0.82)
+				);
+				sb.SetClipRect(cx,cy,cw,ch);
+				sb.drawimage(
+					"ACR_SC02",(0,scaledyoffset)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
 					scale:(1.0,1.0)
 				);
+				
+				sb.drawstring(sb.mAmountFont,string.format("%.2f",airburst*0.01),
+				(9.5+bob.x,72+bob.y),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_RIGHT,
+				airburst?Font.CR_WHITE:Font.CR_DARKGRAY);
+				
+			}
+		}
+		else{
+		//bobb.y=clamp(bobb.y,-8,8);
+		
+			sb.drawimage(
+				"ACR_TOP",(0,0)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_TOP,
+				scale:(1.0,1.0)
+			);
+			
 			if(scopeview){
-				double degree=(hdw.weaponstatus[SACRS_ZOOM])*0.1;
 				/*texman.setcameratotexture(hpc,"HDXHCAM3_PB",degree);
 				sb.drawimage(
 					"HDXHCAM3_PB",(0,scaledyoffset-5.1)+bob,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
 					scale:(0.31,0.31)
 				);*/
-		
+				double degree=(hdw.weaponstatus[SACRS_ZOOM])*0.1;
 				int scaledwidth=57;
 				int cx,cy,cw,ch;
 				[cx,cy,cw,ch]=screen.GetClipRect();
@@ -154,22 +244,24 @@ class HD_SteyrAICW:HDWeapon{
 		ACR2 A 0;
 		#### # 0;
 		goto deselect0big;
-
+		
 	ready:
 		ACR2 A 0;
 		#### # 1{
 			A_SetCrosshair(21);
 			invoker.weaponstatus[SACRS_RATCHET]=0;
-			if(pressingzoom())A_ZoomAdjust(SACRS_ZOOM,20,90);
+			
+			if(pressingfiremode()&&invoker.weaponstatus[0]&SACRF_GLMODE){setweaponstate("abadjust");}
+			else if(pressingzoom()){A_ZoomAdjust(SACRS_ZOOM,20,90);}
+			
 			else A_WeaponReady(WRF_ALL);
+			
 			}
 		goto readyend;
+		
 	user3:
 		---- A 0 A_MagManager("PB_HDSteyrACRMag");
 		goto ready;
-	altfire:
-	althold:
-		goto nope;
 	hold:
 		ACR2 A 0{
 			if(
@@ -186,12 +278,12 @@ class HD_SteyrAICW:HDWeapon{
 	firemode:
 		---- # 1{
 			int aut=invoker.weaponstatus[SACRS_AUTO];
-			if(aut>=1)invoker.weaponstatus[SACRS_AUTO]=0;
+			if(aut>=2)invoker.weaponstatus[SACRS_AUTO]=0;
 			else if(aut<0)invoker.weaponstatus[SACRS_AUTO]=0;
 			else invoker.weaponstatus[SACRS_AUTO]++;
 		}goto nope;
 	fire:
-		ACR2 # 1;
+		ACR2 # 1 {if(invoker.weaponstatus[0]&SACRF_GLMODE)setweaponstate("firefrag");}
 	fire2:
 		ACR2 A 1{
 			if(invoker.weaponstatus[SACRS_CHAMBER]==2){
@@ -257,6 +349,29 @@ class HD_SteyrAICW:HDWeapon{
 		}
 		goto lightdone;
 
+
+	firefrag:
+		#### A 1{
+			if(invoker.weaponstatus[SACRS_GLROUND]<=0){
+				setweaponstate("nope");
+				return;
+			}
+			A_FireHDGL((invoker.weaponstatus[0]&SACRF_ROCKETMODE)?1:0);
+			invoker.weaponstatus[SACRS_HEAT]+=6;
+			invoker.weaponstatus[SACRS_GLROUND]--;
+			A_StartSound("weapons/grenadeshot",CHAN_WEAPON);
+		}
+		#### B 2{
+			A_ZoomRecoil(0.95);
+			A_MuzzleClimb(
+				0,0,0,0,
+				-1.2,-3.,
+				-1.,-2.8
+			);
+		}
+		#### A 2;
+		#### A 0;
+		goto nope;
 
 	unloadchamber:
 		ACR2 CD 2;
@@ -432,6 +547,10 @@ class HD_SteyrAICW:HDWeapon{
 	//Rocket Grenade Mode
 	
 	altfire:
+		#### # 0 
+		{
+			if(pressinguse())setweaponstate("rocketmode");
+		}
 		#### # 1 offset(0,33);
 		#### # 2 offset(2,35)
 		{
@@ -460,6 +579,78 @@ class HD_SteyrAICW:HDWeapon{
 		#### A 2 offset(-1,36);
 		#### A 1 offset(0,34);
 		goto nope;
+	
+	
+	//reload
+	altreload:
+		#### A 0{
+			{
+				invoker.weaponstatus[0]&=~SACRF_JUSTUNLOAD;
+				setweaponstate("unloadgrenade");
+			}
+		}goto nope;
+	unloadgrenade:
+		#### A 1 offset(0,34){
+			A_SetCrosshair(21);
+			if(
+				(
+					//just unloading but no grenade
+					invoker.weaponstatus[0]&SACRF_JUSTUNLOAD
+					&&!invoker.weaponstatus[SACRS_GLROUND]<=0
+				)||(
+					//reloading but no ammo or already loaded
+					!(invoker.weaponstatus[0]&SACRF_JUSTUNLOAD)
+					&&(
+						!countinv("HDRocketAmmo")
+						||invoker.weaponstatus[SACRS_GLROUND]>=1
+					)
+				)
+			){
+				setweaponstate("nope");
+			}
+		}
+		#### A 1 offset(-5,40);
+		#### A 1 offset(-10,50);
+		#### A 1 offset(-15,56);
+		#### A 4 offset(-14,54){
+			A_StartSound("weapons/pocket",9);
+			A_StartSound("weapons/grenopen",8);
+		}
+		#### A 3 offset(-16,56){
+			if(invoker.weaponstatus[0]&SACRF_GRENADELOADED){
+				if(
+					(PressingReload()||PressingUnload())
+					&&!A_JumpIfInventory("HDRocketAmmo",0,"null")
+				){
+					A_GiveInventory("HDRocketAmmo");
+					A_StartSound("weapons/pocket",9);
+					A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4));
+					A_SetTics(6);
+				}else A_SpawnItemEx("HDRocketAmmo",
+					cos(pitch)*12,0,gunheight()-2-12*sin(pitch),
+					vel.x,vel.y,vel.z,
+					0,SXF_SETTARGET|SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
+				);
+				invoker.weaponstatus[SACRS_GLROUND]--;
+			}
+		}
+		#### A 0{
+			if(invoker.weaponstatus[0]&SACRF_JUSTUNLOAD)setweaponstate("altreloaddone");
+		}
+		#### AA 8 offset(-16,56)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4));
+		#### A 18 offset(-14,54){
+			if(!countinv("HDRocketAmmo"))return;
+			A_StartSound("weapons/grenreload",8);
+			A_TakeInventory("HDRocketAmmo",1,TIF_NOTAKEINFINITE);
+			invoker.weaponstatus[SACRS_GLROUND]++;
+		}
+		#### B 4 offset(-12,50)A_StartSound("weapons/grenopen",8);
+	altreloaddone:
+		#### A 1 offset(-15,56);
+		#### A 1 offset(-10,50);
+		#### A 1 offset(-5,40);
+		#### A 1 offset(0,34);
+		goto nope;
 		
 	spawn:
 		ACWP AB -1 nodelay{
@@ -470,6 +661,7 @@ class HD_SteyrAICW:HDWeapon{
 		weaponspecial = 1337;
 		weaponstatus[0]=0;
 		weaponstatus[SACRS_MAG]=42;
+		weaponstatus[SACRS_GLROUND]=1;
 		weaponstatus[SACRS_CHAMBER]=2;
 		weaponstatus[SACRS_ZOOM]=30;
 		if(!idfa)weaponstatus[SACRS_AUTO]=0;
@@ -481,7 +673,6 @@ class HD_SteyrAICW:HDWeapon{
 
 			int firemode=getloadoutvar(input,"firemode",1);
 			if(firemode>=0){
-				weaponstatus[0]&=~ZM66F_NOFIRESELECT;
 				weaponstatus[SACRS_AUTO]=clamp(firemode,0,2);
 			}
 	}

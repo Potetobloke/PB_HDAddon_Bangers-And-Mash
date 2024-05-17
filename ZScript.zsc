@@ -49,7 +49,7 @@ version "4.10"
 
 //Austere M17 Flechette Rifle
 #include "ZScript/Weapons/SteyrACR/SteyrGun.zsc"
-//#include "ZScript/Weapons/SteyrACR/SteyrAICW.zsc"
+#include "ZScript/Weapons/SteyrACR/SteyrAICW.zsc"
 #include "ZScript/Weapons/SteyrACR/SteyrAmmo.zsc"
 
 //mk23 socom
