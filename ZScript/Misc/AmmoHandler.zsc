@@ -63,7 +63,12 @@ class PB_AmmoHandler : EventHandler {
 			PushItem(T, "HD_ATCDevincenzia");
 			PushItem(T, "HD_ATCKelenken");
 			break;
-			
+	
+	case 'HDRocketAmmo':
+			PushItem(T, "HD_SteyrAICW");
+			PushItem(T, "HDG11Rifle");
+			break;
+	
 		case 'HDRevolverAmmo':
 			PushItem(T, "HDColt355");
 			PushItem(T, "HDLeverGun");
