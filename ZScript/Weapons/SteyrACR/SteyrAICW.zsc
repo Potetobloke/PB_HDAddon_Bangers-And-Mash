@@ -417,10 +417,12 @@ class HD_SteyrAICW:HDWeapon{
 		ACR2 A 0;
 		#### A 0{
 			invoker.weaponstatus[0]|=SACRF_JUSTUNLOAD;
-			if(
-				invoker.weaponstatus[SACRS_MAG]>=0
-			)setweaponstate("unmag");
-			else if(invoker.weaponstatus[SACRS_CHAMBER]>0)setweaponstate("unloadchamber");
+			if(invoker.weaponstatus[0]&SACRF_GLMODE)
+			{setweaponstate("unloadgrenade");}
+			else if(invoker.weaponstatus[SACRS_MAG]>=0)
+			{setweaponstate("unmag");}			
+			else if(invoker.weaponstatus[SACRS_CHAMBER]>0)
+			{setweaponstate("unloadchamber");}
 		}goto nope;
 	reload:
 		ACR2 A 0;
@@ -596,7 +598,7 @@ class HD_SteyrAICW:HDWeapon{
 				(
 					//just unloading but no grenade
 					invoker.weaponstatus[0]&SACRF_JUSTUNLOAD
-					&&!invoker.weaponstatus[SACRS_GLROUND]<=0
+					&&invoker.weaponstatus[SACRS_GLROUND]<=0
 				)||(
 					//reloading but no ammo or already loaded
 					!(invoker.weaponstatus[0]&SACRF_JUSTUNLOAD)
@@ -617,7 +619,7 @@ class HD_SteyrAICW:HDWeapon{
 			A_StartSound("weapons/grenopen",8);
 		}
 		#### A 3 offset(-16,56){
-			if(invoker.weaponstatus[0]&SACRF_GRENADELOADED){
+			if(invoker.weaponstatus[SACRS_GLROUND]>=1){
 				if(
 					(PressingReload()||PressingUnload())
 					&&!A_JumpIfInventory("HDRocketAmmo",0,"null")
