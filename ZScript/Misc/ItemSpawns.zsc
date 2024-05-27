@@ -698,7 +698,7 @@ class PB_RocketLauncherRep:HDInvRandomSpawner{
 	default{
 	+weaponspawn
 	dropitem "PB_SteyrAICW_Spawn", 256, 5;
-	dropitem "HD_Stinger_Spawn", 256, 4;
+	dropitem "PB_Stinger_Spawn", 256, 4;
 	//dropitem "LiberatorRandom", 256, 3;
 	}
 }

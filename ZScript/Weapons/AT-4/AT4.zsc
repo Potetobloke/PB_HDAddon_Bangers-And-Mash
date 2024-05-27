@@ -140,7 +140,7 @@ class HDAT4_WEP:HDWeapon{
 		AT4G A 0 
 		{
 			if(invoker.weaponstatus[AT4S_CHAMBER]<2)
-			{setweaponstate("deselect0big");}
+			{DropInventory(player.readyweapon);}
 			else invoker.weaponstatus[AT4S_DEPLOYED]=0;
 		}
 		goto deselect0bfg;

@@ -389,7 +389,7 @@ class HDSurvivalistRifleFNV:HDWeapon{
 			else if(invoker.weaponstatus[COLT50CS_CHAMBER]>0)setweaponstate("unloadchamber");
 		}goto nope;
 	reload:
-		C5SR A 0;
+		#### A 0;
 		#### A 0{
 			invoker.weaponstatus[0]&=~COLT50CF_JUSTUNLOAD;
 			if(invoker.weaponstatus[COLT50CS_MAG]>=8)setweaponstate("nope");
