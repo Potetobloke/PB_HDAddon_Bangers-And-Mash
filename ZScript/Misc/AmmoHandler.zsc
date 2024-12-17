@@ -92,6 +92,19 @@ class PB_AmmoHandler : EventHandler {
 			//PushItem(T, "HDLeverGun");
 			break;
 		
+		case 'HD_776BeltLink':
+			PushItem(T, "HD_M60");
+			PushItem(T, "HDMicrogun");
+			break;
+		
+		case 'HD_12MMBeltLink':
+			PushItem(T, "HD_M2HB");
+			break;
+		
+		case 'HD_35MMBeltLink':
+			PushItem(T, "HD_ATCKelenken");
+			break;
+		
 		//GetItemsThatUseThis doesn't work properly for some reason?????
 		case 'PB_HDSteyrACRMag':
 			PushItem(T, "HD_SteyrACR");
