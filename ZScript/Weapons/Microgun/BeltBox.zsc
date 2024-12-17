@@ -1,6 +1,4 @@
 const HDLD_776_BELTBOX="7bx";
-const HDLD_776BELTLINK="7lk";
-
 
 const ENC_776BELTBOX_EMPTY=10.5;
 const ENC_776BELTBOX_FILLED=10.5+150*ENC_776_LOADED;
@@ -117,79 +115,6 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 		MBX1 B -1{
 			brollsprite=true;brollcenter=true;
 			roll=randompick(0,0,0,0,2,2,2,2,1,3)*90;
-		}stop;
-	}
-}
-
-const ENC_776BELTLINK=0.005;
-
-class HD_776BeltLink:HDRoundAmmo{
-	default{
-		+inventory.ignoreskill +forcexybillboard +cannotpush
-		+hdpickup.multipickup
-		+hdpickup.cheatnogive
-		+rollsprite +rollcenter
-		height 16;radius 8;
-		tag "7.76mm belt link";
-		hdpickup.refid HDLD_776BELTLINK;
-		hdpickup.bulk ENC_776BELTLINK;
-		xscale 0.7;yscale 0.7;
-		inventory.pickupmessage "Picked up some belt links for 7.76mm.";
-	}
-	override void SplitPickup(){
-		SplitPickupBoxableRound(30,300,"PB_776BeltLinkPile","SBKYA0","SBKZA0");
-	}
-	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("HD_M60");
-		itemsthatusethis.push("HDMicrogun");
-	}
-	states{
-	spawn:
-		SBKZ A -1;
-		SBKY A -1;
-		stop;
-	}
-}
-
-class PB_776BeltLinkPile:HDUPK{
-	default{
-		//$Category "Ammo/Hideous Destructor/"
-		//$Title "Pile of 7.76 Belt Links"
-		//$Sprite "BLT0B0"
-
-		scale 0.7;
-		hdupk.amount 300;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up a pile of 7.76mm belt links.";
-		hdupk.pickuptype "HD_776BeltLink";
-	}
-	states{
-	spawn:
-		SBKZ B -1;
-	}
-}
-
-class HDFlyingBeltLink:HDSpent50AM{ //why does it inherit from the .50 AM casings? i dunno im lazy
-	override void postbeginplay(){
-		HDDebris.postbeginplay();
-	}
-	default{
-		scale 0.7;
-		bouncefactor 0.1;
-		bouncesound "there is no sound";
-	}
-	states{
-		spawn:
-		SBKZ A 0 nodelay{
-			A_SetRoll(roll+frandom(0,180));
-		}
-		SBKZ A 1{
-			A_SetRoll(roll+45,SPF_INTERPOLATE);
-		}wait;
-	death:
-		TNT1 A 1{
-			actor a=spawn("HD_776BeltLink",self.pos,ALLOW_REPLACE);
-			a.roll=self.roll;a.vel=self.vel;
 		}stop;
 	}
 }

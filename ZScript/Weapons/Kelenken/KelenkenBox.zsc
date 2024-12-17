@@ -1,5 +1,4 @@
 const HDLD_35MM_BELTBOX="hwb";
-const HDLD_35MMBELTLINK="hwl";
 
 const ENC_35MMBELTBOX_EMPTY=15;
 const ENC_35MMBELTBOX_LOADED=9;
@@ -114,80 +113,6 @@ class HD_PB_35mmBeltBox:HDMagAmmo{
 		HW0B B -1{
 			brollsprite=true;brollcenter=true;
 			roll=randompick(0,0,0,0,2,2,2,2,1,3)*90;
-		}stop;
-	}
-}
-
-//belt links
-
-const ENC_35MMBELTLINK=0.01;
-
-class HD_35mmBeltLink : HDRoundAmmo{
-	default{
-		+inventory.ignoreskill +forcexybillboard +cannotpush
-		+hdpickup.multipickup
-		+hdpickup.cheatnogive
-		+rollsprite +rollcenter
-		height 16;radius 8;
-		tag "35mm Belt Link";
-		hdpickup.refid HDLD_35MMBELTLINK;
-		hdpickup.bulk ENC_35MMBELTLINK;
-		scale 0.3;
-		inventory.pickupmessage "Picked up some belt links for 35mm Bolts.";
-	}
-	override void SplitPickup(){
-		SplitPickupBoxableRound(7,70,"PB_35mmBeltLinkPile","HW1LA0","HW0LA0");
-	}
-	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("HD_ATCKelenken");
-	}
-	states{
-	spawn:
-		HW0L A -1;
-		HW1L A -1;
-		stop;
-	}
-}
-
-class PB_35mmBeltLinkPile:HDUPK{
-	default{
-		//$Category "Ammo/Hideous Destructor/"
-		//$Title "Pile of 7.76 Belt Links"
-		//$Sprite "BLT0B0"
-
-		scale 0.3;
-		hdupk.amount 70;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up a pile of 35mm belt links.";
-		hdupk.pickuptype "HD_35mmBeltLink";
-	}
-	states{
-	spawn:
-		HW0L B -1;
-	}
-}
-
-class HD35MMFlyingBeltLink:HDSpent50AM{ //why does it inherit from the .50 AM casings? i dunno im lazy
-	override void postbeginplay(){
-		HDDebris.postbeginplay();
-	}
-	default{
-		scale 0.3;
-		bouncefactor 0.1;
-		bouncesound "there is no sound";
-	}
-	states{
-		spawn:
-		HW0L A 0 nodelay{
-			A_SetRoll(roll+frandom(0,180));
-		}
-		HW0L A 1{
-			A_SetRoll(roll+45,SPF_INTERPOLATE);
-		}wait;
-	death:
-		TNT1 A 1{
-			actor a=spawn("HD_35mmBeltLink",self.pos,ALLOW_REPLACE);
-			a.roll=self.roll;a.vel=self.vel;
 		}stop;
 	}
 }
