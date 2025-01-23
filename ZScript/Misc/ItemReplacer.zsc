@@ -24,8 +24,8 @@ override void CheckReplacement(ReplaceEvent e) {
 	//Grenade Spawns
 		case 'RocketBoxRandom' 			: if (!random(0, 5)) {e.Replacement = "RocketBox_PBGrenades";}	break;
 		case 'BlurSphereReplacer' 		: if (!random(0, 7)) {e.Replacement = "BlurSphere_PBGrenades";}	break;
-		case 'BlueFrag' 				: if (!random(0, 18)) {e.Replacement = "HelmFrag_PBGrenades";}	break;
-		case 'HelmFrag' 				: if (!random(0, 18)) {e.Replacement = "BlueFrag_PBGrenades";}	break;
+		case 'BlueFrag' 				: if (!random(0, 22)) {e.Replacement = "HelmFrag_PBGrenades";}	break;
+		case 'HelmFrag' 				: if (!random(0, 22)) {e.Replacement = "BlueFrag_PBGrenades";}	break;
 		
 	//DONT REPLACE THE WEAPONS OR AMMO DIRECTLY!!!
 	
