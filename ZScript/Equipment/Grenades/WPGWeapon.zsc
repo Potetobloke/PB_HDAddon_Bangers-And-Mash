@@ -187,10 +187,8 @@ class HDWilliePeteGrenadeP:HDUPK{
 class HDWilliePeteGrenadePickup:HDWilliePeteGrenadeP{
 	override void postbeginplay(){
 		super.postbeginplay();
-		A_SpawnItemEx("HDWilliePeteGrenadeP",-4,0,flags:SXF_NOCHECKPOSITION);
-		A_SpawnItemEx("HDWilliePeteGrenadeP",-4,4,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDWilliePeteGrenadeP",-2,2,flags:SXF_NOCHECKPOSITION);
 		A_SpawnItemEx("HDWilliePeteGrenadeP",0,4,flags:SXF_NOCHECKPOSITION);
-		A_SpawnItemEx("HDWilliePeteGrenadeP",4,0,flags:SXF_NOCHECKPOSITION);
-		A_SpawnItemEx("HDWilliePeteGrenadeP",4,4,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDWilliePeteGrenadeP",2,2,flags:SXF_NOCHECKPOSITION);
 	}
 }

@@ -187,11 +187,9 @@ class HDGasGrenadeP:HDUPK{
 class HDGasGrenadePickup:HDGasGrenadeP{
 	override void postbeginplay(){
 		super.postbeginplay();
-		A_SpawnItemEx("HDGasGrenadeP",-4,0,flags:SXF_NOCHECKPOSITION);
-		A_SpawnItemEx("HDGasGrenadeP",-4,4,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDGasGrenadeP",-2,2,flags:SXF_NOCHECKPOSITION);
 		A_SpawnItemEx("HDGasGrenadeP",0,4,flags:SXF_NOCHECKPOSITION);
-		A_SpawnItemEx("HDGasGrenadeP",4,0,flags:SXF_NOCHECKPOSITION);
-		A_SpawnItemEx("HDGasGrenadeP",4,4,flags:SXF_NOCHECKPOSITION);
+		A_SpawnItemEx("HDGasGrenadeP",2,2,flags:SXF_NOCHECKPOSITION);
 	}
 }
 
