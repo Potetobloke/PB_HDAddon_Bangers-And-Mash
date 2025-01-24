@@ -40,7 +40,7 @@ class HDWilliePeteGrenadeRoller:HDFragGrenadeRoller{
 				blastradius:256,blastdamage:115,fullblastradius:128,
 				pushradius:256,pushamount:128,fullpushradius:96,
 				fragradius:HDCONST_ONEMETRE*12,
-				immolateradius:316,320,100
+				immolateradius:316,120,100
 			);
 			A_Immolate(tracer,target,90);
 			DistantQuaker.Quake(self,4,35,512,10);
@@ -189,7 +189,7 @@ class HDWPSmokeChunkA:HDDebris{
 			//A_SetScale(randompick(-1,1)*frandom(0.4,0.6),frandom(0.4,0.6));
 			//actor smk=spawn("HDSmokeWP",self.pos-(0,0,1),ALLOW_REPLACE);
 			//smk.alpha=0.1;
-			A_Immolate(self,self,125);
+			A_Immolate(self,self,195);
 			A_StartSound("misc/firecrkl",CHAN_WEAPON,volume:0.8,pitch:frandom(0.8,1.2));
 			trailer=96;
 		}
@@ -206,9 +206,10 @@ class HDWPSmokeChunkA:HDDebris{
 			
 			if(burntime<=951){
 				burntime+=random(1,5);
-				A_HDBlast(
-				pushamount:0,
-				immolateradius:48,5,74);}
+				//A_HDBlast(
+				//pushamount:0,
+				//immolateradius:48,1,74);
+				}
 			else if (burntime>=950){setstatelabel("stopburning");}
 		}
 		TNT1 AAAAA 1 
@@ -217,9 +218,10 @@ class HDWPSmokeChunkA:HDDebris{
 			
 			if(burntime<=951){
 				burntime+=random(1,5);
-				A_HDBlast(
-				pushamount:0,
-				immolateradius:48,5,74);}
+				//A_HDBlast(
+				//pushamount:0,
+				//immolateradius:48,1,74);
+				}
 			else if (burntime>=950){destroy();}
 			
 		}
