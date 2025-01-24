@@ -101,7 +101,7 @@ version "4.10"
 #include "ZScript/Equipment/Grenades/WPGrenade_Projectile.zsc"
 #include "ZScript/Equipment/Grenades/WPGWeapon.zsc"
 #include "ZScript/Equipment/Grenades/GasGrenade_Projectile.zsc"
-#include "ZScript/Equipment/Grenades/SmokeGrenade_Projectile.zsc"
+//#include "ZScript/Equipment/Grenades/SmokeGrenade_Projectile.zsc"
 #include "ZScript/Equipment/Grenades/GasWeapon.zsc"
 
 #include "ZScript/Equipment/Grenades/ConcNade_Projectile.zsc"
